@@ -1,0 +1,176 @@
+/* Red Crow Labs — minimal, intentional, black/white + crimson */
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111;
+  --text: #e5e5e5;
+  --text-muted: #888;
+  --accent: #8b2232;
+  --accent-hover: #a3283a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 2rem 0 3rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero-logo {
+  display: block;
+  margin: 0 auto 1.5rem;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5rem;
+  animation: fadeIn 0.8s ease-out 0.1s both;
+}
+
+.hero-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 0;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+/* Intro */
+.intro {
+  padding: 0 0 3rem;
+  border-bottom: 1px solid var(--surface);
+  animation: fadeIn 0.8s ease-out 0.25s both;
+}
+
+.intro-text {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Sections */
+.section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--surface);
+  animation: fadeIn 0.8s ease-out both;
+}
+
+.what-happens { animation-delay: 0.3s; }
+.why-exists { animation-delay: 0.35s; }
+
+.section-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 1rem;
+  letter-spacing: 0.02em;
+}
+
+.section-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.section-list li {
+  margin-bottom: 0.4rem;
+}
+
+.section-quote {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Footer */
+.site-footer {
+  padding: 3rem 0 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+.site-footer p {
+  margin: 0.25rem 0;
+}
+
+.site-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--accent-hover);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+  main {
+    padding: 4rem 2rem 5rem;
+  }
+
+  .hero {
+    padding: 3rem 0 4rem;
+  }
+
+  .hero-logo {
+    max-width: 320px;
+    margin-bottom: 2rem;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+}
