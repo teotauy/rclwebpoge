@@ -125,23 +125,34 @@ main {
 /* Footer */
 .site-footer {
   padding: 3rem 0 0;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   animation: fadeIn 0.8s ease-out 0.4s both;
 }
 
-.site-footer p {
-  margin: 0.25rem 0;
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-.site-footer a {
-  color: var(--accent);
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
   text-decoration: none;
 }
 
-.site-footer a:hover {
-  color: var(--accent-hover);
+.footer-links a:hover {
+  color: var(--accent);
 }
 
 @keyframes fadeIn {
