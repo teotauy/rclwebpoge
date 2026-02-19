@@ -1,0 +1,290 @@
+/* Colby Angus Black — senior, mythic, minimal */
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111;
+  --surface-elevated: #161616;
+  --text: #e5e5e5;
+  --text-muted: #888;
+  --accent: #8b2232;
+  --accent-hover: #a3283a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+main {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* Hero */
+.hero {
+  padding: 2rem 0 3.5rem;
+  border-bottom: 1px solid var(--surface);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.35rem;
+}
+
+.hero-subline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.hero-intro {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0 0 2rem;
+  max-width: 38rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid #222;
+  border-radius: 2px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: transparent;
+}
+
+.btn-primary {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--bg);
+}
+
+/* Sections */
+.section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--surface);
+  animation: fadeIn 0.8s ease-out both;
+}
+
+.work { animation-delay: 0.1s; }
+.garage { animation-delay: 0.15s; }
+
+.section-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.section-intro {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+/* Selected Work */
+.work-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.work-card {
+  padding: 0;
+}
+
+.work-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.work-card-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* In the Garage — skunkworks treatment */
+.garage {
+  background: var(--surface);
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: max(1.5rem, calc(50vw - 26rem));
+  padding-right: max(1.5rem, calc(50vw - 26rem));
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.garage .section-title {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+.garage-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.garage-card {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.garage-card:last-child {
+  border-bottom: 0;
+}
+
+.garage-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+
+.garage-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Footer */
+.site-footer {
+  padding: 3rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+  main {
+    padding: 4rem 2rem 5rem;
+  }
+
+  .hero {
+    padding: 3rem 0 4rem;
+  }
+
+  .work-grid {
+    gap: 2.25rem;
+  }
+
+  .garage-grid {
+    gap: 2rem;
+  }
+
+  .garage-card {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (min-width: 720px) {
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 2.5rem;
+  }
+
+  .work-card {
+    min-width: 0;
+  }
+}
