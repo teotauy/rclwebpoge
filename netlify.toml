@@ -1,0 +1,10 @@
+# Red Crow Labs — redcrowlabs.com
+[build]
+  publish = "."
+  command = "echo 'Static site — no build step'"
+
+[[redirects]]
+  from = "https://www.redcrowlabs.com/*"
+  to = "https://redcrowlabs.com/:splat"
+  status = 301
+  force = true
