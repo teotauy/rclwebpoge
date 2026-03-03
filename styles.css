@@ -1,4 +1,4 @@
-/* Red Crow Labs — minimal, intentional, black/white + crimson */
+/* Red Crow Labs  minimal, intentional, black/white + crimson */
 
 :root {
   --bg: #0a0a0a;
@@ -185,3 +185,189 @@ main {
     padding: 3rem 0;
   }
 }
+
+/* Colby Angus Black portfolio section */
+.cab-hero {
+  padding: 3rem 0 3.5rem;
+  border-top: 1px solid var(--surface);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.cab-hero-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.35rem;
+}
+
+.cab-hero-subline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+.cab-hero-intro {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0 0 2rem;
+  max-width: 38rem;
+}
+
+.cab-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cab-btn {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid #222;
+  border-radius: 2px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.cab-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: transparent;
+}
+
+.cab-btn-primary {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.cab-btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--bg);
+}
+
+.cab-section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--surface);
+}
+
+.cab-section-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.cab-section-intro {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.cab-work-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cab-work-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.cab-work-card-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.cab-garage {
+  background: var(--surface);
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: max(1.5rem, calc(50vw - 26rem));
+  padding-right: max(1.5rem, calc(50vw - 26rem));
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.cab-garage .cab-section-title {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+.cab-garage-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.cab-garage-card {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.cab-garage-card:last-child {
+  border-bottom: 0;
+}
+
+.cab-garage-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+
+.cab-garage-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .cab-hero {
+    padding: 3.5rem 0 4rem;
+  }
+
+  .cab-work-grid {
+    gap: 2.25rem;
+  }
+
+  .cab-garage-grid {
+    gap: 2rem;
+  }
+
+  .cab-garage-card {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (min-width: 720px) {
+  .cab-work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 2.5rem;
+  }
+
+  .cab-work-card {
+    min-width: 0;
+  }
+}
+
