@@ -1,7 +1,7 @@
-/* Red Crow Labs  minimal, intentional, black/white + crimson */
+/* Red Crow Labs - minimal, intentional, black/white + crimson */
 
 :root {
-  --bg: #0a0a0a;
+  --bg: #000000;
   --surface: #111;
   --text: #e5e5e5;
   --text-muted: #888;
