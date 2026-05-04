@@ -103,113 +103,24 @@
 <body>
   <main>
     <header class="hero">
-      <!--
-        Inline SVG recreation of the Red Crow Labs logo.
-        Split into animatable groups: crow-tail, crow-wing, crow-head-group (eye/blink), flask bubbles.
-      -->
-      <svg class="hero-logo crow-logo-svg" viewBox="0 0 500 425" xmlns="http://www.w3.org/2000/svg"
-           style="overflow:visible" aria-label="Red Crow Labs" role="img">
-
-        <!-- ── TAIL FEATHERS ── -->
-        <g class="crow-tail">
-          <path fill="#9e2816" d="M 140 252 C 108 262 58 284 20 320 C 36 302 76 276 132 256 Z"/>
-          <path fill="#c5391e" d="M 136 247 C 104 256 62 270 42 298 C 58 282 88 262 128 250 Z"/>
-          <path fill="#b03018" d="M 138 242 C 112 244 80 254 60 280 C 74 266 100 252 134 244 Z"/>
-          <path fill="#c5391e" d="M 142 238 C 122 236 100 240 86 262 C 98 252 116 242 140 240 Z"/>
-        </g>
-
-        <!-- ── BODY ── -->
-        <path fill="#c5391e" d="
-          M 142 165
-          C 158 145 196 133 236 142
-          C 250 148 258 163 252 181
-          C 260 197 262 218 250 236
-          C 240 251 220 266 200 271
-          C 178 276 158 269 145 255
-          C 134 243 130 223 134 201
-          C 136 184 139 172 142 165 Z"/>
-
-        <!-- ── WING (folded, on body, feather-line detail) ── -->
-        <g class="crow-wing">
-          <path fill="#b03018" d="
-            M 146 172
-            C 162 150 198 140 234 150
-            C 248 157 254 174 248 193
-            C 244 210 228 227 206 235
-            C 184 243 162 239 150 226
-            C 140 216 138 197 142 184
-            C 143 178 145 174 146 172 Z"/>
-          <path fill="none" stroke="#9e2816" stroke-width="2.2" stroke-linecap="round" d="M 148 187 C 174 181 214 179 246 184"/>
-          <path fill="none" stroke="#9e2816" stroke-width="2.2" stroke-linecap="round" d="M 146 200 C 170 194 212 192 246 197"/>
-          <path fill="none" stroke="#9e2816" stroke-width="2.2" stroke-linecap="round" d="M 147 213 C 168 207 210 205 242 210"/>
-          <path fill="none" stroke="#9e2816" stroke-width="2"   stroke-linecap="round" d="M 149 225 C 166 220 202 218 228 223"/>
-          <path fill="none" stroke="#9e2816" stroke-width="1.8" stroke-linecap="round" d="M 154 234 C 168 230 196 229 218 233"/>
-        </g>
-
-        <!-- ── HEAD GROUP (blink + tilt animations) ── -->
-        <g class="crow-head-group">
-          <!-- Neck wedge connecting head to body -->
-          <path fill="#c5391e" d="M 238 142 C 252 126 268 108 272 95 C 266 90 258 93 253 98 C 244 115 240 133 236 144 Z"/>
-          <!-- Head -->
-          <circle cx="272" cy="92" r="46" fill="#c5391e"/>
-          <!-- Beak upper mandible -->
-          <path fill="#c5391e" d="M 311 82 C 330 74 350 78 370 98 C 350 108 330 112 311 112 Q 309 97 311 82 Z"/>
-          <!-- Beak lower shadow/tip -->
-          <path fill="#9e2816" d="M 311 112 C 330 112 348 110 364 104 C 356 114 336 119 311 116 Z"/>
-          <!-- Eye outer ring -->
-          <circle cx="296" cy="72" r="12" fill="#9e2816"/>
-          <!-- Eye pupil -->
-          <circle cx="296" cy="72" r="7"  fill="#180702"/>
-          <!-- Eyelid — same color as head, scales from top to close the eye -->
-          <ellipse class="crow-eyelid" cx="296" cy="72" rx="12" ry="12" fill="#c5391e"/>
-        </g>
-
-        <!-- ── FEET gripping flask rim ── -->
-        <g stroke="#c5391e" stroke-linecap="round" fill="none" stroke-width="4.5">
-          <line x1="190" y1="269" x2="188" y2="284"/>
-          <line x1="188" y1="284" x2="175" y2="293"/>
-          <line x1="188" y1="284" x2="187" y2="296"/>
-          <line x1="188" y1="284" x2="200" y2="292"/>
-          <line x1="215" y1="269" x2="213" y2="284"/>
-          <line x1="213" y1="284" x2="200" y2="293"/>
-          <line x1="213" y1="284" x2="212" y2="296"/>
-          <line x1="213" y1="284" x2="226" y2="291"/>
-        </g>
-
-        <!-- ── ERLENMEYER FLASK ── -->
-        <g class="flask-group">
-          <!-- Neck -->
-          <path fill="#c5391e" d="M 183 276 L 180 304 L 224 304 L 221 276 Z"/>
-          <!-- Collar ring at shoulder -->
-          <rect x="178" y="300" width="48" height="7" rx="2" fill="#9e2816"/>
-          <!-- Flask body (conical, rounded bottom) -->
-          <path fill="#c5391e" d="
-            M 180 304
-            C 154 310 106 330 90 368
-            C 84 384 88 398 98 404
-            Q 202 422 312 404
-            C 322 398 326 384 320 368
-            C 304 330 252 310 224 304 Z"/>
-          <!-- Bottom shadow -->
-          <path fill="#9e2816" d="
-            M 92 378
-            Q 202 408 318 378
-            C 316 392 312 400 308 404
-            Q 202 422 96 404
-            C 90 400 88 390 92 378 Z"/>
-          <!-- Static decorative bubbles (matching original logo design) -->
-          <circle cx="202" cy="366" r="15" fill="#9e2816"/>
-          <circle cx="162" cy="346" r="11" fill="#9e2816"/>
-          <circle cx="238" cy="340" r="9"  fill="#9e2816"/>
-          <circle cx="192" cy="328" r="8"  fill="#9e2816"/>
-          <!-- Animated rising bubbles -->
-          <circle class="flask-bubble fb1" cx="200" cy="388" r="7"   fill="#9e2816"/>
-          <circle class="flask-bubble fb2" cx="175" cy="378" r="4.5" fill="#9e2816"/>
-          <circle class="flask-bubble fb3" cx="228" cy="382" r="5.5" fill="#9e2816"/>
-          <circle class="flask-bubble fb4" cx="190" cy="394" r="3.5" fill="#9e2816"/>
-        </g>
-
-      </svg>
+      <!-- Original logo PNG, preserved exactly -->
+      <div class="hero-logo-wrap">
+        <img src="red-crow-labs-logo.png" alt="Red Crow Labs" class="hero-logo" width="1024" height="1024">
+        <!--
+          SVG overlay: same coordinate space as the PNG (1024×1024).
+          Used for the blink animation and animated flask bubbles.
+          Positions were measured directly from the source image.
+        -->
+        <svg class="crow-overlay" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Eyelid — covers the crow's eye; crimson matches the head feathers -->
+          <ellipse class="crow-eyelid" cx="600" cy="156" rx="22" ry="22" fill="#c5391e"/>
+          <!-- Animated bubbles rising inside the flask body -->
+          <circle class="flask-bubble fb1" cx="500" cy="762" r="12"  fill="#9e2816"/>
+          <circle class="flask-bubble fb2" cx="420" cy="735" r="8"   fill="#9e2816"/>
+          <circle class="flask-bubble fb3" cx="582" cy="748" r="10"  fill="#9e2816"/>
+          <circle class="flask-bubble fb4" cx="472" cy="782" r="6.5" fill="#9e2816"/>
+        </svg>
+      </div>
       <h1 class="hero-name">Red Crow Labs</h1>
       <p class="hero-tagline">Follow the crow. It always knows.</p>
     </header>
