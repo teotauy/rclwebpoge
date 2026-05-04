@@ -43,37 +43,6 @@ main {
   animation: fadeIn 0.8s ease-out;
 }
 
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: calc(50% + 3.1rem);
-  top: 4.45rem;
-  width: 0.42rem;
-  height: 0.42rem;
-  border: 1px solid rgba(229, 229, 229, 0.62);
-  border-radius: 50%;
-  box-shadow:
-    0.8rem 0.9rem 0 -1px rgba(139, 34, 50, 0.74),
-    -0.45rem 1.75rem 0 -2px rgba(229, 229, 229, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(1.6rem) scale(0.45);
-  animation: beakerBubbleRise 4.8s ease-in infinite;
-}
-
-.hero::after {
-  left: calc(50% + 4.1rem);
-  top: 4.95rem;
-  width: 0.34rem;
-  height: 0.34rem;
-  box-shadow:
-    -0.75rem 0.95rem 0 -2px rgba(139, 34, 50, 0.68),
-    0.45rem 1.85rem 0 -2px rgba(229, 229, 229, 0.42);
-  animation-delay: 1.85s;
-  animation-duration: 5.6s;
-}
 
 .hero-logo {
   display: block;
@@ -81,12 +50,65 @@ main {
   z-index: 2;
   margin: 0 auto 1.5rem;
   width: 100%;
-  max-width: 280px;
+  max-width: 200px;
   height: auto;
-  object-fit: contain;
-  transform-origin: 52% 70%;
-  animation: crowThoughtfulIdle 7.5s ease-in-out infinite;
+}
+
+/* Crow character animations */
+.crow-head-group {
+  transform-origin: 116px 103px;
+  animation: crowHeadTilt 9s ease-in-out infinite;
   will-change: transform;
+}
+
+.crow-eyelid {
+  transform-box: fill-box;
+  transform-origin: center top;
+  transform: scaleY(0);
+  animation: crowBlink 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.crow-wing {
+  transform-origin: 112px 90px;
+  animation: crowFeatherRuffle 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.crow-tail {
+  transform-origin: 62px 122px;
+  animation: crowTailRuffle 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes crowHeadTilt {
+  0%, 100% { transform: rotate(0deg); }
+  15%       { transform: rotate(-5deg); }
+  32%       { transform: rotate(3.5deg); }
+  50%       { transform: rotate(-4deg); }
+  66%       { transform: rotate(4deg); }
+  82%       { transform: rotate(-2deg); }
+}
+
+@keyframes crowBlink {
+  0%, 82%, 100% { transform: scaleY(0); }
+  85%, 90%      { transform: scaleY(1); }
+}
+
+@keyframes crowFeatherRuffle {
+  0%, 100% { transform: skewX(0deg) scaleX(1); }
+  25%      { transform: skewX(-1.2deg) scaleX(1.01); }
+  50%      { transform: skewX(0.8deg) scaleX(0.99); }
+  75%      { transform: skewX(-0.6deg) scaleX(1.005); }
+}
+
+@keyframes crowTailRuffle {
+  0%, 30%, 60%, 100% { transform: rotate(0deg) scaleY(1); }
+  35%                { transform: rotate(-3deg) scaleY(1.05); }
+  40%                { transform: rotate(2deg) scaleY(0.97); }
+  45%                { transform: rotate(-1.5deg) scaleY(1.02); }
+  50%                { transform: rotate(1deg) scaleY(0.99); }
+  55%                { transform: rotate(0deg) scaleY(1); }
 }
 
 .hero-name {
@@ -204,43 +226,28 @@ main {
   }
 }
 
-@keyframes crowThoughtfulIdle {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
-  28% {
-    transform: translateY(-2px) rotate(-0.7deg) scale(1.004);
-  }
-  52% {
-    transform: translateY(1px) rotate(0.45deg) scale(0.998);
-  }
-  76% {
-    transform: translateY(-1px) rotate(-0.25deg) scale(1.002);
-  }
+
+/* Flask bubble animations */
+.flask-bubble { animation: flaskBubbleRise 3.8s ease-in infinite; }
+.fb1 { animation-delay: 0s;   animation-duration: 3.8s; }
+.fb2 { animation-delay: 1.4s; animation-duration: 4.6s; }
+.fb3 { animation-delay: 2.8s; animation-duration: 3.3s; }
+.fb4 { animation-delay: 0.9s; animation-duration: 5.2s; }
+.fb5 { animation: neckBubbleRise 4.2s ease-in infinite; animation-delay: 2.1s; }
+.fb6 { animation: neckBubbleRise 4.2s ease-in infinite; animation-delay: 3.6s; }
+
+@keyframes flaskBubbleRise {
+  0%   { transform: translateY(0) scale(0.55); opacity: 0; }
+  10%  { opacity: 0.85; }
+  72%  { opacity: 0.8;  transform: translateY(-22px) scale(1); }
+  100% { transform: translateY(-32px) scale(1.25); opacity: 0; }
 }
 
-@keyframes beakerBubbleRise {
-  0%,
-  18% {
-    opacity: 0;
-    transform: translateY(1.55rem) scale(0.45);
-  }
-  28% {
-    opacity: 0.72;
-  }
-  68% {
-    opacity: 0.78;
-    transform: translateY(-0.55rem) scale(1);
-  }
-  78% {
-    opacity: 0;
-    transform: translateY(-0.9rem) scale(1.45);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-0.9rem) scale(1.45);
-  }
+@keyframes neckBubbleRise {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  18%  { opacity: 0.7; }
+  65%  { opacity: 0.55; transform: translateY(-10px) scale(1); }
+  100% { transform: translateY(-16px) scale(1.2); opacity: 0; }
 }
 
 /* Responsive */
@@ -253,18 +260,8 @@ main {
     padding: 3rem 0 4rem;
   }
 
-  .hero::before {
-    left: calc(50% + 3.65rem);
-    top: 5.85rem;
-  }
-
-  .hero::after {
-    left: calc(50% + 4.75rem);
-    top: 6.35rem;
-  }
-
   .hero-logo {
-    max-width: 320px;
+    max-width: 230px;
     margin-bottom: 2rem;
   }
 
@@ -274,10 +271,15 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero::before,
-  .hero::after,
-  .hero-logo {
+  .crow-head-group,
+  .crow-eyelid,
+  .crow-wing,
+  .crow-tail,
+  .flask-bubble {
     animation: none;
+  }
+  .crow-eyelid {
+    transform: scaleY(0);
   }
 }
 
