@@ -48,67 +48,18 @@ main {
   display: block;
   position: relative;
   z-index: 2;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 0.5rem;
   width: 100%;
-  max-width: 200px;
+  max-width: 280px;
   height: auto;
+  object-fit: contain;
 }
 
-/* Crow character animations */
-.crow-head-group {
-  transform-origin: 116px 103px;
-  animation: crowHeadTilt 9s ease-in-out infinite;
-  will-change: transform;
-}
-
-.crow-eyelid {
-  transform-box: fill-box;
-  transform-origin: center top;
-  transform: scaleY(0);
-  animation: crowBlink 5.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.crow-wing {
-  transform-origin: 112px 90px;
-  animation: crowFeatherRuffle 4.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.crow-tail {
-  transform-origin: 62px 122px;
-  animation: crowTailRuffle 7s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes crowHeadTilt {
-  0%, 100% { transform: rotate(0deg); }
-  15%       { transform: rotate(-5deg); }
-  32%       { transform: rotate(3.5deg); }
-  50%       { transform: rotate(-4deg); }
-  66%       { transform: rotate(4deg); }
-  82%       { transform: rotate(-2deg); }
-}
-
-@keyframes crowBlink {
-  0%, 82%, 100% { transform: scaleY(0); }
-  85%, 90%      { transform: scaleY(1); }
-}
-
-@keyframes crowFeatherRuffle {
-  0%, 100% { transform: skewX(0deg) scaleX(1); }
-  25%      { transform: skewX(-1.2deg) scaleX(1.01); }
-  50%      { transform: skewX(0.8deg) scaleX(0.99); }
-  75%      { transform: skewX(-0.6deg) scaleX(1.005); }
-}
-
-@keyframes crowTailRuffle {
-  0%, 30%, 60%, 100% { transform: rotate(0deg) scaleY(1); }
-  35%                { transform: rotate(-3deg) scaleY(1.05); }
-  40%                { transform: rotate(2deg) scaleY(0.97); }
-  45%                { transform: rotate(-1.5deg) scaleY(1.02); }
-  50%                { transform: rotate(1deg) scaleY(0.99); }
-  55%                { transform: rotate(0deg) scaleY(1); }
+.hero-beaker {
+  display: block;
+  margin: 0 auto 1.5rem;
+  width: 90px;
+  height: auto;
 }
 
 .hero-name {
@@ -261,8 +212,11 @@ main {
   }
 
   .hero-logo {
-    max-width: 230px;
-    margin-bottom: 2rem;
+    max-width: 320px;
+  }
+
+  .hero-beaker {
+    width: 110px;
   }
 
   .section {
@@ -271,15 +225,8 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .crow-head-group,
-  .crow-eyelid,
-  .crow-wing,
-  .crow-tail,
   .flask-bubble {
     animation: none;
-  }
-  .crow-eyelid {
-    transform: scaleY(0);
   }
 }
 

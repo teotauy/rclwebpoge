@@ -103,66 +103,26 @@
 <body>
   <main>
     <header class="hero">
-      <svg class="hero-logo crow-svg" viewBox="0 0 200 228" xmlns="http://www.w3.org/2000/svg" aria-label="Red Crow Labs crow" role="img">
-        <!-- Tail feathers -->
-        <g class="crow-tail">
-          <path d="M 60 120 C 38 128 18 140 6 158 C 17 145 36 130 53 118 Z" fill="#101010"/>
-          <path d="M 56 125 C 30 136 12 152 4 172 C 15 158 33 140 50 122 Z" fill="#0d0d0d"/>
-          <path d="M 61 129 C 42 146 30 164 28 184 C 38 168 50 150 57 126 Z" fill="#0f0f0f"/>
-          <path d="M 63 123 C 50 135 42 148 40 164 C 48 151 57 137 61 120 Z" fill="#131313"/>
-        </g>
-        <!-- Body -->
-        <path class="crow-body" d="M 62 98 C 75 82 98 76 114 82 C 122 86 126 96 120 110 C 124 114 126 124 118 133 C 108 142 86 144 68 136 C 52 130 46 116 52 104 C 55 98 59 97 62 98 Z" fill="#0d0d0d"/>
-        <!-- Wing (folded, on body) with primary feather tips -->
-        <g class="crow-wing">
-          <path d="M 64 102 C 78 88 100 84 112 90 C 118 93 120 104 116 115 C 110 126 90 130 70 122 C 58 116 56 108 64 102 Z" fill="#131313"/>
-          <line x1="68" y1="118" x2="63" y2="136" stroke="#1c1c1c" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="76" y1="122" x2="72" y2="140" stroke="#1c1c1c" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="84" y1="124" x2="81" y2="143" stroke="#1c1c1c" stroke-width="1.5" stroke-linecap="round"/>
-        </g>
-        <!-- Head group — rotates on its own for tilt/nod -->
-        <g class="crow-head-group">
-          <circle cx="116" cy="80" r="23" fill="#0d0d0d"/>
-          <!-- Corvid curved beak, upper + lower mandible -->
-          <path d="M 136 73 C 148 68 160 70 164 74 C 162 80 150 83 138 79 Q 136 77 136 73 Z" fill="#181818"/>
-          <path d="M 137 79 C 143 81 152 80 158 78 C 154 83 144 84 137 81 Z" fill="#141414"/>
-          <!-- Eye: sclera, pupil, catchlight -->
-          <circle cx="126" cy="73" r="6" fill="#d8d8d8"/>
-          <circle cx="127" cy="73" r="3.8" fill="#080808"/>
-          <circle cx="124.5" cy="71.2" r="1.3" fill="rgba(255,255,255,0.65)"/>
-          <!-- Eyelid — sits on top, scales down from the top to blink -->
-          <ellipse class="crow-eyelid" cx="126" cy="73" rx="6.5" ry="6.5" fill="#0d0d0d"/>
-        </g>
-        <!-- Erlenmeyer flask — crow perches on the rim -->
-        <g class="flask-group">
-          <!-- Flask glass body, open at top -->
-          <path d="M 78 162 L 76 184 C 56 188 38 198 36 210 Q 100 220 164 210 C 162 198 144 188 124 184 L 122 162"
-                fill="#0b0b0b" stroke="rgba(229,229,229,0.18)" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
-          <!-- Subtle dark-crimson liquid fill at bottom -->
-          <path d="M 40 210 Q 100 220 160 210 C 158 204 148 199 132 196 L 122 184 L 78 184 L 68 196 C 52 199 42 204 40 210 Z"
-                fill="rgba(139,34,50,0.07)"/>
-          <!-- Liquid surface line -->
-          <line x1="52" y1="197" x2="148" y2="197" stroke="rgba(139,34,50,0.2)" stroke-width="0.8"/>
-          <!-- Bubbles in flask body -->
-          <circle class="flask-bubble fb1" cx="100" cy="212" r="3.5" fill="none" stroke="rgba(139,34,50,0.65)"  stroke-width="1"/>
-          <circle class="flask-bubble fb2" cx="82"  cy="208" r="2.2" fill="none" stroke="rgba(229,229,229,0.4)" stroke-width="0.8"/>
-          <circle class="flask-bubble fb3" cx="118" cy="210" r="2.8" fill="none" stroke="rgba(139,34,50,0.5)"   stroke-width="0.9"/>
-          <circle class="flask-bubble fb4" cx="93"  cy="215" r="1.8" fill="none" stroke="rgba(229,229,229,0.3)" stroke-width="0.7"/>
-          <!-- Smaller bubbles visible in the neck -->
-          <circle class="flask-bubble fb5" cx="97"  cy="178" r="1.5" fill="none" stroke="rgba(139,34,50,0.5)"   stroke-width="0.7"/>
-          <circle class="flask-bubble fb6" cx="104" cy="172" r="1.2" fill="none" stroke="rgba(229,229,229,0.35)" stroke-width="0.6"/>
-        </g>
-        <!-- Feet -->
-        <g stroke="#191919" stroke-linecap="round" fill="none">
-          <line x1="82" y1="140" x2="80" y2="162" stroke-width="2.2"/>
-          <line x1="80" y1="162" x2="69" y2="170" stroke-width="1.8"/>
-          <line x1="80" y1="162" x2="79" y2="172" stroke-width="1.8"/>
-          <line x1="80" y1="162" x2="91" y2="168" stroke-width="1.8"/>
-          <line x1="96" y1="140" x2="94" y2="162" stroke-width="2.2"/>
-          <line x1="94" y1="162" x2="83" y2="170" stroke-width="1.8"/>
-          <line x1="94" y1="162" x2="93" y2="172" stroke-width="1.8"/>
-          <line x1="94" y1="162" x2="105" y2="168" stroke-width="1.8"/>
-        </g>
+      <img src="red-crow-labs-logo.png" alt="Red Crow Labs" class="hero-logo" width="280" height="160">
+      <svg class="hero-beaker" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Erlenmeyer flask: neck opening at top, body widens toward flat bottom -->
+        <path d="M 48 6 L 46 30 C 26 35 10 48 8 68 Q 60 82 112 68 C 110 48 94 35 74 30 L 72 6"
+              fill="#0c0c0c" stroke="rgba(229,229,229,0.2)" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- Flask rim -->
+        <line x1="48" y1="6" x2="72" y2="6" stroke="rgba(229,229,229,0.28)" stroke-width="1.2"/>
+        <!-- Subtle liquid fill -->
+        <path d="M 12 68 Q 60 82 108 68 C 106 60 96 54 82 51 L 74 30 L 46 30 L 38 51 C 24 54 14 60 12 68 Z"
+              fill="rgba(139,34,50,0.09)"/>
+        <!-- Liquid surface line -->
+        <line x1="24" y1="56" x2="96" y2="56" stroke="rgba(139,34,50,0.22)" stroke-width="0.8"/>
+        <!-- Body bubbles -->
+        <circle class="flask-bubble fb1" cx="60" cy="70" r="3.5" fill="none" stroke="rgba(139,34,50,0.65)" stroke-width="1"/>
+        <circle class="flask-bubble fb2" cx="44" cy="66" r="2.2" fill="none" stroke="rgba(229,229,229,0.4)"  stroke-width="0.8"/>
+        <circle class="flask-bubble fb3" cx="76" cy="68" r="2.8" fill="none" stroke="rgba(139,34,50,0.5)"   stroke-width="0.9"/>
+        <circle class="flask-bubble fb4" cx="52" cy="73" r="1.8" fill="none" stroke="rgba(229,229,229,0.3)" stroke-width="0.7"/>
+        <!-- Neck bubbles (smaller, making it up through the neck) -->
+        <circle class="flask-bubble fb5" cx="57" cy="37" r="1.5" fill="none" stroke="rgba(139,34,50,0.5)"    stroke-width="0.7"/>
+        <circle class="flask-bubble fb6" cx="64" cy="34" r="1.2" fill="none" stroke="rgba(229,229,229,0.35)" stroke-width="0.6"/>
       </svg>
       <h1 class="hero-name">Red Crow Labs</h1>
       <p class="hero-tagline">Follow the crow. It always knows.</p>
