@@ -44,42 +44,14 @@ main {
 }
 
 
-.hero-logo-wrap {
-  position: relative;
+.hero-logo {
   display: block;
+  position: relative;
+  z-index: 2;
   margin: 0 auto 1.5rem;
   width: 100%;
   max-width: 280px;
-}
-
-.hero-logo {
-  display: block;
-  width: 100%;
   height: auto;
-}
-
-/* SVG overlay — exact same footprint as the PNG */
-.crow-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* Eyelid blink: scaleY from 0 (hidden) to 1 (closed) from the top edge */
-.crow-eyelid {
-  transform-box: fill-box;
-  transform-origin: center top;
-  transform: scaleY(0);
-  animation: crowBlink 5.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes crowBlink {
-  0%, 82%, 100% { transform: scaleY(0); }
-  85%, 90%      { transform: scaleY(1); }
 }
 
 .hero-name {
@@ -198,20 +170,6 @@ main {
 }
 
 
-/* Flask bubble animations */
-.flask-bubble { animation: flaskBubbleRise 3.8s ease-in infinite; }
-.fb1 { animation-delay: 0s;   animation-duration: 3.8s; }
-.fb2 { animation-delay: 1.4s; animation-duration: 4.6s; }
-.fb3 { animation-delay: 2.8s; animation-duration: 3.3s; }
-.fb4 { animation-delay: 0.9s; animation-duration: 5.2s; }
-
-/* translateY values in CSS px; the overlay SVG scales them into the 1024-unit space */
-@keyframes flaskBubbleRise {
-  0%   { transform: translateY(0);       opacity: 0; }
-  12%  { opacity: 0.85; }
-  72%  { opacity: 0.75; transform: translateY(-38px); }
-  100% { transform: translateY(-55px);   opacity: 0; }
-}
 
 /* Responsive */
 @media (min-width: 640px) {
@@ -223,7 +181,7 @@ main {
     padding: 3rem 0 4rem;
   }
 
-  .hero-logo-wrap {
+  .hero-logo {
     max-width: 320px;
   }
 
@@ -232,15 +190,6 @@ main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .crow-eyelid,
-  .flask-bubble {
-    animation: none;
-  }
-  .crow-eyelid {
-    transform: scaleY(0);
-  }
-}
 
 /* Colby Angus Black portfolio section */
 .cab-hero {
