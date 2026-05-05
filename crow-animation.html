@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Crow Labs — Logo Animation Preview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #888;
+    }
+
+    h1 {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 3rem;
+    }
+
+    .logo-wrap {
+      width: 380px;
+      height: 380px;
+    }
+
+    /* Subtle idle breathing on the whole logo */
+    @keyframes crowIdle {
+      0%, 100% { transform: scale(1);     }
+      50%       { transform: scale(1.004); }
+    }
+
+    .logo-svg {
+      width: 100%;
+      height: 100%;
+      animation: crowIdle 5s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    /* Controls */
+    .controls {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: #555;
+    }
+
+    .control-row input[type="range"] { accent-color: #a42611; }
+    label { cursor: pointer; }
+    input[type="checkbox"] { accent-color: #a42611; cursor: pointer; }
+
+    .note {
+      margin-top: 2.5rem;
+      max-width: 420px;
+      text-align: center;
+      font-size: 0.7rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo-svg { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Red Crow Labs &mdash; Animation Preview</h1>
+
+  <div class="logo-wrap">
+    <svg class="logo-svg"
+         viewBox="0 0 1024 1024"
+         xmlns="http://www.w3.org/2000/svg"
+         role="img"
+         aria-label="Red Crow Labs logo">
+
+      <!-- Base PNG -->
+      <image href="red-crow-labs-logo.png"
+             x="0" y="0" width="1024" height="1024"
+             preserveAspectRatio="xMidYMid meet"/>
+
+      <!--
+        BLINK
+        Eye gap detected at SVG (595–622, 86–110), center ≈ (612, 95).
+        Crimson ellipse covers the dark eye when blinking.
+        Uses SMIL so it animates in SVG user-units, not CSS pixels.
+      -->
+      <ellipse id="crow-eyelid"
+               cx="612" cy="95"
+               rx="16"  ry="0"
+               fill="#A42611">
+        <animate id="blink-anim"
+                 attributeName="ry"
+                 values="0;0;16;16;0"
+                 keyTimes="0;0.88;0.92;0.95;1"
+                 dur="3.8s"
+                 repeatCount="indefinite"
+                 calcMode="spline"
+                 keySplines="0 0 1 1; 0.2 0 0.8 1; 0 0 1 1; 0.2 0 0.8 1"/>
+      </ellipse>
+
+      <!--
+        BUBBLES
+        The illustration has two drawn circles inside the flask (detected by pixel analysis):
+          Blob A: SVG center (495, 603), r≈14
+          Blob B: SVG center (534, 630), r≈8
+        Each animated bubble starts at one of those spots so the drawn circles
+        appear to lift off and rise through the liquid.
+        Dark fill + crimson stroke matches the illustration's style.
+        All positions/sizes in SVG user-units — no CSS pixel scaling issues.
+      -->
+      <g id="flask-bubbles">
+
+        <!-- Bubble from Blob A (larger, left) -->
+        <circle cx="495" cy="603" r="14"
+                fill="#1a0a06" fill-opacity="0"
+                stroke="#A42611" stroke-width="3"
+                opacity="0">
+          <animate attributeName="cy"           values="603;528"          dur="3.4s" begin="0s"   repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="opacity"      values="0;1;0.85;0"       keyTimes="0;0.06;0.78;1" dur="3.4s" begin="0s"   repeatCount="indefinite"/>
+          <animate attributeName="r"            values="14;18"            dur="3.4s" begin="0s"   repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="fill-opacity" values="0;0.6;0.3;0"      keyTimes="0;0.06;0.78;1" dur="3.4s" begin="0s"   repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Bubble from Blob B (smaller, right) -->
+        <circle cx="534" cy="630" r="8"
+                fill="#1a0a06" fill-opacity="0"
+                stroke="#A42611" stroke-width="2.5"
+                opacity="0">
+          <animate attributeName="cy"           values="630;548"          dur="2.8s" begin="1.3s" repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="opacity"      values="0;1;0.85;0"       keyTimes="0;0.06;0.78;1" dur="2.8s" begin="1.3s" repeatCount="indefinite"/>
+          <animate attributeName="r"            values="8;12"             dur="2.8s" begin="1.3s" repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="fill-opacity" values="0;0.6;0.3;0"      keyTimes="0;0.06;0.78;1" dur="2.8s" begin="1.3s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Third bubble — forms between A and B, staggered -->
+        <circle cx="512" cy="618" r="10"
+                fill="#1a0a06" fill-opacity="0"
+                stroke="#A42611" stroke-width="2.5"
+                opacity="0">
+          <animate attributeName="cy"           values="618;540"          dur="3.1s" begin="2.1s" repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="opacity"      values="0;1;0.85;0"       keyTimes="0;0.06;0.78;1" dur="3.1s" begin="2.1s" repeatCount="indefinite"/>
+          <animate attributeName="r"            values="10;14"            dur="3.1s" begin="2.1s" repeatCount="indefinite" calcMode="linear"/>
+          <animate attributeName="fill-opacity" values="0;0.6;0.3;0"      keyTimes="0;0.06;0.78;1" dur="3.1s" begin="2.1s" repeatCount="indefinite"/>
+        </circle>
+
+      </g>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <div class="control-row">
+      <input type="checkbox" id="toggle-blink" checked>
+      <label for="toggle-blink">Blink</label>
+    </div>
+    <div class="control-row">
+      <input type="checkbox" id="toggle-bubbles" checked>
+      <label for="toggle-bubbles">Bubbles</label>
+    </div>
+    <div class="control-row">
+      <input type="checkbox" id="toggle-idle" checked>
+      <label for="toggle-idle">Idle</label>
+    </div>
+    <div class="control-row">
+      <label for="speed">Speed</label>
+      <input type="range" id="speed" min="0.25" max="3" step="0.25" value="1">
+    </div>
+  </div>
+
+  <p class="note">
+    Animation preview — main site still shows the static logo.<br>
+    Next: open the SVG in Inkscape to separate head/wing/tail into groups
+    for head-tilt and wing-ruffle animations.
+  </p>
+
+  <script>
+    const logoSvg = document.querySelector('.logo-svg');
+
+    document.getElementById('toggle-blink').addEventListener('change', e => {
+      const el = document.getElementById('crow-eyelid');
+      if (!e.target.checked) {
+        el.setAttribute('ry', '0');
+        document.getElementById('blink-anim').setAttribute('repeatCount', '0');
+      } else {
+        document.getElementById('blink-anim').setAttribute('repeatCount', 'indefinite');
+        const clone = el.cloneNode(true);
+        el.parentNode.replaceChild(clone, el);
+      }
+    });
+
+    document.getElementById('toggle-bubbles').addEventListener('change', e => {
+      const g = document.getElementById('flask-bubbles');
+      if (!e.target.checked) {
+        g.querySelectorAll('circle').forEach(c => c.setAttribute('opacity', '0'));
+        g.querySelectorAll('animate').forEach(a => a.setAttribute('repeatCount', '0'));
+      } else {
+        const clone = g.cloneNode(true);
+        g.parentNode.replaceChild(clone, g);
+      }
+    });
+
+    document.getElementById('toggle-idle').addEventListener('change', e => {
+      logoSvg.style.animationPlayState = e.target.checked ? 'running' : 'paused';
+    });
+
+    document.getElementById('speed').addEventListener('input', e => {
+      const rate = parseFloat(e.target.value);
+      logoSvg.style.animationDuration = (5 / rate) + 's';
+    });
+  </script>
+
+</body>
+</html>
