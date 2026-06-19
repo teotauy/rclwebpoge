@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFC 2026-27 — Season Ops Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0d0f;
+    --surface:#16181c;
+    --surface-2:#1d2025;
+    --line:#3a3f49;
+    --ink:#F2F0EB;
+    --muted:#B4BAC4;
+    --faint:#8B929D;
+    --red:#C8102E;       /* Premier League / LFC */
+    --blue:#4671C6;      /* Champions League */
+    --gold:#D9A441;      /* FA Cup */
+    --amber:#E0822E;     /* Carabao */
+    --green:#3FB680;     /* open window / best ticket chance */
+    --warn:#E0822E;
+    --crunch:#C8102E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 18px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:34px 0 22px;
+    margin-bottom:6px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--red);margin-bottom:10px;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:clamp(32px,7vw,56px);line-height:.98;
+    letter-spacing:-.01em;text-transform:uppercase;
+  }
+  h1 .yr{color:var(--faint);}
+  .sub{
+    color:var(--muted);font-size:16px;max-width:62ch;margin-top:12px;
+  }
+  .sub strong{color:var(--ink);font-weight:600}
+
+  /* ---------- controls ---------- */
+  .controls{
+    position:sticky;top:0;z-index:30;
+    background:linear-gradient(var(--bg) 70%, rgba(12,13,15,0));
+    padding:14px 0 16px;margin-bottom:8px;
+  }
+  .control-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .control-row + .control-row{margin-top:9px}
+  .ctl-label{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--faint);margin-right:4px;
+  }
+  .chip{
+    font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;
+    color:var(--muted);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;
+    padding:8px 15px;cursor:pointer;transition:.15s;user-select:none;
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .chip:hover{border-color:var(--faint);color:var(--ink)}
+  .chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .chip.off{opacity:.38;text-decoration:line-through}
+  .chip.mode{border-radius:7px}
+  .chip.mode.active{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+  .dot.pl{background:var(--red)} .dot.cl{background:var(--blue)}
+  .dot.fa{background:var(--gold)} .dot.ca{background:var(--amber)}
+  .dot.br{background:var(--green)}
+
+  /* ---------- month ---------- */
+  .month{margin-top:30px;scroll-margin-top:130px}
+  .month-head{
+    display:flex;align-items:baseline;gap:14px;
+    padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .month-name{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:27px;
+    text-transform:uppercase;letter-spacing:.02em;
+  }
+  .month-name .yr{color:var(--faint);font-weight:400}
+  .crunch-meter{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .crunch-label{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .pips{display:flex;gap:3px}
+  .pip{width:14px;height:5px;border-radius:1px;background:var(--line)}
+  .pip.on{background:var(--crunch)}
+  .pip.on.mid{background:var(--amber)}
+  .pip.on.low{background:var(--green)}
+
+  /* ---------- fixture row ---------- */
+  .fx{
+    display:grid;
+    grid-template-columns:74px 1fr auto;
+    gap:13px;align-items:center;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--line);
+    border-radius:9px;
+    padding:11px 14px;margin-bottom:7px;
+    transition:.15s;
+  }
+  .fx.pl{border-left-color:var(--red)}
+  .fx.cl{border-left-color:var(--blue)}
+  .fx.fa{border-left-color:var(--gold)}
+  .fx.ca{border-left-color:var(--amber)}
+  .fx.projected{border-style:dashed;background:transparent}
+  .fx.projected .opp{color:var(--muted)}
+  .fx.dimmed{opacity:.16;filter:saturate(.3)}
+  .fx.spotlight{border-color:var(--green);box-shadow:0 0 0 1px var(--green) inset}
+
+  .fx-date{
+    font-family:'Space Mono',monospace;font-size:13px;line-height:1.3;color:var(--muted);
+  }
+  .fx-date .d{color:var(--ink);font-weight:700;font-size:16px}
+  .fx-date .dow{font-size:12px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+
+  .fx-main{min-width:0}
+  .opp{font-family:'Oswald',sans-serif;font-weight:500;font-size:20px;letter-spacing:.01em;line-height:1.18}
+  .opp .va{color:var(--faint);font-weight:400;font-size:14.5px;margin-left:3px}
+  .fx-meta{display:flex;gap:8px;align-items:center;margin-top:5px;flex-wrap:wrap}
+  .tag{
+    font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 7px;border-radius:4px;
+    border:1px solid var(--line);color:var(--muted);
+  }
+  .tag.comp-pl{color:#ff6478;border-color:rgba(200,16,46,.5)}
+  .tag.comp-cl{color:#82a4ec;border-color:rgba(70,113,198,.5)}
+  .tag.comp-fa{color:#ecc46a;border-color:rgba(217,164,65,.5)}
+  .tag.comp-ca{color:#f0a05c;border-color:rgba(224,130,46,.5)}
+  .tag.tbc{color:var(--faint)}
+  .tag.ht{color:var(--ink);border-color:var(--faint)}
+
+  .fx-right{text-align:right;flex:none}
+  .ticket{
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+    padding:5px 11px;border-radius:6px;white-space:nowrap;display:inline-block;
+  }
+  .ticket.best{background:rgba(63,182,128,.16);color:#5fd29a;border:1px solid rgba(63,182,128,.45)}
+  .ticket.ok{background:rgba(224,130,46,.15);color:#f0a05c;border:1px solid rgba(224,130,46,.42)}
+  .ticket.tough{background:rgba(200,16,46,.15);color:#ff6e84;border:1px solid rgba(200,16,46,.45)}
+  .ticket.away{color:var(--faint);font-weight:500;font-size:12px}
+
+  /* ---------- break band ---------- */
+  .break{
+    display:flex;align-items:center;gap:13px;
+    border:1px dashed rgba(63,182,128,.5);
+    background:rgba(63,182,128,.06);
+    border-radius:9px;padding:11px 15px;margin:7px 0;
+  }
+  .break .ico{
+    font-family:'Oswald',sans-serif;font-weight:700;color:var(--green);
+    font-size:13px;letter-spacing:.15em;writing-mode:initial;flex:none;
+  }
+  .break-body{flex:1;min-width:0}
+  .break-title{font-family:'Oswald',sans-serif;font-weight:500;font-size:18px;color:#5fd29a;text-transform:uppercase;letter-spacing:.03em}
+  .break-dates{font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);margin-top:3px}
+  .break.faint{border-color:var(--line);background:transparent}
+  .break.faint .ico,.break.faint .break-title{color:var(--muted)}
+
+  .crunch-note{
+    font-size:14.5px;color:var(--muted);font-style:italic;
+    padding:5px 2px 10px;border-left:0;line-height:1.5;
+  }
+  .crunch-note b{color:#ff6e84;font-style:normal;font-weight:600}
+
+  /* ---------- legend / footer ---------- */
+  .legend{
+    margin-top:36px;border-top:1px solid var(--line);padding-top:20px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;
+  }
+  .legend h3{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:12px;font-weight:700;
+  }
+  .legend-item{display:flex;gap:9px;font-size:14.5px;color:var(--muted);margin-bottom:9px;align-items:flex-start;line-height:1.45}
+  .legend-item .sw{width:15px;height:15px;border-radius:3px;flex:none;margin-top:2px}
+  .legend-item b{color:var(--ink);font-weight:600}
+  footer{
+    margin-top:30px;border-top:1px solid var(--line);padding-top:18px;
+    font-size:14px;color:var(--muted);
+  }
+  footer p{margin-bottom:10px;max-width:75ch;line-height:1.55}
+  footer b{color:var(--ink)}
+  .verify{color:#ff9aa8}
+
+  @media(max-width:560px){
+    .fx{grid-template-columns:60px 1fr;row-gap:8px}
+    .fx-right{grid-column:1/-1;text-align:left}
+    .crunch-meter{margin-left:0;width:100%;justify-content:flex-start;margin-top:4px}
+    .month-head{gap:8px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  .chip:focus-visible,.fx:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Red Crow Labs · Matchday Planning</div>
+    <h1>Liverpool <span class="yr">26/27</span><br>Season Ops Board</h1>
+    <p class="sub">All four competitions stacked on one spine. <strong>Iraola's first season</strong>, no Salah, back in the Champions League via the European Performance Spot. Green bands are <strong>open windows</strong> — no Liverpool match — for charity scheduling. Use the ticket toggle to surface first-half home games worth chasing.</p>
+  </header>
+
+  <div class="controls">
+    <div class="control-row" id="compFilters">
+      <span class="ctl-label">Show</span>
+      <span class="chip" data-comp="pl"><span class="dot pl"></span>Premier League</span>
+      <span class="chip" data-comp="cl"><span class="dot cl"></span>Champions League</span>
+      <span class="chip" data-comp="fa"><span class="dot fa"></span>FA Cup</span>
+      <span class="chip" data-comp="ca"><span class="dot ca"></span>Carabao</span>
+    </div>
+    <div class="control-row">
+      <span class="ctl-label">View</span>
+      <span class="chip mode" data-mode="all">Full season</span>
+      <span class="chip mode" data-mode="tickets">🎟 Ticket finder (1st half)</span>
+      <span class="chip mode" data-mode="charity"><span class="dot br"></span>Charity windows</span>
+    </div>
+  </div>
+
+  <div id="board"></div>
+
+  <div class="legend">
+    <div>
+      <h3>Competitions</h3>
+      <div class="legend-item"><span class="sw" style="background:var(--red)"></span><span><b>Premier League</b> — confirmed dates &amp; times (Aug locked; rest can shift for TV)</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--blue)"></span><span><b>Champions League</b> — league-phase nights confirmed; opponents drawn Aug 27</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--gold)"></span><span><b>FA Cup</b> — round weekends confirmed; LFC enter R3</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--amber)"></span><span><b>Carabao Cup</b> — LFC enter R3; exact dates <i>TBC</i>, shown as projections</span></div>
+    </div>
+    <div>
+      <h3>How to read it</h3>
+      <div class="legend-item"><span class="sw" style="border:1px dashed var(--muted);background:transparent"></span><span><b>Dashed card</b> = projected / not yet confirmed. Don't book travel on it.</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--green)"></span><span><b>Green band</b> = international break, no club game = charity window.</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--crunch)"></span><span><b>Crunch pips</b> = how many games that month across all comps.</span></div>
+    </div>
+    <div>
+      <h3>Ticket chances (home only)</h3>
+      <div class="legend-item"><span class="sw" style="background:var(--green)"></span><span><b>Best chance</b> — lower-demand or midweek</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--amber)"></span><span><b>Decent</b> — mid-tier demand</span></div>
+      <div class="legend-item"><span class="sw" style="background:var(--red)"></span><span><b>Tough</b> — marquee, may never hit general sale</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>What's solid:</b> Premier League fixtures, Champions League league-phase nights, FA Cup round weekends, and all three international breaks are confirmed (Liverpool FC official key-dates release, 17 Jun 2026).</p>
+    <p class="verify"><b>What to verify before acting:</b> (1) Carabao Cup round dates are unconfirmed — every amber card is a projection off last season's rhythm. (2) All Champions League knockout rounds and cup progressions are conditional — they only happen if Liverpool advance, so spring density is a worst-case. (3) The AFC Asian Cup (Jan 7–Feb 5) isn't a league break but will pull squad players. (4) Ticket ratings are a demand heuristic, not live availability — confirm against your LFC membership sale windows.</p>
+  </footer>
+
+</div>
+
+<script>
+/* ---------- DATA ----------
+   comp: pl | cl | fa | ca | break
+   conf: true=confirmed, false=projected
+   home: true/false (pl only, drives ticket logic)
+   tix:  best | ok | tough   (first-half home games only)
+*/
+const MONTHS = [
+  {key:'aug', name:'August', yr:'26', crunch:1, items:[
+    {comp:'pl', d:'23', dow:'Sun', t:'16:30', opp:'Newcastle United', va:'A', conf:true, home:false},
+    {comp:'pl', d:'29', dow:'Sat', t:'15:00', opp:'Nottingham Forest', va:'H', conf:true, home:true, tix:'best'},
+  ]},
+  {key:'sep', name:'September', yr:'26', crunch:3, items:[
+    {comp:'pl', d:'05', dow:'Sat', t:'15:00', opp:'Ipswich Town', va:'A', conf:true, home:false},
+    {comp:'cl', d:'08–10', dow:'MD1', t:'', opp:'Champions League', sub:'League phase · opponent TBD', conf:true},
+    {comp:'pl', d:'12', dow:'Sat', t:'15:00', opp:'Fulham', va:'H', conf:true, home:true, tix:'best'},
+    {comp:'pl', d:'19', dow:'Sat', t:'15:00', opp:'Bournemouth', va:'A', conf:true, home:false, note:'Iraola returns to his old club'},
+    {break:true, title:'International break', dates:'Sep 21 – Oct 6 · up to 4 matches', conf:true, charity:true},
+    {comp:'ca', d:'late Sep', dow:'R3', t:'', opp:'Carabao Cup · Round 3', sub:'Date TBC', conf:false},
+  ]},
+  {key:'oct', name:'October', yr:'26', crunch:5, items:[
+    {comp:'pl', d:'10', dow:'Sat', t:'15:00', opp:'Manchester City', va:'H', conf:true, home:true, tix:'tough'},
+    {comp:'cl', d:'13–14', dow:'MD2', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'17', dow:'Sat', t:'15:00', opp:'Brentford', va:'A', conf:true, home:false},
+    {comp:'cl', d:'20–21', dow:'MD3', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'24', dow:'Sat', t:'15:00', opp:'Brighton', va:'H', conf:true, home:true, tix:'ok'},
+    {comp:'ca', d:'late Oct', dow:'R4', t:'', opp:'Carabao Cup · Round 4', sub:'Date TBC (if through)', conf:false},
+    {comp:'pl', d:'31', dow:'Sat', t:'15:00', opp:'Arsenal', va:'H', conf:true, home:true, tix:'tough', note:'Reigning champions'},
+  ], crunchNote:'Two European nights wedged inside the City / Brighton / Arsenal home run. Every Anfield showpiece comes 3 days off a midweek.'},
+  {key:'nov', name:'November', yr:'26', crunch:5, items:[
+    {comp:'cl', d:'03–04', dow:'MD4', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'07', dow:'Sat', t:'15:00', opp:'Crystal Palace', va:'A', conf:true, home:false},
+    {break:true, title:'International break', dates:'Nov 9 – 17 · two matches', conf:true, charity:true},
+    {comp:'pl', d:'21', dow:'Sat', t:'15:00', opp:'Manchester United', va:'H', conf:true, home:true, tix:'tough', note:'Biggest ticket of the half'},
+    {comp:'cl', d:'24–25', dow:'MD5', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'28', dow:'Sat', t:'15:00', opp:'Everton', va:'A', conf:true, home:false, note:'Merseyside derby'},
+  ], crunchNote:'The killer week: <b>Man Utd (H) → Europe → Everton derby (A) in eight days.</b> Two rivalries and a CL night, back to back to back.'},
+  {key:'dec', name:'December', yr:'26', crunch:5, items:[
+    {comp:'pl', d:'02', dow:'Wed', t:'20:00', opp:'Sunderland', va:'H', conf:true, home:true, tix:'best', note:'Midweek + promoted side = easiest ticket'},
+    {comp:'pl', d:'05', dow:'Sat', t:'15:00', opp:'Chelsea', va:'A', conf:true, home:false},
+    {comp:'cl', d:'08–09', dow:'MD6', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'12', dow:'Sat', t:'15:00', opp:'Leeds United', va:'H', conf:true, home:true, tix:'ok'},
+    {comp:'ca', d:'mid Dec', dow:'QF', t:'', opp:'Carabao Cup · Quarter-final', sub:'Date TBC (if through)', conf:false},
+    {comp:'pl', d:'19', dow:'Sat', t:'15:00', opp:'Tottenham', va:'H', conf:true, home:true, tix:'tough'},
+    {comp:'pl', d:'26', dow:'Sat', t:'15:00', opp:'Hull City', va:'A', conf:true, home:false, note:'Boxing Day'},
+    {comp:'pl', d:'30', dow:'Wed', t:'20:00', opp:'Aston Villa', va:'A', conf:true, home:false},
+  ], crunchNote:'Highest <i>volume</i> of the season — up to 8 games across 3 comps — but mostly winnable opponents. A rotation-management month, not a points-jeopardy one.'},
+  {key:'jan', name:'January', yr:'27', crunch:5, items:[
+    {comp:'pl', d:'02', dow:'Sat', t:'15:00', opp:'Coventry City', va:'H', conf:true, home:true},
+    {comp:'pl', d:'06', dow:'Wed', t:'20:00', opp:'Sunderland', va:'A', conf:true, home:false},
+    {comp:'fa', d:'09–10', dow:'R3', t:'', opp:'FA Cup · Round 3', sub:'LFC enter here', conf:true},
+    {comp:'ca', d:'mid Jan', dow:'SF L1', t:'', opp:'Carabao Cup · Semi 1st leg', sub:'Date TBC (if through)', conf:false},
+    {comp:'pl', d:'16', dow:'Sat', t:'15:00', opp:'Crystal Palace', va:'H', conf:true, home:true},
+    {comp:'cl', d:'19–20', dow:'MD7', t:'', opp:'Champions League', sub:'League phase', conf:true},
+    {comp:'pl', d:'23', dow:'Sat', t:'15:00', opp:'Manchester United', va:'A', conf:true, home:false},
+    {comp:'cl', d:'27', dow:'MD8', t:'', opp:'Champions League', sub:'League phase finale', conf:true},
+    {comp:'pl', d:'30', dow:'Sat', t:'15:00', opp:'Everton', va:'H', conf:true, home:true},
+  ], crunchNote:'Both final CL league-phase nights bracket Man Utd (A) and Everton (H). AFC Asian Cup also running — squad players may be away.'},
+  {key:'feb', name:'February', yr:'27', crunch:5, items:[
+    {comp:'pl', d:'06', dow:'Sat', t:'15:00', opp:'Arsenal', va:'A', conf:true, home:false},
+    {comp:'ca', d:'early Feb', dow:'SF L2', t:'', opp:'Carabao Cup · Semi 2nd leg', sub:'Date TBC (if through)', conf:false},
+    {comp:'pl', d:'10', dow:'Wed', t:'20:00', opp:'Coventry City', va:'A', conf:true, home:false},
+    {comp:'fa', d:'13–14', dow:'R4', t:'', opp:'FA Cup · Round 4', sub:'If through', conf:true},
+    {comp:'cl', d:'16–17', dow:'KO L1', t:'', opp:'Champions League', sub:'Knockout play-off 1st leg (if needed)', conf:true},
+    {comp:'pl', d:'20', dow:'Sat', t:'15:00', opp:'Hull City', va:'H', conf:true, home:true},
+    {comp:'cl', d:'23–24', dow:'KO L2', t:'', opp:'Champions League', sub:'Knockout play-off 2nd leg (if needed)', conf:true},
+    {comp:'pl', d:'27', dow:'Sat', t:'15:00', opp:'Tottenham', va:'A', conf:true, home:false},
+  ], crunchNote:'The hidden monster: a <b>CL knockout round</b> lands on a month already carrying Arsenal (A), FA Cup, and a possible Carabao final. No breathing room if alive in all four.'},
+  {key:'mar', name:'March', yr:'27', crunch:4, items:[
+    {comp:'pl', d:'03', dow:'Wed', t:'20:00', opp:'Aston Villa', va:'H', conf:true, home:true},
+    {comp:'fa', d:'06–07', dow:'R5', t:'', opp:'FA Cup · Round 5', sub:'If through', conf:true},
+    {comp:'cl', d:'09–10', dow:'R16 L1', t:'', opp:'Champions League', sub:'Last 16 1st leg (if through)', conf:true},
+    {comp:'pl', d:'13', dow:'Sat', t:'15:00', opp:'Ipswich Town', va:'H', conf:true, home:true},
+    {comp:'cl', d:'16–17', dow:'R16 L2', t:'', opp:'Champions League', sub:'Last 16 2nd leg (if through)', conf:true},
+    {comp:'pl', d:'20', dow:'Sat', t:'15:00', opp:'Fulham', va:'A', conf:true, home:false},
+    {break:true, title:'International break', dates:'Mar 22 – 30 · two matches', conf:true, charity:true},
+  ]},
+  {key:'apr', name:'April', yr:'27', crunch:5, items:[
+    {comp:'fa', d:'03–04', dow:'QF', t:'', opp:'FA Cup · Quarter-final', sub:'If through', conf:true},
+    {comp:'cl', d:'06–07', dow:'QF L1', t:'', opp:'Champions League', sub:'Quarter-final 1st leg (if through)', conf:true},
+    {comp:'pl', d:'10', dow:'Sat', t:'15:00', opp:'Newcastle United', va:'H', conf:true, home:true},
+    {comp:'cl', d:'13–14', dow:'QF L2', t:'', opp:'Champions League', sub:'Quarter-final 2nd leg (if through)', conf:true},
+    {comp:'pl', d:'17', dow:'Sat', t:'15:00', opp:'Nottingham Forest', va:'A', conf:true, home:false},
+    {comp:'pl', d:'24', dow:'Sat', t:'15:00', opp:'Leeds United', va:'A', conf:true, home:false},
+    {comp:'fa', d:'24–25', dow:'SF', t:'', opp:'FA Cup · Semi-final', sub:'Wembley, if through', conf:true},
+    {comp:'cl', d:'27–28', dow:'SF L1', t:'', opp:'Champions League', sub:'Semi-final 1st leg (if through)', conf:true},
+  ], crunchNote:'If Liverpool are deep in both cups, April is a four-front war: CL quarters &amp; semis, FA Cup quarter &amp; semi, plus the league.'},
+  {key:'may', name:'May', yr:'27', crunch:5, items:[
+    {comp:'pl', d:'01', dow:'Sat', t:'15:00', opp:'Chelsea', va:'H', conf:true, home:true},
+    {comp:'cl', d:'04–05', dow:'SF L2', t:'', opp:'Champions League', sub:'Semi-final 2nd leg (if through)', conf:true},
+    {comp:'pl', d:'08', dow:'Sat', t:'15:00', opp:'Manchester City', va:'A', conf:true, home:false, note:'Hardest run-in away day'},
+    {comp:'pl', d:'15', dow:'Sat', t:'15:00', opp:'Brentford', va:'H', conf:true, home:true},
+    {comp:'fa', d:'22', dow:'Final', t:'', opp:'FA Cup Final', sub:'Wembley, if through', conf:true},
+    {comp:'pl', d:'23', dow:'Sun', t:'15:00', opp:'Brighton', va:'A', conf:true, home:false},
+    {comp:'pl', d:'30', dow:'Sun', t:'16:00', opp:'Bournemouth', va:'H', conf:true, home:true},
+  ], crunchNote:'CL semi 2nd leg sits between Chelsea (H) and the season\'s toughest away day at City. If Europe is still live in May, this week decides everything.'},
+];
+const CL_FINAL = {comp:'cl', d:'Jun 5', dow:'Final', opp:'Champions League Final', sub:'Estadio Metropolitano, Madrid (if through)', conf:false};
+
+const COMP_LABEL = {pl:'Premier League', cl:'Champions League', fa:'FA Cup', ca:'Carabao'};
+const state = {pl:true, cl:true, fa:true, ca:true, mode:'all'};
+
+const board = document.getElementById('board');
+
+function fixtureHTML(it){
+  if(it.break){
+    return `<div class="break ${it.charity?'':'faint'}" data-break="1">
+      <div class="ico">OPEN</div>
+      <div class="break-body">
+        <div class="break-title">${it.title}</div>
+        <div class="break-dates">${it.dates} — no Liverpool match</div>
+      </div>
+    </div>`;
+  }
+  const proj = it.conf ? '' : ' projected';
+  const compTag = `<span class="tag comp-${it.comp}">${COMP_LABEL[it.comp]}</span>`;
+  const tbc = it.conf ? '' : `<span class="tag tbc">TBC</span>`;
+  const htTag = (it.comp==='pl' && it.home) ? `<span class="tag ht">Home · Anfield</span>` : '';
+  let right = '';
+  if(it.comp==='pl'){
+    if(it.home && it.tix){
+      const lbl = {best:'Best chance',ok:'Decent',tough:'Tough'}[it.tix];
+      right = `<span class="ticket ${it.tix}">🎟 ${lbl}</span>`;
+    } else if(it.home){
+      right = `<span class="ticket away">general sale</span>`;
+    } else {
+      right = `<span class="ticket away">away · ballot</span>`;
+    }
+  }
+  const sub = it.sub ? ` <span class="va">${it.sub}</span>` : (it.va ? ` <span class="va">(${it.va})</span>` : '');
+  const note = it.note ? `<span class="tag">${it.note}</span>` : '';
+  return `<div class="fx ${it.comp}${proj}" tabindex="0" data-comp="${it.comp}" data-home="${it.home?1:0}" data-tix="${it.tix||''}">
+    <div class="fx-date">
+      <span class="d">${it.d}</span><br><span class="dow">${it.dow}${it.t?' · '+it.t:''}</span>
+    </div>
+    <div class="fx-main">
+      <div class="opp">${it.opp}${sub}</div>
+      <div class="fx-meta">${compTag}${tbc}${htTag}${note}</div>
+    </div>
+    <div class="fx-right">${right}</div>
+  </div>`;
+}
+
+function render(){
+  board.innerHTML = '';
+  MONTHS.forEach(m=>{
+    const sec = document.createElement('section');
+    sec.className = 'month';
+    let pips = '';
+    for(let i=0;i<5;i++){
+      const on = i < m.crunch;
+      const cls = m.crunch<=2 ? 'low' : (m.crunch<=3 ? 'mid' : '');
+      pips += `<span class="pip ${on?'on '+cls:''}"></span>`;
+    }
+    const lvl = m.crunch>=5?'Severe':m.crunch>=4?'Heavy':m.crunch>=3?'Moderate':'Light';
+    sec.innerHTML = `
+      <div class="month-head">
+        <span class="month-name">${m.name} <span class="yr">'${m.yr}</span></span>
+        <div class="crunch-meter">
+          <span class="crunch-label">Load: ${lvl}</span>
+          <span class="pips">${pips}</span>
+        </div>
+      </div>`;
+    m.items.forEach(it=> sec.insertAdjacentHTML('beforeend', fixtureHTML(it)));
+    if(m.crunchNote){
+      sec.insertAdjacentHTML('beforeend', `<div class="crunch-note">▸ ${m.crunchNote}</div>`);
+    }
+    if(m.key==='may'){
+      sec.insertAdjacentHTML('beforeend', fixtureHTML(CL_FINAL));
+    }
+    board.appendChild(sec);
+  });
+  applyState();
+}
+
+function applyState(){
+  // competition chips visual
+  document.querySelectorAll('#compFilters .chip').forEach(c=>{
+    c.classList.toggle('off', !state[c.dataset.comp]);
+  });
+  document.querySelectorAll('.chip.mode').forEach(c=>{
+    c.classList.toggle('active', c.dataset.mode===state.mode);
+  });
+
+  document.querySelectorAll('.fx').forEach(fx=>{
+    const comp = fx.dataset.comp;
+    let show = state[comp];
+    let spotlight=false, dim=false;
+    if(state.mode==='tickets'){
+      // first-half home games with a ticket rating get spotlit; everything else dimmed
+      const isTixGame = fx.dataset.home==='1' && fx.dataset.tix!=='' && fx.classList.contains('pl');
+      if(isTixGame && show){ spotlight=true; } else { dim=true; }
+    }
+    fx.style.display = show ? '' : 'none';
+    fx.classList.toggle('spotlight', spotlight);
+    fx.classList.toggle('dimmed', dim && show);
+  });
+
+  // break bands: highlighted in charity mode, dimmed in ticket mode
+  document.querySelectorAll('.break').forEach(b=>{
+    if(state.mode==='charity'){ b.classList.remove('faint'); b.style.opacity='1'; b.style.transform='scale(1.01)'; }
+    else if(state.mode==='tickets'){ b.style.opacity='.2'; b.style.transform='none'; }
+    else { b.style.opacity='1'; b.style.transform='none'; }
+  });
+}
+
+document.querySelectorAll('#compFilters .chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{ state[chip.dataset.comp] = !state[chip.dataset.comp]; applyState(); });
+});
+document.querySelectorAll('.chip.mode').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    state.mode = (state.mode===chip.dataset.mode) ? 'all' : chip.dataset.mode;
+    applyState();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
