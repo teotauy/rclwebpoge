@@ -97,7 +97,7 @@
   .chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
   .chip.off{opacity:.38;text-decoration:line-through}
   .chip.mode{border-radius:7px}
-  .chip.mode.active{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+  .chip.mode.active,.chip.venue.active{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
   .dot.pl{background:var(--red)} .dot.cl{background:var(--blue)}
   .dot.fa{background:var(--gold)} .dot.ca{background:var(--amber)}
   .dot.br{background:var(--green)}
@@ -258,6 +258,12 @@
       <span class="chip mode" data-mode="tickets">🎟 Ticket finder (1st half)</span>
       <span class="chip mode" data-mode="charity"><span class="dot br"></span>Charity windows</span>
     </div>
+    <div class="control-row">
+      <span class="ctl-label">Venue</span>
+      <span class="chip venue" data-venue="all">All</span>
+      <span class="chip venue" data-venue="home">Home</span>
+      <span class="chip venue" data-venue="away">Away</span>
+    </div>
   </div>
 
   <div id="board"></div>
@@ -391,7 +397,7 @@ const MONTHS = [
 const CL_FINAL = {comp:'cl', d:'Jun 5', dow:'Final', opp:'Champions League Final', sub:'Estadio Metropolitano, Madrid (if through)', conf:false};
 
 const COMP_LABEL = {pl:'Premier League', cl:'Champions League', fa:'FA Cup', ca:'Carabao'};
-const state = {pl:true, cl:true, fa:true, ca:true, mode:'all'};
+const state = {pl:true, cl:true, fa:true, ca:true, mode:'all', venue:'all'};
 
 const board = document.getElementById('board');
 
@@ -474,6 +480,9 @@ function applyState(){
   document.querySelectorAll('.chip.mode').forEach(c=>{
     c.classList.toggle('active', c.dataset.mode===state.mode);
   });
+  document.querySelectorAll('.chip.venue').forEach(c=>{
+    c.classList.toggle('active', c.dataset.venue===state.venue);
+  });
 
   document.querySelectorAll('.fx').forEach(fx=>{
     const comp = fx.dataset.comp;
@@ -483,6 +492,11 @@ function applyState(){
       // first-half home games with a ticket rating get spotlit; everything else dimmed
       const isTixGame = fx.dataset.home==='1' && fx.dataset.tix!=='' && fx.classList.contains('pl');
       if(isTixGame && show){ spotlight=true; } else { dim=true; }
+    }
+    if(state.venue!=='all' && comp==='pl'){
+      const isHome = fx.dataset.home==='1';
+      const matchesVenue = state.venue==='home' ? isHome : !isHome;
+      if(!matchesVenue){ dim=true; }
     }
     fx.style.display = show ? '' : 'none';
     fx.classList.toggle('spotlight', spotlight);
@@ -503,6 +517,12 @@ document.querySelectorAll('#compFilters .chip').forEach(chip=>{
 document.querySelectorAll('.chip.mode').forEach(chip=>{
   chip.addEventListener('click', ()=>{
     state.mode = (state.mode===chip.dataset.mode) ? 'all' : chip.dataset.mode;
+    applyState();
+  });
+});
+document.querySelectorAll('.chip.venue').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    state.venue = chip.dataset.venue;
     applyState();
   });
 });
