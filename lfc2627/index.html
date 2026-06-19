@@ -59,6 +59,20 @@
     color:var(--muted);font-size:16px;max-width:62ch;margin-top:12px;
   }
   .sub strong{color:var(--ink);font-weight:600}
+  .notice{
+    display:flex;gap:12px;align-items:flex-start;
+    margin:18px 0 2px;padding:13px 15px;
+    background:rgba(224,130,46,.12);
+    border:1px solid rgba(224,130,46,.5);
+    border-radius:9px;color:var(--muted);
+    font-size:14.5px;line-height:1.5;
+  }
+  .notice b{
+    color:var(--ink);font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .notice span{display:block;max-width:72ch}
 
   /* ---------- controls ---------- */
   .controls{
@@ -224,6 +238,10 @@
     <div class="eyebrow">Red Crow Labs · Matchday Planning</div>
     <h1>Liverpool <span class="yr">26/27</span><br>Season Ops Board</h1>
     <p class="sub">All four competitions stacked on one spine. <strong>Iraola's first season</strong>, no Salah, back in the Champions League via the European Performance Spot. Green bands are <strong>open windows</strong> — no Liverpool match — for charity scheduling. Use the ticket toggle to surface first-half home games worth chasing.</p>
+    <div class="notice" role="note">
+      <b>Heads up</b>
+      <span>Not all match times are finalized. Premier League fixtures can move for TV, cup dates are conditional, and projected rounds should be verified before booking travel or events.</span>
+    </div>
   </header>
 
   <div class="controls">
