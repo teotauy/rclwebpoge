@@ -37,7 +37,7 @@
     font-size:16.5px;
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:80px;
+    padding-bottom:120px;
   }
   .wrap{max-width:940px;margin:0 auto;padding:0 18px}
 
@@ -107,9 +107,9 @@
   }
 
   .controls{
-    position:sticky;top:0;z-index:40;
+    position:relative;z-index:30;
     background:linear-gradient(var(--bg) 72%, rgba(7,14,20,0));
-    padding:12px 0 16px;margin-bottom:4px;
+    padding:12px 0 10px;margin-bottom:0;
   }
   .control-panel{
     display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;
@@ -509,6 +509,124 @@
     font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;
   }
 
+
+  .stadium-porn{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;
+    margin:22px 0 4px;
+  }
+  @media(max-width:640px){.stadium-porn{grid-template-columns:1fr}}
+  .stadium-shot{
+    position:relative;overflow:hidden;border-radius:14px;
+    border:1px solid var(--line);
+    aspect-ratio:16/9;min-height:140px;
+    background:var(--surface);
+  }
+  .stadium-shot img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transform:scale(1.02);transition:transform .6s ease;
+  }
+  .stadium-shot:hover img{transform:scale(1.06)}
+  .stadium-shot .cap{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:28px 12px 10px;
+    background:linear-gradient(transparent, rgba(7,14,20,.92));
+    font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+  .stadium-shot .cap span{
+    display:block;font-family:'Space Mono',monospace;font-size:10px;
+    letter-spacing:.12em;color:var(--faint);margin-top:2px;text-transform:uppercase;
+  }
+
+  .sticky-call{
+    position:sticky;top:0;z-index:50;
+    margin:0 0 8px;
+  }
+  .sticky-call-inner{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+    background:rgba(16,28,36,.96);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(63,182,128,.45);
+    border-radius:14px;
+    padding:12px 14px;
+    box-shadow:0 14px 40px rgba(0,0,0,.45);
+  }
+  .sticky-call .call-kicker{
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--green);
+  }
+  .sticky-call .call-main{
+    font-family:'Oswald',sans-serif;font-size:clamp(18px,3.5vw,22px);
+    text-transform:uppercase;letter-spacing:.02em;line-height:1.1;
+    flex:1 1 200px;
+  }
+  .sticky-call .call-meta{
+    font-size:13px;color:var(--muted);line-height:1.35;
+    flex:1 1 180px;
+  }
+  .sticky-call .call-meta b{color:var(--ink);font-weight:600}
+  .btn-copy{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;white-space:nowrap;
+    color:var(--bg);background:var(--ink);
+    border:0;border-radius:10px;padding:10px 12px;cursor:pointer;
+    transition:.15s;
+  }
+  .btn-copy:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+  .btn-copy.ok{background:var(--green);color:#04120c}
+
+  .map-links{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
+  }
+  .map-links a{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;text-decoration:none;
+    color:var(--blue);
+    border:1px solid rgba(61,139,204,.35);
+    background:rgba(61,139,204,.08);
+    border-radius:999px;padding:7px 11px;
+  }
+  .map-links a:hover{border-color:var(--blue);background:rgba(61,139,204,.16)}
+  .tcard.sanse-card .map-links a{
+    color:var(--teal);border-color:rgba(42,155,143,.35);background:rgba(42,155,143,.08);
+  }
+  .tcard.sanse-card .map-links a:hover{border-color:var(--teal);background:rgba(42,155,143,.16)}
+
+  .panic{
+    margin-top:12px;padding:11px 12px;
+    border-radius:10px;
+    border:1px solid rgba(212,146,58,.45);
+    background:rgba(212,146,58,.12);
+    font-size:13.5px;color:var(--muted);line-height:1.45;
+  }
+  .panic b{
+    color:var(--amber);font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  }
+
+  .pintxo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.pintxo-grid{grid-template-columns:1fr}}
+  .pintxo-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px 17px;
+  }
+  .pintxo-card.sanse{border-color:rgba(42,155,143,.35)}
+  .pintxo-card.alaves{border-color:rgba(61,139,204,.35)}
+  .pintxo-card h3{
+    font-family:'Oswald',sans-serif;font-size:18px;text-transform:uppercase;
+    letter-spacing:.02em;margin-bottom:4px;
+  }
+  .pintxo-card .where{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:12px;
+  }
+  .pintxo-card ul{margin:0;padding-left:1.1em}
+  .pintxo-card li{font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:1.45}
+  .pintxo-card li:last-child{margin-bottom:0}
+  .pintxo-card strong{color:var(--ink);font-weight:600}
+
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
   }
@@ -528,6 +646,18 @@
       <img class="crest" src="logos/alaves.png" alt="">
       <img class="crest" src="logos/getafe.png" alt="">
     </div>
+
+    <div class="stadium-porn" aria-label="Stadium photos">
+      <figure class="stadium-shot">
+        <img src="stadiums/anoeta.jpg" alt="Reale Arena (Anoeta) exterior bowl" loading="lazy" width="1920" height="698">
+        <figcaption class="cap">Reale Arena / Anoeta<span>San Sebastián · Fri</span></figcaption>
+      </figure>
+      <figure class="stadium-shot">
+        <img src="stadiums/mendi.jpg" alt="Estadio Mendizorrotza in Vitoria-Gasteiz" loading="lazy" width="1920" height="1079">
+        <figcaption class="cap">Mendizorrotza<span>Vitoria-Gasteiz · Sat</span></figcaption>
+      </figure>
+    </div>
+
     <div class="notice" role="note">
       <b>Estimates</b>
       <span>Ticket prices are mid-estimate until official sale. All times are <b>Spain local (CEST)</b>: Sanse Fri 14 Aug <b>20:30</b> · Alavés Sat 15 Aug <b>19:30</b>. Confirm venue (Anoeta vs Zubieta) before you go.</span>
@@ -566,6 +696,17 @@
         <input type="checkbox" id="bufferToggle" checked>
         Add food / merch (~€12 pp)
       </label>
+    </div>
+  </div>
+
+  <div class="sticky-call rise rise-2" id="stickyCall">
+    <div class="sticky-call-inner">
+      <div>
+        <div class="call-kicker">For this party</div>
+        <div class="call-main" id="callMain">Loading…</div>
+      </div>
+      <div class="call-meta" id="callMeta"></div>
+      <button type="button" class="btn-copy" id="copyLink">Copy link for the group</button>
     </div>
   </div>
 
@@ -640,7 +781,7 @@
       <span class="hint">Timings + costs update with your mode picks</span>
     </div>
     <div class="transport-grid">
-      <div class="tcard" id="sanseTransport">
+      <div class="tcard sanse-card" id="sanseTransport">
         <div class="tcard-head">
           <img src="logos/realsociedad.png" alt="">
           <h3>To Reale Arena</h3>
@@ -663,8 +804,9 @@
           <span id="sanseLeave"> ~19:45–20:00 from centro for a 20:30 KO.</span>
         </div>
         <ul class="timeline" id="sanseTimeline"></ul>
+        <div class="map-links" id="sanseMaps"></div>
       </div>
-      <div class="tcard" id="alavesTransport">
+      <div class="tcard alaves-card" id="alavesTransport">
         <div class="tcard-head">
           <img src="logos/alaves.png" alt="">
           <h3>To Mendizorrotza</h3>
@@ -687,9 +829,41 @@
           <span id="alavesLeave"> ~16:00–16:30 from SS for a 19:30 KO.</span>
         </div>
         <ul class="timeline" id="alavesTimeline"></ul>
+        <div class="panic" id="alavesPanic"></div>
+        <div class="map-links" id="alavesMaps"></div>
         <p class="station-note" style="margin-top:14px;font-size:13.5px;color:var(--muted);line-height:1.45;padding-top:12px;border-top:1px solid rgba(42,66,80,.45)">
           <b style="color:var(--ink)">Same hub:</b> Renfe (Estación del Norte) and the intercity bus station sit next to each other by the Urumea / María Cristina bridge — bus is underground, train at street level. You’re not choosing between two ends of town.
         </p>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="sec-head">
+      <h2>Pregame fuel</h2>
+      <span class="hint">Pintxos · poteo · don’t starve before KO</span>
+    </div>
+    <div class="pintxo-grid">
+      <div class="pintxo-card sanse">
+        <h3>Near Anoeta</h3>
+        <div class="where">Egia · Amara · 10–20 min walk from centro</div>
+        <ul>
+          <li><strong>Walk-and-graze from Parte Vieja</strong> if you’re early — classic San Sebastián move — then stroll down to the bowl.</li>
+          <li><strong>Around the stadium:</strong> casual bars on Av. de Anoeta / Egia for a quick beer + tortilla. Less “Michelin crawl,” more matchday fuel.</li>
+          <li><strong>Skip the full tasting menu</strong> pre-KO. Save the serious pintxo tour for after full time (~22:30) when the city is still awake.</li>
+          <li><strong>Pro move:</strong> one cider / zurito near lodging, walk over, grab something small outside Gate zone, settle in.</li>
+        </ul>
+      </div>
+      <div class="pintxo-card alaves">
+        <h3>Near Mendizorrotza</h3>
+        <div class="where">Vitoria Casco Viejo · before you hop to the ground</div>
+        <ul>
+          <li><strong>Casco Viejo first.</strong> Plaza de la Virgen Blanca and the lanes off Calle Cuchillería / Zapatería — densest pintxo strip in town.</li>
+          <li><strong>Poteo rhythm:</strong> small drink + one bite, move. Don’t camp one bar if the clock’s ticking toward leave-for-stadium.</li>
+          <li><strong>Near the ground</strong> you’ll find simpler matchday bars — fine for a last beer, thinner for food variety.</li>
+          <li><strong>Build buffer:</strong> eat in the old town, then local bus/walk to Mendizorrotza so you’re not hangry in a queue at 18:45.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -771,6 +945,7 @@ const DATA = {
           { t: '~21:30', d: 'Full time · return bus toward SS' },
           { t: '~23:00', d: 'Back in San Sebastián (schedule-dependent)' },
         ],
+        lastReturn: 'Last useful return bus is often ~22:30–23:30 (operator/day dependent). Confirm ALSA/Pesa Saturday night on the morning of — miss it and you’re taxiing or sleeping in Vitoria.',
       },
       train: {
         label: 'Train',
@@ -788,6 +963,7 @@ const DATA = {
           { t: '~21:30', d: 'Full time · return train (confirm last service)' },
           { t: '~23:15', d: 'Back in San Sebastián (schedule-dependent)' },
         ],
+        lastReturn: 'Evening Renfe services are thinner than buses. Check the last SS-bound train before you leave Mendizorrotza — if it’s early, switch to bus for the return or have a Vitoria backup plan.',
       },
     },
   },
@@ -897,6 +1073,83 @@ function transportCost(opt, people){
   };
 }
 
+
+const MAPS = {
+  anoetaWalk: 'https://www.google.com/maps/dir/?api=1&origin=San+Sebasti%C3%A1n+Old+Town&destination=Reale+Arena,+Anoeta+Hiribidea,+San+Sebasti%C3%A1n&travelmode=walking',
+  anoetaPlace: 'https://www.google.com/maps/search/?api=1&query=Reale+Arena+Anoeta+San+Sebastian',
+  anoetaBus: 'https://www.google.com/maps/dir/?api=1&origin=Boulevard,+San+Sebasti%C3%A1n&destination=Reale+Arena,+San+Sebasti%C3%A1n&travelmode=transit',
+  mendiFromBus: 'https://www.google.com/maps/dir/?api=1&origin=Estaci%C3%B3n+de+Autobuses+de+San+Sebasti%C3%A1n&destination=Estadio+Mendizorrotza,+Vitoria-Gasteiz&travelmode=transit',
+  mendiFromRenfe: 'https://www.google.com/maps/dir/?api=1&origin=Estaci%C3%B3n+del+Norte,+San+Sebasti%C3%A1n&destination=Estadio+Mendizorrotza,+Vitoria-Gasteiz&travelmode=transit',
+  mendiPlace: 'https://www.google.com/maps/search/?api=1&query=Estadio+Mendizorrotza+Vitoria-Gasteiz',
+  vitoriaOldTown: 'https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Vitoria-Gasteiz+pintxos',
+};
+
+function mapLink(href, label){
+  return `<a href="${href}" target="_blank" rel="noopener">${label}</a>`;
+}
+
+function syncUrl(){
+  const p = new URLSearchParams();
+  p.set('adults', String(state.adults));
+  p.set('kids', String(state.kids));
+  p.set('alaves', state.alavesMode);
+  p.set('sanse', state.sanseMode);
+  p.set('buffer', state.buffer ? '1' : '0');
+  const qs = p.toString();
+  const url = `${location.pathname}?${qs}`;
+  history.replaceState(null, '', url);
+  return `${location.origin}${url}`;
+}
+
+function readUrlState(){
+  const p = new URLSearchParams(location.search);
+  const adults = Number(p.get('adults'));
+  const kids = Number(p.get('kids'));
+  if (Number.isFinite(adults) && adults >= 0 && adults <= 20) state.adults = adults;
+  if (Number.isFinite(kids) && kids >= 0 && kids <= 20) state.kids = kids;
+  const alaves = p.get('alaves');
+  if (alaves && DATA.alaves.transport[alaves]) state.alavesMode = alaves;
+  const sanse = p.get('sanse');
+  if (sanse && DATA.sanse.transport[sanse]) state.sanseMode = sanse;
+  const buf = p.get('buffer');
+  if (buf === '0' || buf === 'false') state.buffer = false;
+  if (buf === '1' || buf === 'true') state.buffer = true;
+}
+
+function syncChipUI(){
+  document.querySelectorAll('[data-alaves-mode]').forEach(c => {
+    c.classList.toggle('active', c.dataset.alavesMode === state.alavesMode);
+  });
+  document.querySelectorAll('[data-sanse-mode]').forEach(c => {
+    c.classList.toggle('active', c.dataset.sanseMode === state.sanseMode);
+  });
+  const buf = document.getElementById('bufferToggle');
+  if (buf) buf.checked = state.buffer;
+}
+
+function renderSticky(aTotal, sTotal, bothTotal, people){
+  const aOpt = DATA.alaves.transport[state.alavesMode];
+  const sOpt = DATA.sanse.transport[state.sanseMode];
+  let pick, why;
+  const delta = Math.abs(aTotal - sTotal);
+  if (people === 0) {
+    pick = 'Add someone to the party';
+    why = 'Dial adults / kids above.';
+  } else if (delta < 20) {
+    pick = 'Nearly a wash — pick on vibe';
+    why = `Sanse ${euro(sTotal)} · Alavés ${euro(aTotal)} · both ${euro(bothTotal)}`;
+  } else if (sTotal < aTotal) {
+    pick = `Do Sanse (easier / ~${euro(delta)} less)`;
+    why = `Or both days ≈ ${euro(bothTotal)} · Alavés alone ${euro(aTotal)}`;
+  } else {
+    pick = `Do Alavés (~${euro(delta)} under Sanse)`;
+    why = `Or both days ≈ ${euro(bothTotal)} · Sanse alone ${euro(sTotal)}`;
+  }
+  document.getElementById('callMain').textContent = pick;
+  document.getElementById('callMeta').innerHTML =
+    `<b>${people}</b> in party · Anoeta leave <b>${sOpt.timeline[0].t}</b> · Vitoria leave <b>${aOpt.timeline[0].t}</b><br>${why}`;
+}
+
 function renderTimeline(el, items){
   el.innerHTML = items.map(i =>
     `<li><span class="t${i.ko?' ko':''}">${i.t}</span><span class="d">${i.d}</span></li>`
@@ -935,6 +1188,21 @@ function renderTransport(){
   }
   document.getElementById('sanseLeave').textContent = ' ' + sOpt.leaveBy;
   renderTimeline(document.getElementById('sanseTimeline'), sOpt.timeline);
+
+  const sanseMaps = [
+    mapLink(MAPS.anoetaWalk, 'Walk · Maps'),
+    mapLink(MAPS.anoetaBus, 'Transit · Maps'),
+    mapLink(MAPS.anoetaPlace, 'Stadium pin'),
+  ];
+  document.getElementById('sanseMaps').innerHTML = sanseMaps.join('');
+
+  document.getElementById('alavesPanic').innerHTML =
+    `<b>Last return</b> ${aOpt.lastReturn}`;
+
+  const alavesMaps = state.alavesMode === 'train'
+    ? [mapLink(MAPS.mendiFromRenfe, 'Renfe → Mendizorrotza'), mapLink(MAPS.mendiPlace, 'Stadium pin'), mapLink(MAPS.vitoriaOldTown, 'Casco Viejo pintxos')]
+    : [mapLink(MAPS.mendiFromBus, 'Bus station → Mendizorrotza'), mapLink(MAPS.mendiPlace, 'Stadium pin'), mapLink(MAPS.vitoriaOldTown, 'Casco Viejo pintxos')];
+  document.getElementById('alavesMaps').innerHTML = alavesMaps.join('');
 }
 
 function stackHTML(rows){
@@ -995,6 +1263,8 @@ function renderCosts(){
     line = `<strong>Alavés</strong> lands ~${euro(delta)} under Sanse with these midpoints — double-check ticket bands. Local Anoeta is still the lower-friction day. <strong>Both</strong> ≈ ${euro(bothTotal)}.`;
   }
   document.getElementById('verdict').innerHTML = line;
+  renderSticky(aTotal, sTotal, bothTotal, people);
+  syncUrl();
 }
 
 function renderParty(){
@@ -1206,6 +1476,23 @@ document.querySelectorAll('.match[data-brief]').forEach(btn => {
     syncMatchChrome();
     renderBrief(key);
   });
+});
+
+
+readUrlState();
+syncChipUI();
+
+document.getElementById('copyLink').addEventListener('click', async () => {
+  const url = syncUrl();
+  const btn = document.getElementById('copyLink');
+  try {
+    await navigator.clipboard.writeText(url);
+    btn.textContent = 'Copied';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copy link for the group'; btn.classList.remove('ok'); }, 1600);
+  } catch {
+    prompt('Copy this link for the group:', url);
+  }
 });
 
 syncMatchChrome();
