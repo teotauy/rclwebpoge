@@ -108,8 +108,8 @@
 
   .controls{
     position:relative;z-index:30;
-    background:linear-gradient(var(--bg) 72%, rgba(7,14,20,0));
-    padding:12px 0 10px;margin-bottom:0;
+    background:transparent;
+    padding:0 0 10px;margin-bottom:0;
   }
   .control-panel{
     display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;
@@ -647,7 +647,7 @@
   <header class="rise">
     <div class="eyebrow">Red Crow Labs · San Sebastián · Aug 2026</div>
     <h1>Opening weekend <span class="soft">compare</span></h1>
-    <p class="sub">Base camp: <strong>Donostia / San Sebastián</strong>. Two openers on consecutive days — Real Sociedad B at Reale Arena / Anoeta (Fri) then Alavés in Vitoria (Sat). Dial party size, pick transport, see cost and leave-by times.</p>
+    <p class="sub">Base camp: <strong>Donostia / San Sebastián</strong>. Two openers on consecutive days — Real Sociedad B at Reale Arena / Anoeta (Fri) then Alavés in Vitoria (Sat). Read the fixtures, then dial the party math.</p>
     <div class="crest-strip" aria-hidden="true">
       <img class="crest" src="logos/realsociedad.png" alt="">
       <img class="crest" src="logos/castellon.png" alt="">
@@ -673,53 +673,7 @@
     </div>
   </header>
 
-  <div class="controls rise rise-2">
-    <div class="control-panel">
-      <span class="ctl-label">Party</span>
-      <div class="stepper" data-who="adults">
-        <button type="button" data-dir="-1" aria-label="Fewer adults">−</button>
-        <span class="val" id="adultsVal">2</span>
-        <button type="button" data-dir="1" aria-label="More adults">+</button>
-        <span class="ctl-label" style="margin-left:2px">Adults</span>
-      </div>
-      <div class="stepper" data-who="kids">
-        <button type="button" data-dir="-1" aria-label="Fewer kids">−</button>
-        <span class="val" id="kidsVal">0</span>
-        <button type="button" data-dir="1" aria-label="More kids">+</button>
-        <span class="ctl-label" style="margin-left:2px">Kids</span>
-      </div>
-      <div class="party-sum" id="partySum"><b>2</b> people</div>
-    </div>
-    <div class="toggle-row">
-      <span class="ctl-label">Alavés ride</span>
-      <button type="button" class="chip active" data-alaves-mode="bus">Bus</button>
-      <button type="button" class="chip" data-alaves-mode="train">Train</button>
-      <span class="ctl-label" style="margin-left:8px">Anoeta</span>
-      <button type="button" class="chip active" data-sanse-mode="walk">Walk</button>
-      <button type="button" class="chip" data-sanse-mode="bus">Local bus</button>
-      <button type="button" class="chip" data-sanse-mode="taxi">Taxi</button>
-    </div>
-    <div class="toggle-row">
-      <span class="ctl-label">Buffer</span>
-      <label style="display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer">
-        <input type="checkbox" id="bufferToggle" checked>
-        Add food / merch (~€12 pp)
-      </label>
-    </div>
-  </div>
-
-  <div class="sticky-call rise rise-2" id="stickyCall">
-    <div class="sticky-call-inner">
-      <div>
-        <div class="call-kicker">For this party</div>
-        <div class="call-main" id="callMain">Loading…</div>
-      </div>
-      <div class="call-meta" id="callMeta"></div>
-      <button type="button" class="btn-copy" id="copyLink">Copy link for the group</button>
-    </div>
-  </div>
-
-  <section class="rise rise-3">
+  <section class="rise rise-2">
     <div class="sec-head">
       <h2>The fixtures</h2>
       <span class="hint">Times in Spain local</span>
@@ -786,6 +740,58 @@
     </div>
 
     <div class="brief" id="briefPanel" hidden></div>
+  </section>
+
+  <section class="rise rise-3" id="math">
+    <div class="sec-head">
+      <h2>The math</h2>
+      <span class="hint">Party size · transport · leave-by · totals</span>
+    </div>
+  <div class="controls">
+    <div class="control-panel">
+      <span class="ctl-label">Party</span>
+      <div class="stepper" data-who="adults">
+        <button type="button" data-dir="-1" aria-label="Fewer adults">−</button>
+        <span class="val" id="adultsVal">2</span>
+        <button type="button" data-dir="1" aria-label="More adults">+</button>
+        <span class="ctl-label" style="margin-left:2px">Adults</span>
+      </div>
+      <div class="stepper" data-who="kids">
+        <button type="button" data-dir="-1" aria-label="Fewer kids">−</button>
+        <span class="val" id="kidsVal">0</span>
+        <button type="button" data-dir="1" aria-label="More kids">+</button>
+        <span class="ctl-label" style="margin-left:2px">Kids</span>
+      </div>
+      <div class="party-sum" id="partySum"><b>2</b> people</div>
+    </div>
+    <div class="toggle-row">
+      <span class="ctl-label">Alavés ride</span>
+      <button type="button" class="chip active" data-alaves-mode="bus">Bus</button>
+      <button type="button" class="chip" data-alaves-mode="train">Train</button>
+      <span class="ctl-label" style="margin-left:8px">Anoeta</span>
+      <button type="button" class="chip active" data-sanse-mode="walk">Walk</button>
+      <button type="button" class="chip" data-sanse-mode="bus">Local bus</button>
+      <button type="button" class="chip" data-sanse-mode="taxi">Taxi</button>
+    </div>
+    <div class="toggle-row">
+      <span class="ctl-label">Buffer</span>
+      <label style="display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="bufferToggle" checked>
+        Add food / merch (~€12 pp)
+      </label>
+    </div>
+  </div>
+
+  <div class="sticky-call" id="stickyCall">
+    <div class="sticky-call-inner">
+      <div>
+        <div class="call-kicker">For this party</div>
+        <div class="call-main" id="callMain">Loading…</div>
+      </div>
+      <div class="call-meta" id="callMeta"></div>
+      <button type="button" class="btn-copy" id="copyLink">Copy link for the group</button>
+    </div>
+  </div>
   </section>
 
   <section class="rise rise-4">
@@ -1143,9 +1149,10 @@ function syncChipUI(){
 function renderSticky(aTotal, sTotal, bothTotal, people){
   const aOpt = DATA.alaves.transport[state.alavesMode];
   const sOpt = DATA.sanse.transport[state.sanseMode];
+  const n = partySize();
   let pick, why;
   const delta = Math.abs(aTotal - sTotal);
-  if (people === 0) {
+  if (n === 0) {
     pick = 'Add someone to the party';
     why = 'Dial adults / kids above.';
   } else if (delta < 20) {
@@ -1160,7 +1167,9 @@ function renderSticky(aTotal, sTotal, bothTotal, people){
   }
   document.getElementById('callMain').textContent = pick;
   document.getElementById('callMeta').innerHTML =
-    `<b>${people}</b> in party · Anoeta leave <b>${sOpt.timeline[0].t}</b> · Vitoria leave <b>${aOpt.timeline[0].t}</b><br>${why}`;
+    n === 0
+      ? why
+      : `<b>${n}</b> in party · Anoeta leave <b>${sOpt.timeline[0].t}</b> · Vitoria leave <b>${aOpt.timeline[0].t}</b><br>${why}`;
 }
 
 function renderTimeline(el, items){
