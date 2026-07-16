@@ -176,6 +176,7 @@
     border-radius:16px;
     padding:18px 18px 16px;
     transition:transform .2s, border-color .2s, box-shadow .2s;
+    cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;
   }
   .match:hover{
     transform:translateY(-2px);
@@ -248,6 +249,94 @@
   }
   .meta .v{color:var(--ink)}
   .meta .v b{font-weight:600}
+
+  .match .tap-hint{
+    margin-top:12px;padding-top:10px;
+    border-top:1px dashed rgba(42,66,80,.55);
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+  }
+  .match .tap-hint span{color:var(--muted)}
+  .match.open{
+    border-color:var(--ink);
+    box-shadow:0 0 0 1px var(--ink), 0 18px 40px rgba(0,0,0,.4);
+  }
+  .match.open .tap-hint{color:var(--ink)}
+  .match.open .tap-hint span{color:var(--ink)}
+  .match:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+  .brief{
+    margin-top:14px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:
+      radial-gradient(ellipse 70% 80% at 0% 0%, rgba(61,139,204,.12), transparent 50%),
+      radial-gradient(ellipse 60% 70% at 100% 0%, rgba(42,155,143,.1), transparent 45%),
+      var(--surface);
+    padding:0;
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .45s ease, opacity .3s ease, padding .3s ease, margin .3s ease;
+  }
+  .brief.show{
+    max-height:1200px;opacity:1;
+    padding:22px 22px 20px;margin-top:14px;
+  }
+  .brief-top{
+    display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
+    gap:12px;margin-bottom:14px;
+  }
+  .brief-kicker{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--amber);margin-bottom:6px;
+  }
+  .brief h3{
+    font-family:'Oswald',sans-serif;font-size:clamp(22px,4vw,30px);
+    text-transform:uppercase;letter-spacing:.01em;line-height:1.05;
+  }
+  .brief-close{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);
+    background:transparent;border:1px solid var(--line);border-radius:999px;
+    padding:8px 12px;cursor:pointer;
+  }
+  .brief-close:hover{color:var(--ink);border-color:var(--faint)}
+  .brief-lede{
+    font-size:17px;color:var(--ink);max-width:62ch;line-height:1.5;
+    margin-bottom:16px;
+  }
+  .brief-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  }
+  @media(max-width:700px){.brief-grid{grid-template-columns:1fr}}
+  .brief-block{
+    background:rgba(7,14,20,.45);
+    border:1px solid rgba(42,66,80,.6);
+    border-radius:12px;padding:14px 15px;
+  }
+  .brief-block h4{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--blue);margin-bottom:8px;
+  }
+  .brief.sanse-tone .brief-block h4{color:var(--teal)}
+  .brief-block p,.brief-block li{
+    font-size:14.5px;color:var(--muted);line-height:1.55;
+  }
+  .brief-block ul{margin:0;padding-left:1.1em}
+  .brief-block li{margin-bottom:6px}
+  .brief-block li:last-child{margin-bottom:0}
+  .brief-block strong{color:var(--ink);font-weight:600}
+  .brief-cheat{
+    margin-top:12px;
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .brief-chip{
+    font-size:13px;color:var(--ink);
+    background:var(--surface-2);border:1px solid var(--line);
+    border-radius:999px;padding:7px 12px;
+  }
+  .brief-chip em{font-style:normal;color:var(--faint);margin-right:6px;
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
 
   .transport-grid,.cost-grid{display:grid;gap:14px}
   .transport-grid{grid-template-columns:1fr 1fr}
@@ -428,19 +517,19 @@
   <section class="rise rise-3">
     <div class="sec-head">
       <h2>The fixtures</h2>
-      <span class="hint">Fri Sanse · Sat Alavés</span>
+      <span class="hint">Click a tile for the briefing · Fri Sanse · Sat Alavés</span>
     </div>
     <div class="match-grid">
-      <article class="match sanse">
+      <button type="button" class="match sanse" data-brief="sanse" aria-expanded="false" aria-controls="briefPanel">
         <div class="league">LaLiga 2 · Matchday 1</div>
         <div class="matchup">
           <div class="team">
-            <div class="crest-ring"><img src="logos/realsociedad.png" alt="Real Sociedad B"></div>
+            <div class="crest-ring"><img src="logos/realsociedad.png" alt=""></div>
             <div class="name">Real Sociedad B</div>
           </div>
           <div class="vs-pill">vs</div>
           <div class="team">
-            <div class="crest-ring"><img src="logos/castellon.png" alt="Castellón"></div>
+            <div class="crest-ring"><img src="logos/castellon.png" alt=""></div>
             <div class="name">Castellón</div>
           </div>
         </div>
@@ -451,17 +540,18 @@
           <div><span class="k">Tickets</span><span class="v">Est. €10–20 adult · €5–10 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Academy ground · ~2.5k capacity</span></div>
         </div>
-      </article>
-      <article class="match alaves">
+        <div class="tap-hint"><span>The story</span> Tap / click →</div>
+      </button>
+      <button type="button" class="match alaves" data-brief="alaves" aria-expanded="false" aria-controls="briefPanel">
         <div class="league">La Liga · Matchday 1</div>
         <div class="matchup">
           <div class="team">
-            <div class="crest-ring"><img src="logos/alaves.png" alt="Deportivo Alavés"></div>
+            <div class="crest-ring"><img src="logos/alaves.png" alt=""></div>
             <div class="name">Alavés</div>
           </div>
           <div class="vs-pill">vs</div>
           <div class="team">
-            <div class="crest-ring"><img src="logos/getafe.png" alt="Getafe"></div>
+            <div class="crest-ring"><img src="logos/getafe.png" alt=""></div>
             <div class="name">Getafe</div>
           </div>
         </div>
@@ -472,8 +562,11 @@
           <div><span class="k">Tickets</span><span class="v">Est. €25–55 adult · €10–25 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Season opener · ~20k stadium</span></div>
         </div>
-      </article>
+        <div class="tap-hint"><span>The story</span> Tap / click →</div>
+      </button>
     </div>
+
+    <div class="brief" id="briefPanel" hidden></div>
   </section>
 
   <section class="rise rise-4">
@@ -870,6 +963,146 @@ document.querySelectorAll('[data-sanse-mode]').forEach(chip => {
 document.getElementById('bufferToggle').addEventListener('change', e => {
   state.buffer = e.target.checked;
   renderAll();
+});
+
+const BRIEFS = {
+  sanse: {
+    tone: 'sanse-tone',
+    kicker: 'Friday · Local · Intimate',
+    title: 'Sanse at Zubieta — the farm team, not the farm',
+    lede: 'Think of Real Sociedad B like a G League / MLS Next Pro side that people actually care about: same badge, future first-teamers, and a tiny ground where you can hear the coaches swear. Locals call them <strong>Sanse</strong>.',
+    blocks: [
+      {
+        h: 'Who are these guys?',
+        html: `<p><strong>Real Sociedad B</strong> is the reserve side of La Real — the big club whose stadium (Reale Arena) sits in San Sebastián. Spain lets reserve teams play in the professional pyramid (up to the second tier), so Sanse isn’t a scrimmage; it’s a real league match with tables, points, and pride.</p>
+        <p style="margin-top:8px"><strong>CD Castellón</strong> come from the Valencian coast — black-and-yellow energy, a castle-and-eagle crest, and the classic “yo-yo club” résumé: up, down, rebuild, repeat. They’re the road trip villain for an opening day.</p>`
+      },
+      {
+        h: 'Why go (American edition)',
+        html: `<ul>
+          <li><strong>Proximity.</strong> You’re already in Donostia. No day-trip logistics, no last train anxiety.</li>
+          <li><strong>Scout-mode football.</strong> Zubieta is where La Real grows talent. You’re watching the next wave before the €60 Reale Arena ticket.</li>
+          <li><strong>Crowd size = access.</strong> ~2,500 seats. You can walk up, get a decent view, and leave knowing what Basque football <em>sounds</em> like up close.</li>
+        </ul>`
+      },
+      {
+        h: 'The ground',
+        html: `<p><strong>Zubieta</strong> is Real Sociedad’s training cathedral — pitches, academy, and the matchday field tucked into the hills west of town (near the hippodrome). It isn’t a cathedral of noise; it’s a workshop. Bring sunscreen for a 14:30 KO, expect families, and plan ~15–25 minutes from centro.</p>`
+      },
+      {
+        h: 'How to watch like you belong',
+        html: `<ul>
+          <li>Say <strong>“Sanse”</strong> out loud. Smile when locals do.</li>
+          <li>Colors: blue &amp; white (La Real). Castellón lean yellow/black.</li>
+          <li>Don’t expect a tifo wall — expect sharp passing, kids in tracksuits, and coaches living every touch.</li>
+          <li>Afterward: back to the old town for pintxos. You’ve earned them.</li>
+        </ul>`
+      },
+    ],
+    chips: [
+      {k: 'League', v: 'LaLiga 2 (2nd division)'},
+      {k: 'Nickname', v: 'Sanse'},
+      {k: 'Capacity', v: '~2,500'},
+      {k: 'US analog', v: 'MLS Next Pro with stakes'},
+    ],
+  },
+  alaves: {
+    tone: '',
+    kicker: 'Saturday · La Liga opener · Day trip',
+    title: 'Alavés vs Getafe — blue-and-white Basque pride opens the season',
+    lede: 'This is the <strong>actual top flight</strong> kicking off. Deportivo Alavés host Getafe at Mendizorrotza — a proper stadium night in Vitoria-Gasteiz, about an hour from San Sebastián. For Americans: it’s like catching an MLS opener… except the table feeds into Champions League math and national obsession.',
+    blocks: [
+      {
+        h: 'Who are these guys?',
+        html: `<p><strong>Deportivo Alavés</strong> (est. 1921) are from Vitoria-Gasteiz, capital of the Basque province of Álava. Nicknames: <strong>Babazorros</strong> (“bean-sack carriers” — an old regional jab turned badge of honor) and <strong>El Glorioso</strong>. They’re the third Basque power after Athletic Bilbao and Real Sociedad — the scrappy cousin who keeps finding ways back to the big room.</p>
+        <p style="margin-top:8px"><strong>Liverpool fans, pause:</strong> Alavés were the underdogs who reached the <strong>2001 UEFA Cup final</strong> and took Liverpool to the wire in Dortmund. That night still lives in club lore. You’re not watching tourists; you’re watching a club with European ghosts.</p>
+        <p style="margin-top:8px"><strong>Getafe</strong> are Madrid’s blue-collar suburbs — aviation city, blue kits, and a reputation for being annoying to play against. Think grinding defense, set pieces, and zero pity. Perfect opening-day foil.</p>`
+      },
+      {
+        h: 'Why this night matters',
+        html: `<ul>
+          <li><strong>Season opener energy.</strong> New kits, hope still undefeated, city dressed for football.</li>
+          <li><strong>~20,000 at Mendizorrotza</strong> — intimate by Premier League standards, loud by human standards.</li>
+          <li><strong>Basque day trip.</strong> Train or bus from SS, pintxos in the Casco Viejo, then football. That’s a full holiday day.</li>
+        </ul>`
+      },
+      {
+        h: 'The ground &amp; the ritual',
+        html: `<p><strong>Mendizorrotza</strong> sits in Vitoria — easy to reach once you’re in town. Pre-match culture leans Basque: <strong>poteo</strong> (bar-hopping small drinks) and <strong>pintxos</strong> in the old quarter around Plaza de la Virgen Blanca. Blue-and-white everywhere. Arrive early; doors ~90 minutes before KO is the sane play.</p>`
+      },
+      {
+        h: 'Cheat codes for rubes (affectionate)',
+        html: `<ul>
+          <li>Pronounce it roughly <strong>“ah-lah-VESS”</strong>. Getafe: <strong>“heh-TAH-feh”</strong>.</li>
+          <li>Colors: Alavés blue/white. Getafe blue.</li>
+          <li>If someone says <strong>Babazorros</strong>, that’s affection (mostly). Lean in.</li>
+          <li>This is not “the Real Madrid game.” It’s better for visitors — tickets exist, locals talk to you, and the football still bites.</li>
+        </ul>`
+      },
+    ],
+    chips: [
+      {k: 'League', v: 'La Liga (1st division)'},
+      {k: 'Nickname', v: 'Babazorros'},
+      {k: 'Famous for', v: '2001 UEFA Cup final'},
+      {k: 'US analog', v: 'Small-market club that punches'},
+    ],
+  },
+};
+
+function renderBrief(key){
+  const panel = document.getElementById('briefPanel');
+  const data = BRIEFS[key];
+  if (!data) return;
+  panel.hidden = false;
+  panel.className = `brief show ${data.tone}`;
+  panel.innerHTML = `
+    <div class="brief-top">
+      <div>
+        <div class="brief-kicker">${data.kicker}</div>
+        <h3>${data.title}</h3>
+      </div>
+      <button type="button" class="brief-close" id="briefClose">Close</button>
+    </div>
+    <p class="brief-lede">${data.lede}</p>
+    <div class="brief-grid">
+      ${data.blocks.map(b => `<div class="brief-block"><h4>${b.h}</h4>${b.html}</div>`).join('')}
+    </div>
+    <div class="brief-cheat">
+      ${data.chips.map(c => `<span class="brief-chip"><em>${c.k}</em>${c.v}</span>`).join('')}
+    </div>
+  `;
+  document.getElementById('briefClose').addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeBrief();
+  });
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function closeBrief(){
+  const panel = document.getElementById('briefPanel');
+  panel.classList.remove('show');
+  panel.hidden = true;
+  panel.innerHTML = '';
+  document.querySelectorAll('.match').forEach(m => {
+    m.classList.remove('open');
+    m.setAttribute('aria-expanded', 'false');
+  });
+}
+
+document.querySelectorAll('.match[data-brief]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.brief;
+    const already = btn.classList.contains('open');
+    if (already) {
+      closeBrief();
+      return;
+    }
+    document.querySelectorAll('.match').forEach(m => {
+      m.classList.toggle('open', m === btn);
+      m.setAttribute('aria-expanded', m === btn ? 'true' : 'false');
+    });
+    renderBrief(key);
+  });
 });
 
 renderAll();
