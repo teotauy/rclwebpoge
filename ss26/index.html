@@ -502,7 +502,8 @@
       <button type="button" class="chip active" data-alaves-mode="bus">Bus</button>
       <button type="button" class="chip" data-alaves-mode="train">Train</button>
       <span class="ctl-label" style="margin-left:8px">Anoeta</span>
-      <button type="button" class="chip active" data-sanse-mode="bus">Local bus</button>
+      <button type="button" class="chip active" data-sanse-mode="walk">Walk</button>
+      <button type="button" class="chip" data-sanse-mode="bus">Local bus</button>
       <button type="button" class="chip" data-sanse-mode="taxi">Taxi</button>
     </div>
     <div class="toggle-row">
@@ -580,22 +581,22 @@
           <img src="logos/realsociedad.png" alt="">
           <h3>To Reale Arena</h3>
         </div>
-        <p class="route" id="sanseRoute">Centro / lodging → Anoeta (local bus / walk)</p>
+        <p class="route" id="sanseRoute">Centro / lodging → Anoeta on foot</p>
         <div class="stat-row">
           <div class="stat">
             <div class="lbl">One way</div>
-            <div class="num" id="sanseTime">~15 min</div>
+            <div class="num" id="sanseTime">~20–35m</div>
             <div class="sub">from San Sebastián centro</div>
           </div>
           <div class="stat">
             <div class="lbl">Round trip</div>
-            <div class="num" id="sanseFare">€3–5</div>
-            <div class="sub" id="sanseFareSub">per person · bus</div>
+            <div class="num" id="sanseFare">€0</div>
+            <div class="sub" id="sanseFareSub">walk · free</div>
           </div>
         </div>
         <div class="leaveby">
           <b>Leave by</b>
-          <span id="sanseLeave"> ~13:00–13:15 from centro for a 14:30 KO.</span>
+          <span id="sanseLeave"> ~13:45–14:00 from centro for a 14:30 KO.</span>
         </div>
         <ul class="timeline" id="sanseTimeline"></ul>
       </div>
@@ -622,6 +623,9 @@
           <span id="alavesLeave"> ~15:30–16:00 from SS for a 19:00 KO.</span>
         </div>
         <ul class="timeline" id="alavesTimeline"></ul>
+        <p class="station-note" style="margin-top:14px;font-size:13.5px;color:var(--muted);line-height:1.45;padding-top:12px;border-top:1px solid rgba(42,66,80,.45)">
+          <b style="color:var(--ink)">Same hub:</b> Renfe (Estación del Norte) and the intercity bus station sit next to each other by the Urumea / María Cristina bridge — bus is underground, train at street level. You’re not choosing between two ends of town.
+        </p>
       </div>
     </div>
   </section>
@@ -665,7 +669,7 @@
   </section>
 
   <footer>
-    <p><b>What's solid:</b> Real Sociedad B vs Castellón — Fri 14 Aug 2026, <b>14:30</b>, expected at <b>Reale Arena (Anoeta)</b> (confirm closer to kickoff — some Sanse homes can land at the new Zubieta stadium). Alavés vs Getafe is the La Liga 26/27 season opener — Sat 15 Aug 2026, <b>19:00</b>, Mendizorrotza. Both bus and train run SS ↔ Vitoria.</p>
+    <p><b>What's solid:</b> Real Sociedad B vs Castellón — Fri 14 Aug 2026, <b>14:30</b>, expected at <b>Reale Arena (Anoeta)</b> (confirm closer to kickoff — some Sanse homes can land at the new Zubieta stadium). Alavés vs Getafe is the La Liga 26/27 season opener — Sat 15 Aug 2026, <b>19:00</b>, Mendizorrotza. Bus and train to Vitoria both leave from the same SS hub (Renfe + bus station side by side).</p>
     <p><b>What to verify:</b> Official venue listing for Sanse, single-match ticket prices, Renfe/ALSA Saturday schedules, and kids ticket age bands.</p>
     <div class="links">
       <a href="https://deportivoalaves.com/es/entradas" target="_blank" rel="noopener">Alavés tickets →</a>
@@ -689,14 +693,14 @@ const DATA = {
     transport: {
       bus: {
         label: 'Bus',
-        route: 'San Sebastián → Vitoria (bus) + local hop to Mendizorrotza',
+        route: 'San Sebastián bus station → Vitoria + local hop (bus station sits next to Renfe)',
         mainMin: [75, 90],
         localMin: [15, 25],
         mainOneWay: [14, 19],
         localOneWay: [0, 3],
-        leaveBy: '~15:30–16:00 from SS for a 19:00 KO (arrive ~90 min early).',
+        leaveBy: '~15:30–16:00 from the SS bus station (next to Renfe, by María Cristina bridge) for a 19:00 KO.',
         timeline: [
-          { t: '15:45', d: '<b>Leave</b> San Sebastián bus station' },
+          { t: '15:45', d: '<b>Leave</b> San Sebastián bus station (beside Renfe)' },
           { t: '~17:00', d: 'Arrive Vitoria · local bus / walk toward Mendizorrotza' },
           { t: '~17:30', d: '<b>Doors target</b> · settle in, food nearby' },
           { t: '19:00', d: '<b>Kickoff</b> Alavés vs Getafe', ko: true },
@@ -706,14 +710,14 @@ const DATA = {
       },
       train: {
         label: 'Train',
-        route: 'San Sebastián → Vitoria (Renfe) + local hop to Mendizorrotza',
+        route: 'San Sebastián Renfe (Estación del Norte) → Vitoria + local hop (bus station is next door)',
         mainMin: [94, 110],
         localMin: [15, 25],
         mainOneWay: [8, 15],
         localOneWay: [0, 3],
-        leaveBy: '~15:00–15:30 from SS station for a 19:00 KO (trains are fewer — check the Saturday timetable).',
+        leaveBy: '~15:00–15:30 from Renfe Estación del Norte for a 19:00 KO (trains are fewer — check Saturday timetable).',
         timeline: [
-          { t: '15:15', d: '<b>Leave</b> San Sebastián (Renfe)' },
+          { t: '15:15', d: '<b>Leave</b> Renfe Estación del Norte (bus station next door)' },
           { t: '~17:00', d: 'Arrive Vitoria · local hop to stadium' },
           { t: '~17:30', d: '<b>Doors target</b>' },
           { t: '19:00', d: '<b>Kickoff</b> Alavés vs Getafe', ko: true },
@@ -729,21 +733,38 @@ const DATA = {
     ticketAdultMid: 15,
     ticketKidMid: 8,
     transport: {
+      walk: {
+        label: 'Walk',
+        route: 'Centro / lodging → Reale Arena / Anoeta on foot (~2–3 km)',
+        mainMin: [20, 35],
+        localMin: [0, 0],
+        mainOneWay: [0, 0],
+        localOneWay: [0, 0],
+        shared: false,
+        leaveBy: '~13:45–14:00 from centro for a 14:30 KO (pleasant 20–30 min walk).',
+        timeline: [
+          { t: '13:50', d: '<b>Leave</b> lodging / centro on foot' },
+          { t: '~14:15', d: 'Arrive Reale Arena · find your gate' },
+          { t: '~14:20', d: '<b>Settle in</b> · big stadium, thin crowd' },
+          { t: '14:30', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
+          { t: '~16:30', d: 'Full time · stroll back for pintxos' },
+        ],
+      },
       bus: {
         label: 'Local bus',
-        route: 'Centro / lodging → Reale Arena / Anoeta (local bus or walk)',
+        route: 'Centro / lodging → Reale Arena / Anoeta (Dbus)',
         mainMin: [10, 20],
         localMin: [0, 0],
         mainOneWay: [1.5, 2.5],
         localOneWay: [0, 0],
         shared: false,
-        leaveBy: '~13:15–13:30 from centro for a 14:30 KO (Anoeta is an easy hop).',
+        leaveBy: '~13:30–13:45 from centro for a 14:30 KO.',
         timeline: [
-          { t: '13:20', d: '<b>Leave</b> lodging / centro' },
-          { t: '~13:35', d: 'Arrive Reale Arena · find your gate' },
-          { t: '~13:45', d: '<b>Doors</b> · big stadium, thin crowd' },
+          { t: '13:40', d: '<b>Leave</b> on a Dbus toward Anoeta' },
+          { t: '~13:55', d: 'Arrive Reale Arena · find your gate' },
+          { t: '~14:05', d: '<b>Doors / settle</b>' },
           { t: '14:30', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
-          { t: '~16:30', d: 'Full time · stroll or bus back' },
+          { t: '~16:30', d: 'Full time · bus or walk back' },
         ],
       },
       taxi: {
@@ -754,11 +775,11 @@ const DATA = {
         mainOneWay: [10, 18],
         localOneWay: [0, 0],
         shared: true,
-        leaveBy: '~13:30–13:40 from lodging for a 14:30 KO.',
+        leaveBy: '~13:45–14:00 from lodging for a 14:30 KO.',
         timeline: [
-          { t: '13:35', d: '<b>Leave</b> by taxi' },
-          { t: '~13:45', d: 'Arrive Reale Arena' },
-          { t: '~13:55', d: '<b>Doors / settle</b>' },
+          { t: '13:50', d: '<b>Leave</b> by taxi' },
+          { t: '~14:00', d: 'Arrive Reale Arena' },
+          { t: '~14:10', d: '<b>Doors / settle</b>' },
           { t: '14:30', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
           { t: '~16:30', d: 'Taxi or walk home' },
         ],
@@ -772,7 +793,7 @@ const state = {
   adults: 2,
   kids: 0,
   alavesMode: 'bus',
-  sanseMode: 'bus',
+  sanseMode: 'walk',
   buffer: true,
 };
 
@@ -841,6 +862,9 @@ function renderTransport(){
   if (sOpt.shared) {
     document.getElementById('sanseFare').textContent = fmtRange(sFare.lo, sFare.hi);
     document.getElementById('sanseFareSub').textContent = `taxi round trip · shared by ${people}`;
+  } else if (sFare.perPersonHi === 0) {
+    document.getElementById('sanseFare').textContent = '€0';
+    document.getElementById('sanseFareSub').textContent = 'walk · free';
   } else {
     document.getElementById('sanseFare').textContent = fmtRange(sFare.perPersonLo, sFare.perPersonHi);
     document.getElementById('sanseFareSub').textContent = 'per person · bus round trip';
@@ -980,7 +1004,7 @@ const BRIEFS = {
       {
         h: 'Why go (American edition)',
         html: `<ul>
-          <li><strong>You’re already here.</strong> Anoeta sits in town — bus or a purposeful walk from centro. Zero day-trip tax.</li>
+          <li><strong>You’re already here.</strong> Anoeta is a ~20–30 min walk from centro (or a short Dbus). Zero day-trip tax.</li>
           <li><strong>Scout-mode football in a big room.</strong> Watch the next wave of txuri-urdin talent where Oyarzabal &amp; co. actually play on Saturdays.</li>
           <li><strong>The vibe is the joke and the charm.</strong> A stadium built for 40k with a few thousand fans. Echoes, empty upper tiers, every shout lands. Weirdly great.</li>
         </ul>`
