@@ -299,10 +299,10 @@
   <header>
     <div class="eyebrow">Red Crow Labs · San Sebastián · Aug 2026</div>
     <h1>Opening weekend <span class="soft">compare</span></h1>
-    <p class="sub">Base camp: <strong>Donostia / San Sebastián</strong>. Two openers, consecutive days — Alavés in Vitoria (La Liga) vs Real Sociedad B at Zubieta (LaLiga 2). Dial party size, pick transport, see cost and leave-by times.</p>
+    <p class="sub">Base camp: <strong>Donostia / San Sebastián</strong>. Two openers on consecutive days — Real Sociedad B at Zubieta (Fri) then Alavés in Vitoria (Sat). Dial party size, pick transport, see cost and leave-by times.</p>
     <div class="notice" role="note">
       <b>Estimates</b>
-      <span>Ticket prices and Sanse kickoff are not fully locked yet. Transport ranges are typical July 2026 ballparks — confirm before booking.</span>
+      <span>Ticket prices are mid-estimate until official sale. Sanse KO listed as Fri 14 Aug 14:30 — confirm on club channels before booking travel.</span>
     </div>
   </header>
 
@@ -343,7 +343,7 @@
   <section>
     <div class="sec-head">
       <h2>The fixtures</h2>
-      <span class="hint">Same weekend · different cities</span>
+      <span class="hint">Fri Sanse · Sat Alavés</span>
     </div>
     <div class="match-grid">
       <article class="match alaves">
@@ -361,7 +361,7 @@
         <div class="league">LaLiga 2 · Matchday 1</div>
         <h3>Real Sociedad B <span class="vs">vs</span> Castellón</h3>
         <div class="meta">
-          <div><span class="k">When</span><span class="v tba">Sun 16 Aug 2026 · kickoff TBA</span></div>
+          <div><span class="k">When</span><span class="v">Fri 14 Aug 2026 · <b>14:30</b></span></div>
           <div><span class="k">Where</span><span class="v">Zubieta · San Sebastián</span></div>
           <div><span class="k">Travel</span><span class="v">Local · ~15–25 min from centro</span></div>
           <div><span class="k">Tickets</span><span class="v">Est. €10–20 adult · €5–10 kid</span></div>
@@ -443,7 +443,7 @@
       <div class="cost-card both">
         <h3>Both days</h3>
         <div class="total" id="costBoth">—</div>
-        <div class="per" id="costBothPer">Sat Alavés + Sun Sanse</div>
+        <div class="per" id="costBothPer">Fri Sanse + Sat Alavés</div>
         <ul class="stack" id="stackBoth"></ul>
       </div>
     </div>
@@ -451,8 +451,8 @@
   </section>
 
   <footer>
-    <p><b>What's solid:</b> Alavés vs Getafe is the La Liga 26/27 season opener — Sat 15 Aug 2026, <b>19:00</b>, Mendizorrotza. Real Sociedad B open at home vs Castellón on Sun 16 Aug (kickoff TBA). Both bus and train run SS ↔ Vitoria.</p>
-    <p><b>What to verify:</b> Official single-match ticket prices, Renfe/ALSA schedules for that Saturday, Sanse KO time, and any age banding for kids tickets.</p>
+    <p><b>What's solid:</b> Real Sociedad B vs Castellón — Fri 14 Aug 2026, <b>14:30</b>, Zubieta. Alavés vs Getafe is the La Liga 26/27 season opener — Sat 15 Aug 2026, <b>19:00</b>, Mendizorrotza. Both bus and train run SS ↔ Vitoria.</p>
+    <p><b>What to verify:</b> Official single-match ticket prices, Renfe/ALSA Saturday schedules, and any age banding for kids tickets. Reconfirm Sanse KO on Real Sociedad channels.</p>
     <div class="links">
       <a href="https://deportivoalaves.com/es/entradas" target="_blank" rel="noopener">Alavés tickets →</a>
       <a href="https://www.realsociedad.eus/" target="_blank" rel="noopener">Real Sociedad / Sanse →</a>
@@ -511,7 +511,7 @@ const DATA = {
   },
   sanse: {
     label: 'Sanse',
-    kickoff: null,
+    kickoff: '14:30',
     ticketAdultMid: 15,
     ticketKidMid: 8,
     transport: {
@@ -523,13 +523,13 @@ const DATA = {
         mainOneWay: [1.5, 2.5],
         localOneWay: [0, 0],
         shared: false,
-        leaveBy: 'KO − ~75–90 min once kickoff is published.',
+        leaveBy: '~13:00–13:15 from centro for a 14:30 KO (arrive ~60–75 min early).',
         timeline: [
-          { t: 'KO−90', d: '<b>Leave</b> lodging / centro' },
-          { t: 'KO−70', d: 'Arrive Zubieta · walk in' },
-          { t: 'KO−60', d: '<b>Doors</b> · academy ground atmosphere' },
-          { t: 'KO', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
-          { t: 'KO+2h', d: 'Full time · local bus back' },
+          { t: '13:00', d: '<b>Leave</b> lodging / centro' },
+          { t: '~13:20', d: 'Arrive Zubieta · walk in' },
+          { t: '~13:30', d: '<b>Doors</b> · academy ground atmosphere' },
+          { t: '14:30', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
+          { t: '~16:30', d: 'Full time · local bus back' },
         ],
       },
       taxi: {
@@ -540,13 +540,13 @@ const DATA = {
         mainOneWay: [15, 25],
         localOneWay: [0, 0],
         shared: true,
-        leaveBy: 'KO − ~60–75 min once kickoff is published.',
+        leaveBy: '~13:15–13:30 from lodging for a 14:30 KO.',
         timeline: [
-          { t: 'KO−70', d: '<b>Leave</b> by taxi' },
-          { t: 'KO−55', d: 'Arrive Zubieta' },
-          { t: 'KO−45', d: '<b>Doors / settle</b>' },
-          { t: 'KO', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
-          { t: 'KO+2h', d: 'Taxi or bus home' },
+          { t: '13:20', d: '<b>Leave</b> by taxi' },
+          { t: '~13:35', d: 'Arrive Zubieta' },
+          { t: '~13:45', d: '<b>Doors / settle</b>' },
+          { t: '14:30', d: '<b>Kickoff</b> Real Sociedad B vs Castellón', ko: true },
+          { t: '~16:30', d: 'Taxi or bus home' },
         ],
       },
     },
