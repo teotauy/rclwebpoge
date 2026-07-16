@@ -333,7 +333,7 @@
     transition:max-height .45s ease, opacity .3s ease, padding .3s ease, margin .3s ease;
   }
   .brief.show{
-    max-height:1600px;opacity:1;
+    max-height:2200px;opacity:1;
     padding:22px 22px 20px;margin-top:14px;
   }
   .alumni-list{list-style:none;margin:0;padding:0}
@@ -752,6 +752,7 @@
           <div><span class="k">Tickets</span><span class="v">Est. €10–20 adult · €5–10 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Big stadium · sparse B-team crowd</span></div>
           <div><span class="k">Alumni</span><span class="v">Xabi Alonso · Griezmann · Oyarzabal · Zubimendi</span></div>
+          <div><span class="k">Lore</span><span class="v">1993 open · 2003 CL night · firework tradition</span></div>
         </div>
         <div class="tap-hint"><span class="cta-label">Read the Sanse briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
@@ -778,6 +779,7 @@
           <div><span class="k">Tickets</span><span class="v">Est. €25–55 adult · €10–25 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Season opener · ~20k stadium</span></div>
           <div><span class="k">Alumni</span><span class="v">Joselu · Lucas Pérez · Soldado (Getafe) · 2001 heroes</span></div>
+          <div><span class="k">Lore</span><span class="v">Since 1924 · UEFA Cup path · 2017 Copa run</span></div>
         </div>
         <div class="tap-hint"><span class="cta-label">Read the Alavés briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
@@ -1359,6 +1361,18 @@ const BRIEFS = {
         html: `<p><strong>Reale Arena / Anoeta</strong> is La Real’s home in the Egia area of San Sebastián — modern bowl, tight to the city, easy logistics. Through 2025–26 Sanse spent long stretches here while a new ~4,000-seat stadium at <strong>Zubieta</strong> came online; some homes can still bounce between the two. <strong>Confirm the venue on the club site before you leave the apartment.</strong></p>`
       },
       {
+        h: 'Ground lore',
+        html: `<p style="margin-bottom:8px">Anoeta never hosted the 1981–82 title teams (that was old <strong>Atotxa</strong>) — but since 1993 it’s been where La Real’s modern mythology lives.</p>
+        <ul class="alumni-list">
+          <li><span class="who">1993</span><span class="why">Opens with Real Sociedad 2–2 Real Madrid. Replaces cramped Atotxa; capacity jumps toward a proper European bowl.</span></li>
+          <li><span class="who">2003</span><span class="why"><strong>Champions League knockout night.</strong> Óscar de Paula equalizes vs Galatasaray (Xabi Alonso delivery) — La Real into the last 16.</span></li>
+          <li><span class="who">2010</span><span class="why">Promotion party. Back to Primera after the Segunda grind — Anoeta as the bounce-back cathedral.</span></li>
+          <li><span class="who">2013</span><span class="why">Carlos Vela brace vs Lyon seals a return to the Champions League group stage after a decade away.</span></li>
+          <li><span class="who">2017–19</span><span class="why">Big renovation: stands pulled closer to the pitch, bowl modernized, sponsorship rebrand to <strong>Reale Arena</strong>. Locals still say Anoeta.</span></li>
+          <li><span class="who">Tradition</span><span class="why">Firework code from Atotxa days: one bang for an away goal, two for La Real — legend says sailors in the Bay of Biscay could “hear” the score.</span></li>
+        </ul>`
+      },
+      {
         h: 'Famous alumni',
         html: `<p style="margin-bottom:8px">Sanse is the farm — the first team is where the names explode. Castellón’s résumé is older and weirder.</p>
         <ul class="alumni-list">
@@ -1386,6 +1400,7 @@ const BRIEFS = {
       {k: 'Stadium', v: 'Reale Arena / Anoeta'},
       {k: 'US analog', v: 'G League in an NBA arena'},
       {k: 'Pipeline', v: 'Alonso · Griezmann · Oyarzabal'},
+      {k: 'Ground lore', v: 'CL nights · fireworks · 1993'},
     ],
   },
   alaves: {
@@ -1411,6 +1426,18 @@ const BRIEFS = {
       {
         h: 'The ground &amp; the ritual',
         html: `<p><strong>Mendizorrotza</strong> sits in Vitoria — easy to reach once you’re in town. Pre-match culture leans Basque: <strong>poteo</strong> (bar-hopping small drinks) and <strong>pintxos</strong> in the old quarter around Plaza de la Virgen Blanca. Blue-and-white everywhere. Arrive early; doors ~90 minutes before KO is the sane play.</p>`
+      },
+      {
+        h: 'Ground lore',
+        html: `<p style="margin-bottom:8px">Opened <strong>1924</strong> — third-oldest stadium still used by a Spanish pro club (only El Molinón and Mestalla are older). The big European final was in Dortmund; the mythology was forged here first.</p>
+        <ul class="alumni-list">
+          <li><span class="who">1924</span><span class="why">Inauguration the day before San Prudencio. Alavés have called it home ever since — a century in the same patch of Vitoria.</span></li>
+          <li><span class="who">1998</span><span class="why">Major rebuild / corner stands. Capacity toward today’s ~19,840 just as Alavés climbed back to Primera after <strong>42 years</strong> away.</span></li>
+          <li><span class="who">1999–00</span><span class="why">Peak domestic vibes: double over Barcelona, finish 6th, first ticket to Europe. Mendizorrotza as a giant-killer’s living room.</span></li>
+          <li><span class="who">2000–01</span><span class="why"><strong>UEFA Cup home legs</strong> on the road to Dortmund — Inter, Rayo, Kaiserslautern (9–2 agg). The final vs Liverpool (5–4 golden goal) is club scripture; the roar started here.</span></li>
+          <li><span class="who">2017</span><span class="why">Copa del Rey final run (lost to Barça at Vicente Calderón) + packed house nights vs Real Madrid at capacity.</span></li>
+          <li><span class="who">2024</span><span class="why">Stadium centenary. Same ground, same city, still punching in La Liga.</span></li>
+        </ul>`
       },
       {
         h: 'Famous alumni',
@@ -1440,6 +1467,7 @@ const BRIEFS = {
       {k: 'Famous for', v: '2001 UEFA Cup final'},
       {k: 'US analog', v: 'Small-market club that punches'},
       {k: 'Alumni', v: 'Joselu · Soldado · Lucas Pérez'},
+      {k: 'Ground lore', v: '1924 · UEFA Cup · centenary'},
     ],
   },
 };
