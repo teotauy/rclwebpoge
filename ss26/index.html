@@ -818,7 +818,7 @@
         <div class="call-main" id="callMain">Loading…</div>
       </div>
       <div class="call-meta" id="callMeta"></div>
-      <button type="button" class="btn-copy" id="copyLink">Copy link for the group</button>
+      <button type="button" class="btn-copy" id="copyLink">Share this plan</button>
     </div>
   </div>
   </section>
@@ -1561,11 +1561,11 @@ document.getElementById('copyLink').addEventListener('click', async () => {
   const btn = document.getElementById('copyLink');
   try {
     await navigator.clipboard.writeText(url);
-    btn.textContent = 'Copied';
+    btn.textContent = 'Link copied';
     btn.classList.add('ok');
-    setTimeout(() => { btn.textContent = 'Copy link for the group'; btn.classList.remove('ok'); }, 1600);
+    setTimeout(() => { btn.textContent = 'Share this plan'; btn.classList.remove('ok'); }, 1600);
   } catch {
-    prompt('Copy this link for the group:', url);
+    prompt('Share this plan:', url);
   }
 });
 
