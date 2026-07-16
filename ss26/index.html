@@ -333,9 +333,18 @@
     transition:max-height .45s ease, opacity .3s ease, padding .3s ease, margin .3s ease;
   }
   .brief.show{
-    max-height:1200px;opacity:1;
+    max-height:1600px;opacity:1;
     padding:22px 22px 20px;margin-top:14px;
   }
+  .alumni-list{list-style:none;margin:0;padding:0}
+  .alumni-list li{
+    display:grid;grid-template-columns:minmax(110px,38%) 1fr;gap:8px;
+    padding:7px 0;border-bottom:1px solid rgba(42,66,80,.45);
+    font-size:14px;color:var(--muted);line-height:1.35;
+  }
+  .alumni-list li:last-child{border-bottom:0}
+  .alumni-list .who{color:var(--ink);font-weight:600}
+  .alumni-list .why{font-size:13.5px}
   .brief-top{
     display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
     gap:12px;margin-bottom:14px;
@@ -742,6 +751,7 @@
           <div><span class="k">Travel</span><span class="v">Local · ~10–20 min from centro</span></div>
           <div><span class="k">Tickets</span><span class="v">Est. €10–20 adult · €5–10 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Big stadium · sparse B-team crowd</span></div>
+          <div><span class="k">Alumni</span><span class="v">Xabi Alonso · Griezmann · Oyarzabal · Zubimendi</span></div>
         </div>
         <div class="tap-hint"><span class="cta-label">Read the Sanse briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
@@ -767,6 +777,7 @@
           <div><span class="k">Travel</span><span class="v">Day trip from San Sebastián (~77 km)</span></div>
           <div><span class="k">Tickets</span><span class="v">Est. €25–55 adult · €10–25 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Season opener · ~20k stadium</span></div>
+          <div><span class="k">Alumni</span><span class="v">Joselu · Lucas Pérez · Soldado (Getafe) · 2001 heroes</span></div>
         </div>
         <div class="tap-hint"><span class="cta-label">Read the Alavés briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
@@ -1348,6 +1359,18 @@ const BRIEFS = {
         html: `<p><strong>Reale Arena / Anoeta</strong> is La Real’s home in the Egia area of San Sebastián — modern bowl, tight to the city, easy logistics. Through 2025–26 Sanse spent long stretches here while a new ~4,000-seat stadium at <strong>Zubieta</strong> came online; some homes can still bounce between the two. <strong>Confirm the venue on the club site before you leave the apartment.</strong></p>`
       },
       {
+        h: 'Famous alumni',
+        html: `<p style="margin-bottom:8px">Sanse is the farm — the first team is where the names explode. Castellón’s résumé is older and weirder.</p>
+        <ul class="alumni-list">
+          <li><span class="who">Xabi Alonso</span><span class="why">Zubieta graduate → Liverpool / Bayern / Spain · now Real Madrid manager</span></li>
+          <li><span class="who">Antoine Griezmann</span><span class="why">La Real youth product → Atlético / Barça / World Cup winner</span></li>
+          <li><span class="who">Mikel Oyarzabal</span><span class="why">Club captain, Euro 2024 final hero — still the face of Anoeta</span></li>
+          <li><span class="who">Martín Zubimendi</span><span class="why">Sanse → first team midfield engine · Europe’s most chased “next Alonso”</span></li>
+          <li><span class="who">Gaizka Mendieta</span><span class="why">Castellón debut at 17 → Valencia icon · Champions League nights · Spain</span></li>
+          <li><span class="who">Vicente del Bosque</span><span class="why">Loaned at Castellón early → Real Madrid legend · Spain’s 2010 World Cup coach</span></li>
+        </ul>`
+      },
+      {
         h: 'Cheat codes',
         html: `<ul>
           <li>Say <strong>“Sanse”</strong> and <strong>“Anoeta”</strong> (ah-no-EH-ta). Locals still use Anoeta more than Reale Arena.</li>
@@ -1362,6 +1385,7 @@ const BRIEFS = {
       {k: 'Nickname', v: 'Sanse'},
       {k: 'Stadium', v: 'Reale Arena / Anoeta'},
       {k: 'US analog', v: 'G League in an NBA arena'},
+      {k: 'Pipeline', v: 'Alonso · Griezmann · Oyarzabal'},
     ],
   },
   alaves: {
@@ -1389,6 +1413,18 @@ const BRIEFS = {
         html: `<p><strong>Mendizorrotza</strong> sits in Vitoria — easy to reach once you’re in town. Pre-match culture leans Basque: <strong>poteo</strong> (bar-hopping small drinks) and <strong>pintxos</strong> in the old quarter around Plaza de la Virgen Blanca. Blue-and-white everywhere. Arrive early; doors ~90 minutes before KO is the sane play.</p>`
       },
       {
+        h: 'Famous alumni',
+        html: `<p style="margin-bottom:8px">Neither club is a trophy factory — their alumni stories are “we punched up, then the big clubs noticed.”</p>
+        <ul class="alumni-list">
+          <li><span class="who">Joselu</span><span class="why">Alavés striker → Espanyol / Newcastle / Real Madrid · late-career Champions League glow</span></li>
+          <li><span class="who">Lucas Pérez</span><span class="why">Alavés → Deportivo → Arsenal · the Basque-Galician goal poacher Americans saw in the PL</span></li>
+          <li><span class="who">Javi Moreno</span><span class="why">Alavés 2001 UEFA Cup final hero · that Dortmund night vs Liverpool</span></li>
+          <li><span class="who">Manu García</span><span class="why">Club captain / local forever — less “famous abroad,” more “statue energy in Vitoria”</span></li>
+          <li><span class="who">Roberto Soldado</span><span class="why">Getafe → Valencia → Tottenham · the suburban Madrid forward who made it to the Premier League</span></li>
+          <li><span class="who">Cosmin Contra</span><span class="why">Getafe right-back star · Romania international · later coached the club</span></li>
+        </ul>`
+      },
+      {
         h: 'Cheat codes',
         html: `<ul>
           <li>Pronounce it roughly <strong>“ah-lah-VESS”</strong>. Getafe: <strong>“heh-TAH-feh”</strong>.</li>
@@ -1403,6 +1439,7 @@ const BRIEFS = {
       {k: 'Nickname', v: 'Babazorros'},
       {k: 'Famous for', v: '2001 UEFA Cup final'},
       {k: 'US analog', v: 'Small-market club that punches'},
+      {k: 'Alumni', v: 'Joselu · Soldado · Lucas Pérez'},
     ],
   },
 };
