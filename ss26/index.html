@@ -180,8 +180,9 @@
     cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;
   }
   .match:hover{
-    transform:translateY(-2px);
-    box-shadow:0 18px 40px rgba(0,0,0,.35);
+    transform:translateY(-3px);
+    border-color:rgba(242,245,247,.35);
+    box-shadow:0 20px 44px rgba(0,0,0,.42);
   }
   .match.alaves{
     border-color:rgba(61,139,204,.35);
@@ -191,17 +192,42 @@
     border-color:rgba(42,155,143,.35);
     box-shadow:inset 0 1px 0 rgba(42,155,143,.15);
   }
+  .match.alaves:hover{
+    border-color:rgba(61,139,204,.75);
+    box-shadow:0 20px 44px rgba(61,139,204,.18), inset 0 1px 0 rgba(61,139,204,.2);
+  }
+  .match.sanse:hover{
+    border-color:rgba(42,155,143,.75);
+    box-shadow:0 20px 44px rgba(42,155,143,.18), inset 0 1px 0 rgba(42,155,143,.2);
+  }
   .match::before{
     content:'';position:absolute;inset:0 auto auto 0;width:100%;height:3px;
   }
   .match.alaves::before{background:linear-gradient(90deg, var(--blue), transparent 80%)}
   .match.sanse::before{background:linear-gradient(90deg, var(--teal), transparent 80%)}
+  .match .league-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin-bottom:14px;
+  }
   .match .league{
     font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;
-    text-transform:uppercase;margin-bottom:14px;
+    text-transform:uppercase;
   }
   .match.alaves .league{color:var(--blue)}
   .match.sanse .league{color:var(--teal)}
+  .match .select-pill{
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink);
+    background:rgba(242,245,247,.08);
+    border:1px solid rgba(242,245,247,.18);
+    border-radius:999px;padding:5px 9px;white-space:nowrap;
+  }
+  .match.sanse .select-pill{color:#9fe0d8;border-color:rgba(42,155,143,.45);background:rgba(42,155,143,.12)}
+  .match.alaves .select-pill{color:#9ec7ea;border-color:rgba(61,139,204,.45);background:rgba(61,139,204,.12)}
+  .match:hover .select-pill{transform:translateY(-1px)}
+  .match.open .select-pill{
+    background:var(--ink);color:var(--bg);border-color:var(--ink);
+  }
 
   .matchup{
     display:grid;
@@ -252,20 +278,47 @@
   .meta .v b{font-weight:600}
 
   .match .tap-hint{
-    margin-top:12px;padding-top:10px;
-    border-top:1px dashed rgba(42,66,80,.55);
-    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--faint);
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    margin-top:14px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:.04em;
+    text-transform:uppercase;font-weight:600;
+    color:var(--bg);
+    background:var(--ink);
+    border-radius:10px;
+    padding:12px 14px;
+    transition:background .15s, transform .15s, box-shadow .15s;
   }
-  .match .tap-hint span{color:var(--muted)}
+  .match.sanse .tap-hint{background:var(--teal);color:#041512}
+  .match.alaves .tap-hint{background:var(--blue);color:#041018}
+  .match:hover .tap-hint{
+    transform:translateY(-1px);
+    box-shadow:0 10px 24px rgba(0,0,0,.28);
+  }
+  .match .tap-hint .arrow{transition:transform .15s}
+  .match:hover .tap-hint .arrow{transform:translateX(3px)}
   .match.open{
     border-color:var(--ink);
     box-shadow:0 0 0 1px var(--ink), 0 18px 40px rgba(0,0,0,.4);
   }
-  .match.open .tap-hint{color:var(--ink)}
-  .match.open .tap-hint span{color:var(--ink)}
+  .match.open .tap-hint{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--line);
+    box-shadow:none;
+  }
   .match:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+  .pick-nudge{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin:0 0 14px;padding:11px 14px;
+    border-radius:12px;
+    border:1px dashed rgba(242,245,247,.22);
+    background:rgba(242,245,247,.04);
+    color:var(--muted);font-size:14.5px;line-height:1.4;
+  }
+  .pick-nudge b{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--amber);
+  }
 
   .brief{
     margin-top:14px;
@@ -519,11 +572,18 @@
   <section class="rise rise-3">
     <div class="sec-head">
       <h2>The fixtures</h2>
-      <span class="hint">Click a tile for the briefing · times in Spain local</span>
+      <span class="hint">Times in Spain local</span>
+    </div>
+    <div class="pick-nudge" role="note">
+      <b>Pick one</b>
+      <span>Tap a match card to open the American-friendly briefing — who’s who, why go, and how to not look lost.</span>
     </div>
     <div class="match-grid">
       <button type="button" class="match sanse" data-brief="sanse" aria-expanded="false" aria-controls="briefPanel">
-        <div class="league">LaLiga 2 · Matchday 1</div>
+        <div class="league-row">
+          <div class="league">LaLiga 2 · Matchday 1</div>
+          <div class="select-pill">Selectable</div>
+        </div>
         <div class="matchup">
           <div class="team">
             <div class="crest-ring"><img src="logos/realsociedad.png" alt=""></div>
@@ -542,10 +602,13 @@
           <div><span class="k">Tickets</span><span class="v">Est. €10–20 adult · €5–10 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Big stadium · sparse B-team crowd</span></div>
         </div>
-        <div class="tap-hint"><span>The story</span> Tap / click →</div>
+        <div class="tap-hint"><span class="cta-label">Read the Sanse briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
       <button type="button" class="match alaves" data-brief="alaves" aria-expanded="false" aria-controls="briefPanel">
-        <div class="league">La Liga · Matchday 1</div>
+        <div class="league-row">
+          <div class="league">La Liga · Matchday 1</div>
+          <div class="select-pill">Selectable</div>
+        </div>
         <div class="matchup">
           <div class="team">
             <div class="crest-ring"><img src="logos/alaves.png" alt=""></div>
@@ -564,7 +627,7 @@
           <div><span class="k">Tickets</span><span class="v">Est. €25–55 adult · €10–25 kid</span></div>
           <div><span class="k">Vibe</span><span class="v">Season opener · ~20k stadium</span></div>
         </div>
-        <div class="tap-hint"><span>The story</span> Tap / click →</div>
+        <div class="tap-hint"><span class="cta-label">Read the Alavés briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
     </div>
 
@@ -1103,6 +1166,19 @@ function renderBrief(key){
   panel.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
+function syncMatchChrome(){
+  document.querySelectorAll('.match[data-brief]').forEach(m => {
+    const open = m.classList.contains('open');
+    const key = m.dataset.brief;
+    const pill = m.querySelector('.select-pill');
+    const cta = m.querySelector('.cta-label');
+    if (pill) pill.textContent = open ? 'Selected' : 'Selectable';
+    if (cta) cta.textContent = open
+      ? 'Close briefing'
+      : (key === 'sanse' ? 'Read the Sanse briefing' : 'Read the Alavés briefing');
+  });
+}
+
 function closeBrief(){
   const panel = document.getElementById('briefPanel');
   panel.classList.remove('show');
@@ -1112,6 +1188,7 @@ function closeBrief(){
     m.classList.remove('open');
     m.setAttribute('aria-expanded', 'false');
   });
+  syncMatchChrome();
 }
 
 document.querySelectorAll('.match[data-brief]').forEach(btn => {
@@ -1126,10 +1203,12 @@ document.querySelectorAll('.match[data-brief]').forEach(btn => {
       m.classList.toggle('open', m === btn);
       m.setAttribute('aria-expanded', m === btn ? 'true' : 'false');
     });
+    syncMatchChrome();
     renderBrief(key);
   });
 });
 
+syncMatchChrome();
 renderAll();
 </script>
 </body>
