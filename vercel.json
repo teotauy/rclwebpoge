@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.redcrowlabs.com"
+        }
+      ],
+      "destination": "https://redcrowlabs.com/:path*",
+      "permanent": true
+    }
+  ]
+}
