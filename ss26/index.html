@@ -277,6 +277,26 @@
   .meta .v{color:var(--ink)}
   .meta .v b{font-weight:600}
 
+  .collide{
+    margin-top:12px;padding:11px 12px;
+    border-radius:10px;
+    border:1px solid rgba(212,146,58,.45);
+    background:rgba(212,146,58,.1);
+    text-align:left;
+  }
+  .collide .tag{
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--amber);margin-bottom:5px;
+  }
+  .collide .title{
+    font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--ink);line-height:1.2;margin-bottom:4px;
+  }
+  .collide p{
+    font-size:13px;color:var(--muted);line-height:1.45;margin:0;
+  }
+  .collide p strong{color:var(--ink);font-weight:600}
+
   .match .tap-hint{
     margin-top:14px;
     display:flex;align-items:center;justify-content:center;gap:8px;
@@ -708,6 +728,11 @@
           <div><span class="k">Alumni</span><span class="v">Xabi Alonso · Griezmann · Oyarzabal · Zubimendi</span></div>
           <div><span class="k">Lore</span><span class="v">1993 open · 2003 CL night · firework tradition</span></div>
         </div>
+        <div class="collide">
+          <div class="tag">Trip collide · Fri 14</div>
+          <div class="title">Jewels of Biarritz &amp; Saint Jean de Luz</div>
+          <p><strong>Sign up · optional adult (€).</strong> Same-day paid adult excursion to Biarritz / St-Jean-de-Luz — pick football <em>or</em> the French coast run, not both unless the timing miraculously stacks.</p>
+        </div>
         <div class="tap-hint"><span class="cta-label">Read the Sanse briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
       <button type="button" class="match alaves" data-brief="alaves" aria-expanded="false" aria-controls="briefPanel">
@@ -734,6 +759,11 @@
           <div><span class="k">Vibe</span><span class="v">Season opener · ~20k stadium</span></div>
           <div><span class="k">Alumni</span><span class="v">Joselu · Lucas Pérez · Soldado (Getafe) · 2001 heroes</span></div>
           <div><span class="k">Lore</span><span class="v">Since 1924 · UEFA Cup path · 2017 Copa run</span></div>
+        </div>
+        <div class="collide">
+          <div class="tag">Trip collide · Sat 15</div>
+          <div class="title">Ardi Latxa Farm &amp; Shepherd Life</div>
+          <p><strong>Sign up · optional family (€).</strong> Same-day paid Ardi Latxa farm / shepherd experience — Vitoria football day trip vs sheep-country afternoon; don’t double-book without checking return windows.</p>
         </div>
         <div class="tap-hint"><span class="cta-label">Read the Alavés briefing</span> <span class="arrow" aria-hidden="true">→</span></div>
       </button>
@@ -1400,6 +1430,7 @@ const BRIEFS = {
           <li>Colors: blue &amp; white. Castellón lean yellow/black.</li>
           <li>Don’t expect a wall of smoke — expect sharp passing, coaches living every touch, and weirdly good sightlines because half the bowl is empty.</li>
           <li>Afterward: pintxos in the Parte Vieja. You’ve barely burned any holiday capital.</li>
+          <li><strong>Trip collide:</strong> Fri may also have <strong>Jewels of Biarritz &amp; Saint Jean de Luz</strong> (optional adult €). Same calendar day — choose the French coast excursion or Anoeta, not both on autopilot.</li>
         </ul>`
       },
     ],
@@ -1410,6 +1441,7 @@ const BRIEFS = {
       {k: 'US analog', v: 'G League in an NBA arena'},
       {k: 'Pipeline', v: 'Alonso · Griezmann · Oyarzabal'},
       {k: 'Ground lore', v: 'CL nights · fireworks · 1993'},
+      {k: 'Collide', v: 'Biarritz / St-Jean excursion'},
     ],
   },
   alaves: {
@@ -1467,6 +1499,7 @@ const BRIEFS = {
           <li>Colors: Alavés blue/white. Getafe blue.</li>
           <li>If someone says <strong>Babazorros</strong>, that’s affection (mostly). Lean in.</li>
           <li>This is not “the Real Madrid game.” It’s better for visitors — tickets exist, locals talk to you, and the football still bites.</li>
+          <li><strong>Trip collide:</strong> Sat may also have the <strong>Ardi Latxa Farm &amp; Shepherd Life</strong> experience (optional family €). Same calendar day as the Vitoria opener — farm afternoon vs Mendizorrotza night; check timing before you sign up for both.</li>
         </ul>`
       },
     ],
@@ -1477,6 +1510,7 @@ const BRIEFS = {
       {k: 'US analog', v: 'Small-market club that punches'},
       {k: 'Alumni', v: 'Joselu · Soldado · Lucas Pérez'},
       {k: 'Ground lore', v: '1924 · UEFA Cup · centenary'},
+      {k: 'Collide', v: 'Ardi Latxa farm day'},
     ],
   },
 };
