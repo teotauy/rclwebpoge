@@ -131,6 +131,19 @@
   .leaflet-bar a{background:var(--surface-2)!important;color:var(--ink)!important;border-color:var(--line)!important}
   .leaflet-bar a:hover{background:var(--line)!important}
 
+  .leaflet-control-layers{
+    background:rgba(10,11,13,.92)!important;
+    border:1px solid var(--line)!important;border-radius:7px!important;
+    backdrop-filter:blur(8px);box-shadow:0 6px 20px rgba(0,0,0,.5)!important;
+  }
+  .leaflet-control-layers-list{
+    padding:8px 11px!important;
+    font-family:'Space Mono',monospace;font-size:10.5px;color:var(--muted);
+  }
+  .leaflet-control-layers label{display:flex;align-items:center;gap:6px;margin:3px 0;cursor:pointer}
+  .leaflet-control-layers label:hover{color:var(--ink)}
+  .leaflet-control-layers input{accent-color:var(--crimson-bright);margin:0}
+
   .map-legend{
     position:absolute;left:12px;bottom:12px;z-index:500;
     background:rgba(10,11,13,.9);border:1px solid var(--line);border-radius:7px;
@@ -319,6 +332,13 @@
       <span class="lg"><i style="background:var(--unknown)"></i>No data</span>
       <span class="lg"><i style="background:#FF6B2C"></i>Fire detection</span>
       <span class="lg"><i class="ring"></i>Search radius</span>
+      <span class="lg" style="opacity:.75">AQI:</span>
+      <span class="lg"><i style="background:#3FB680"></i>0</span>
+      <span class="lg"><i style="background:#D9A441"></i>50</span>
+      <span class="lg"><i style="background:#E0822E"></i>100</span>
+      <span class="lg"><i style="background:#C8102E"></i>150</span>
+      <span class="lg"><i style="background:#8B2FA8"></i>200</span>
+      <span class="lg"><i style="background:#7E1020"></i>300+</span>
     </div>
   </div>
   <p class="map-note" id="map-note">Fire detections are 375m satellite hotspots, not mapped fire perimeters.</p>
@@ -370,6 +390,7 @@
   var payload = null;
   var lastChecked = null;
   var map = null, layers = null, fitted = false;
+  var regionFires = null, stationLayer = null, aqiRaster = null, region = null;
 
   var COLOR = { clear:'#3FB680', watch:'#E0822E', alert:'#FF3B54', unknown:'#6E7681' };
 
@@ -420,15 +441,114 @@
 
   /* ================= Map ================= */
 
+  /* AirNow band colours, mirrored from AQI_BANDS in src/status.js. */
+  function aqiColor(aqi){
+    if(!isFinite(aqi)) return '#6E7681';
+    if(aqi <= 50)  return '#3FB680';
+    if(aqi <= 100) return '#D9A441';
+    if(aqi <= 150) return '#E0822E';
+    if(aqi <= 200) return '#C8102E';
+    if(aqi <= 300) return '#8B2FA8';
+    return '#7E1020';
+  }
+
   function initMap(){
     if(map || typeof L === 'undefined') return;
-    map = L.map('map',{ scrollWheelZoom:false, zoomControl:true, attributionControl:true });
+
+    // Canvas rendering: the regional layer can carry well over a thousand
+    // markers, and SVG grinds long before that.
+    map = L.map('map',{
+      scrollWheelZoom:false, zoomControl:true, attributionControl:true, preferCanvas:true
+    });
+
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
       attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains:'abcd', maxZoom:12, minZoom:4
     }).addTo(map);
-    layers = L.layerGroup().addTo(map);
+
+    layers        = L.layerGroup().addTo(map);   // tracked zones — always on
+    regionFires   = L.layerGroup().addTo(map);   // everything burning region-wide
+    stationLayer  = L.layerGroup().addTo(map);   // AQI stations region-wide
+
+    // Raster AQI gradient, proxied through the Worker so the token stays server
+    // side. Off by default — it is a beautiful smear that hides the fire dots.
+    aqiRaster = L.tileLayer(API.replace(/\/status$/, '') + '/aqi-tiles/{z}/{x}/{y}.png',{
+      attribution:'AQI tiles &copy; <a href="https://aqicn.org/">World Air Quality Index</a>',
+      opacity:0.55, maxZoom:12, minZoom:4
+    });
+
+    L.control.layers(null,{
+      'Tracked zones'      : layers,
+      'Fires — region-wide': regionFires,
+      'AQI stations'       : stationLayer,
+      'AQI gradient'       : aqiRaster
+    },{ collapsed:false, position:'topright' }).addTo(map);
+
     map.setView([42.6,-2.4], 6);
+  }
+
+  /* Regional context. Loaded separately so the zone cards never wait on it. */
+  function loadRegion(){
+    var url = API.replace(/\/status$/, '/region');
+    return fetch(url,{cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if(!d || !d.available || !map) return;
+        region = d;
+        drawRegion();
+      })
+      .catch(function(){ /* context layer only — the zone cards stand alone */ });
+  }
+
+  function drawRegion(){
+    if(!region || !map) return;
+    regionFires.clearLayers();
+    stationLayer.clearLayers();
+
+    var fires = (region.fires && region.fires.ok) ? (region.fires.detections || []) : [];
+    fires.forEach(function(d){
+      L.circleMarker([d.lat,d.lon],{
+        radius: d.frp > 100 ? 6 : d.frp > 25 ? 4.5 : 3,
+        color:'#FF6B2C', weight:0, fillColor:'#FF6B2C', fillOpacity:.75
+      }).addTo(regionFires).bindPopup(
+        '<div class="pop-t">Fire detection</div>' +
+        '<div class="pop-m">' + esc(ago(d.acquired) || 'time unknown') +
+        (d.frp != null ? ' &middot; ' + esc(d.frp) + ' MW' : '') + '</div>'
+      );
+    });
+
+    var stations = (region.air && region.air.ok) ? (region.air.stations || []) : [];
+    stations.forEach(function(s){
+      L.circleMarker([s.lat,s.lon],{
+        radius:5, color:'#0a0b0d', weight:1,
+        fillColor:aqiColor(s.aqi), fillOpacity:.9
+      }).addTo(stationLayer).bindPopup(
+        '<div class="pop-t">AQI ' + esc(s.aqi) + '</div>' +
+        '<div class="pop-m">' + esc(s.name || 'station') + '</div>'
+      );
+    });
+
+    var bits = [];
+    if(region.fires && region.fires.ok){
+      bits.push(region.fires.total + ' active detections' +
+        (region.fires.truncated ? ' (' + region.fires.shown + ' largest shown)' : ''));
+      // State the window we actually got back rather than the one we asked for —
+      // FIRMS counts whole UTC days, so the real span drifts through the day.
+      if(region.fires.earliestAcquired){
+        var span = Math.round(
+          (Date.parse(region.fires.latestAcquired) - Date.parse(region.fires.earliestAcquired)) / 3600000
+        );
+        if(isFinite(span) && span > 0) bits.push('spanning ' + span + 'h');
+      }
+    } else if(region.fires){
+      bits.push('region-wide fires unavailable');
+    }
+    if(region.air && region.air.ok) bits.push(region.air.count + ' AQI stations');
+    bits.push('across ' + esc(region.label));
+
+    document.getElementById('map-note').innerHTML =
+      esc(bits.join(' &middot; ')).replace(/&amp;middot;/g,'&middot;') +
+      ' &middot; detections are 375m satellite hotspots, not fire perimeters';
   }
 
   function drawMap(){
@@ -538,6 +658,9 @@
     var pct = Math.max(0,Math.min(100,(a.aqi/300)*100));
     var note = band.label ? '<b style="color:'+esc(band.color||'')+'">'+esc(band.label)+'</b>' : '';
     if(a.station) note += ' &middot; ' + esc(a.station);
+    // Say that this is the worst reading in range, not the nearest sensor —
+    // otherwise the station name looks arbitrary when it is not the obvious one.
+    if(a.stationCount > 1) note += ' &middot; worst of ' + esc(a.stationCount) + ' in range';
 
     return '<div class="metric">'+head+
       '<div class="m-val" style="color:'+esc(band.color||'var(--ink)')+'">'+esc(a.aqi)+'<small> AQI</small></div>'+
@@ -682,7 +805,9 @@
 
   initMap();
   load();
+  loadRegion();
   setInterval(load, POLL_MS);
+  setInterval(loadRegion, POLL_MS);
   setInterval(freshness, TICK_MS);
 })();
 </script>
