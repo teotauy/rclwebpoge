@@ -5,10 +5,6 @@
     {
       "source": "/wildfires/api/:path*",
       "destination": "https://rcl-wildfires.colby-cb6.workers.dev/api/:path*"
-    },
-    {
-      "source": "/wc2026/api/:path*",
-      "destination": "https://wc2026-tracker.colby-cb6.workers.dev/wc2026/api/:path*"
     }
   ],
   "redirects": [
