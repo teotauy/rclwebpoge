@@ -162,6 +162,20 @@
     border:2px solid var(--bg);box-shadow:0 2px 10px rgba(0,0,0,.7);color:#0a0b0d;
   }
   .fire-dot{border-radius:50%;background:#FF6B2C;box-shadow:0 0 8px rgba(255,107,44,.9)}
+  .wind-arrow{
+    font-size:13px;line-height:16px;text-align:center;color:rgba(180,186,196,.7);
+    text-shadow:0 0 4px rgba(0,0,0,.9);cursor:pointer;
+  }
+  .wind-arrow.strong{color:#7FD4E8;font-size:15px}
+
+  /* Conditions strip on each zone card */
+  .conds{
+    display:flex;flex-wrap:wrap;gap:4px 14px;
+    padding:9px 17px;border-top:1px solid var(--line);
+    font-family:'Space Mono',monospace;font-size:10.5px;color:var(--faint);
+  }
+  .conds b{color:var(--muted);font-weight:700}
+  .conds .dry b{color:var(--watch)}
   .leaflet-popup-content-wrapper{
     background:var(--surface-2);color:var(--ink);border-radius:7px;border:1px solid var(--line-bright);
   }
@@ -391,6 +405,7 @@
   var lastChecked = null;
   var map = null, layers = null, fitted = false;
   var regionFires = null, stationLayer = null, aqiRaster = null, region = null;
+  var windLayer = null, humidityLayer = null, precipLayer = null;
 
   var COLOR = { clear:'#3FB680', watch:'#E0822E', alert:'#FF3B54', unknown:'#6E7681' };
 
@@ -477,11 +492,18 @@
       opacity:0.55, maxZoom:12, minZoom:4
     });
 
+    windLayer     = L.layerGroup();   // off by default — arrows over everything
+    humidityLayer = L.layerGroup();
+    precipLayer   = L.layerGroup();
+
     L.control.layers(null,{
       'Tracked zones'      : layers,
       'Fires — region-wide': regionFires,
       'AQI stations'       : stationLayer,
-      'AQI gradient'       : aqiRaster
+      'AQI gradient'       : aqiRaster,
+      'Wind'               : windLayer,
+      'Humidity'           : humidityLayer,
+      'Rain, last 24h'     : precipLayer
     },{ collapsed:false, position:'topright' }).addTo(map);
 
     map.setView([42.6,-2.4], 6);
@@ -498,6 +520,87 @@
         drawRegion();
       })
       .catch(function(){ /* context layer only — the zone cards stand alone */ });
+  }
+
+  /* Humidity as fire weather: dry reads hot, damp reads cool. Inverted against
+     the usual blue-for-water instinct because low RH is the dangerous end. */
+  function rhColor(rh){
+    if(rh < 25) return '#7E1020';
+    if(rh < 40) return '#C8102E';
+    if(rh < 55) return '#E0822E';
+    if(rh < 70) return '#D9A441';
+    if(rh < 85) return '#3E7CA8';
+    return '#2E4E8F';
+  }
+
+  function rainColor(mm){
+    if(mm < 1)  return '#2E4E8F';
+    if(mm < 5)  return '#3E7CA8';
+    if(mm < 15) return '#4FA3C7';
+    return '#7FD4E8';
+  }
+
+  function drawWeather(){
+    if(!region || !map) return;
+    windLayer.clearLayers();
+    humidityLayer.clearLayers();
+    precipLayer.clearLayers();
+
+    var w = region.weather;
+    if(!w || !w.ok) return;
+
+    var step = w.step || 1.0;
+    var half = step / 2;
+
+    (w.cells || []).forEach(function(c){
+      var bounds = [[c.lat - half, c.lon - half],[c.lat + half, c.lon + half]];
+
+      if(c.rh != null){
+        L.rectangle(bounds,{
+          color:rhColor(c.rh), weight:0,
+          fillColor:rhColor(c.rh), fillOpacity:.3
+        }).addTo(humidityLayer).bindPopup(
+          '<div class="pop-t">' + esc(c.rh) + '% humidity</div>' +
+          '<div class="pop-m">' + (c.rh < 30 ? 'very dry — fire weather' : c.rh < 50 ? 'dry' : 'damp') + '</div>'
+        );
+      }
+
+      // Only draw cells that actually saw rain. An empty map is the honest
+      // rendering of a dry summer, and shading zero-rain cells would imply a
+      // measurement where there is simply nothing to show.
+      if(c.pr != null && c.pr > 0){
+        L.rectangle(bounds,{
+          color:rainColor(c.pr), weight:0,
+          fillColor:rainColor(c.pr), fillOpacity:Math.min(.66, .2 + c.pr/25)
+        }).addTo(precipLayer).bindPopup(
+          '<div class="pop-t">' + esc(c.pr) + ' mm</div>' +
+          '<div class="pop-m">rain in the last 24h</div>'
+        );
+      }
+
+      if(c.wd != null){
+        // The arrow points downwind — where the air, and any smoke in it, is
+        // going. `wd` is the direction it blows FROM, hence the 180 flip.
+        var heading = (c.wd + 180) % 360;
+        var strong = c.ws != null && c.ws >= 20;
+        L.marker([c.lat,c.lon],{
+          icon:L.divIcon({
+            className:'',
+            html:'<div class="wind-arrow' + (strong ? ' strong' : '') +
+                 '" style="transform:rotate(' + heading + 'deg)">&#10148;</div>',
+            iconSize:[16,16], iconAnchor:[8,8]
+          })
+        }).addTo(windLayer).bindPopup(
+          '<div class="pop-t">' + esc(c.ws) + ' km/h</div>' +
+          '<div class="pop-m">from ' + esc(compass(c.wd)) + ' (' + esc(c.wd) + '&deg;)</div>'
+        );
+      }
+    });
+  }
+
+  function compass(deg){
+    var p = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    return p[Math.round(deg/22.5) % 16];
   }
 
   function drawRegion(){
@@ -527,6 +630,8 @@
         '<div class="pop-m">' + esc(s.name || 'station') + '</div>'
       );
     });
+
+    drawWeather();
 
     var bits = [];
     if(region.fires && region.fires.ok){
@@ -679,6 +784,28 @@
       ? '<div class="wind" data-toward="'+(z.wind.toward?'true':'false')+'">'+
         '<span>'+(z.wind.toward?'&#9888;':'&#8599;')+'</span><span>'+esc(z.wind.note)+'</span></div>' : '';
 
+    // Conditions strip. Relative humidity swings hugely between night and
+    // afternoon, so the reading is stamped with its observation time rather than
+    // presented as a standing property of the place.
+    var cond = '';
+    var wx = z.weather;
+    if(wx && wx.level !== 'unknown'){
+      var parts = [];
+      if(wx.wind && wx.wind.degrees != null){
+        parts.push('<span>Wind <b>' + esc(compass(wx.wind.degrees)) + ' ' +
+          esc(Math.round(wx.wind.speed || 0)) + ' km/h</b></span>');
+      }
+      if(wx.humidity != null){
+        parts.push('<span class="' + (wx.humidity < 35 ? 'dry' : '') + '">Humidity <b>' +
+          esc(wx.humidity) + '%</b></span>');
+      }
+      if(wx.precip24h != null){
+        parts.push('<span>Rain 24h <b>' + esc(wx.precip24h) + ' mm</b></span>');
+      }
+      if(wx.observedAt) parts.push('<span style="opacity:.7">at ' + esc(wx.observedAt.slice(11,16)) + ' UTC</span>');
+      if(parts.length) cond = '<div class="conds">' + parts.join('') + '</div>';
+    }
+
     var links = (z.manualSources||[]).map(function(m){
       return '<a href="'+esc(m.url)+'" target="_blank" rel="noopener">'+esc(m.label)+' &#8599;</a>';
     }).join('');
@@ -695,6 +822,7 @@
       drivers+
       '<div class="metrics">'+fireMetric(z)+airMetric(z)+'</div>'+
       wind+
+      cond+
       '<div class="z-foot">'+stamp+'<div class="mlinks">'+links+'</div></div>'+
     '</article>';
   }
