@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <style>
   :root{
     --bg:#0a0b0d;
@@ -167,6 +168,27 @@
     text-shadow:0 0 4px rgba(0,0,0,.9);cursor:pointer;
   }
   .wind-arrow.strong{color:#7FD4E8;font-size:15px}
+
+  .fire-cluster{
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;font-weight:700;font-size:11px;
+    color:#1a0d06;background:rgba(255,107,44,.92);
+    border:2px solid rgba(10,11,13,.75);border-radius:50%;
+    box-shadow:0 0 12px rgba(255,107,44,.5);
+  }
+
+  /* Trend chips */
+  .trend{
+    display:inline-flex;align-items:center;gap:3px;
+    font-family:'Space Mono',monospace;font-size:10px;font-weight:700;
+    padding:2px 6px;border-radius:999px;margin-left:7px;vertical-align:middle;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .trend.up   {background:rgba(255,59,84,.13);color:var(--alert);border-color:rgba(255,59,84,.35)}
+  .trend.down {background:rgba(63,182,128,.13);color:var(--clear);border-color:rgba(63,182,128,.35)}
+  .trend.flat {background:rgba(134,141,152,.12);color:var(--faint);border-color:rgba(134,141,152,.3)}
+  /* Not-comparable and no-new-data both read as "we can't say", never as calm. */
+  .trend.muted{background:transparent;color:var(--faint);border-color:var(--unknown);border-style:dashed;font-weight:400}
 
   /* Conditions strip on each zone card */
   .conds{
@@ -390,6 +412,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
 (function(){
   'use strict';
@@ -482,8 +505,31 @@
     }).addTo(map);
 
     layers        = L.layerGroup().addTo(map);   // tracked zones — always on
-    regionFires   = L.layerGroup().addTo(map);   // everything burning region-wide
     stationLayer  = L.layerGroup().addTo(map);   // AQI stations region-wide
+
+    // Regional fires cluster. Spiderfy is deliberately OFF: fanning markers into
+    // a spiral discards their real coordinates, and at continental zoom that
+    // spiral is large enough to read as geography. Clicking zooms to the
+    // cluster's true bounds instead, and hovering outlines the area it actually
+    // covers — so the count is never mistaken for a location.
+    regionFires = (typeof L.markerClusterGroup === 'function')
+      ? L.markerClusterGroup({
+          spiderfyOnMaxZoom: false,
+          zoomToBoundsOnClick: true,
+          showCoverageOnHover: true,
+          disableClusteringAtZoom: 9,
+          maxClusterRadius: 45,
+          iconCreateFunction: function(cluster){
+            var n = cluster.getChildCount();
+            var size = n > 500 ? 46 : n > 100 ? 40 : n > 20 ? 34 : 28;
+            return L.divIcon({
+              html: '<div class="fire-cluster" style="width:'+size+'px;height:'+size+'px">'+n+'</div>',
+              className: '', iconSize: [size, size]
+            });
+          }
+        })
+      : L.layerGroup();
+    map.addLayer(regionFires);
 
     // Raster AQI gradient, proxied through the Worker so the token stays server
     // side. Off by default — it is a beautiful smear that hides the fire dots.
@@ -744,8 +790,66 @@
     if(f.lastDetected) note += ' &middot; ' + esc(ago(f.lastDetected)||'');
 
     return '<div class="metric">'+head+
-      '<div class="m-val">'+esc(f.nearestKm)+'<small> km</small></div>'+
+      '<div class="m-val">'+esc(f.nearestKm)+'<small> km</small>'+fireTrend(z)+'</div>'+
       '<div class="m-note">'+note+'</div></div>';
+  }
+
+  /* ---------- Trend chips ---------- */
+
+  var ARROW = { up:'↑', down:'↓', flat:'→' };
+
+  function chip(cls, text, title){
+    return '<span class="trend '+cls+'"'+(title ? ' title="'+esc(title)+'"' : '')+'>'+text+'</span>';
+  }
+
+  /* AQI direction. Rising is bad, so `up` wears the alert colour — the opposite
+     of the usual "up is good" reflex, and worth the inversion here. */
+  function aqiTrend(z){
+    var t = z.trend;
+    if(!t || !t.available || !t.aqi) return '';
+    var a = t.aqi;
+
+    // A station swap is not a change in the air. Never render it as one.
+    if(!a.comparable){
+      return chip('muted', 'no compare', a.note || 'the reporting station changed');
+    }
+
+    var label = a.direction === 'flat'
+      ? ARROW.flat + ' steady'
+      : ARROW[a.direction] + ' ' + (a.delta > 0 ? '+' : '') + a.delta;
+
+    return chip(a.direction, label,
+      'was ' + a.from + ' about ' + t.comparedToHours + 'h ago (' + a.station + ')');
+  }
+
+  /* Fire intensity by summed radiative power, plus whether it is closing. */
+  function fireTrend(z){
+    var t = z.trend;
+    if(!t || !t.available || !t.fire) return '';
+    var f = t.fire;
+
+    if(!f.frpDirection){
+      return f.note ? chip('muted', 'no new pass', f.note) : '';
+    }
+
+    var label = f.frpDirection === 'flat'
+      ? ARROW.flat + ' steady'
+      : ARROW[f.frpDirection] + ' ' + (f.frpDirection === 'up' ? 'growing' : 'easing');
+
+    var title = 'fire radiative power ' + f.frpFrom + ' → ' + f.frpTo +
+      ' MW over ~' + t.comparedToHours + 'h';
+    if(f.closing) title += ' · nearest edge moved ' + f.distanceFrom + 'km → ' + f.distanceTo + 'km';
+
+    return chip(f.frpDirection, label, title) +
+      (f.closing ? chip('up', ARROW.down + ' closing', 'the nearest detection is nearer than it was') : '');
+  }
+
+  /* Days since measurable rain — an accumulator, not a delta. */
+  function rainStreak(z){
+    var r = z.trend && z.trend.daysSinceRain;
+    if(!r || r.days == null) return '';
+    var txt = (r.atLeast ? '>' : '') + r.days + 'd since rain';
+    return '<span>' + esc(txt) + '</span>';
   }
 
   function airMetric(z){
@@ -768,7 +872,8 @@
     if(a.stationCount > 1) note += ' &middot; worst of ' + esc(a.stationCount) + ' in range';
 
     return '<div class="metric">'+head+
-      '<div class="m-val" style="color:'+esc(band.color||'var(--ink)')+'">'+esc(a.aqi)+'<small> AQI</small></div>'+
+      '<div class="m-val" style="color:'+esc(band.color||'var(--ink)')+'">'+esc(a.aqi)+'<small> AQI</small>'+
+        aqiTrend(z)+'</div>'+
       '<div class="m-note">'+note+'</div>'+
       '<div class="aqi-scale"><div class="aqi-bar">'+
         '<div class="aqi-marker" style="left:'+pct.toFixed(1)+'%"></div></div></div></div>';
@@ -802,6 +907,8 @@
       if(wx.precip24h != null){
         parts.push('<span>Rain 24h <b>' + esc(wx.precip24h) + ' mm</b></span>');
       }
+      var streak = rainStreak(z);
+      if(streak) parts.push(streak);
       if(wx.observedAt) parts.push('<span style="opacity:.7">at ' + esc(wx.observedAt.slice(11,16)) + ' UTC</span>');
       if(parts.length) cond = '<div class="conds">' + parts.join('') + '</div>';
     }
