@@ -189,6 +189,38 @@
   .trend.flat {background:rgba(134,141,152,.12);color:var(--faint);border-color:rgba(134,141,152,.3)}
   /* Not-comparable and no-new-data both read as "we can't say", never as calm. */
   .trend.muted{background:transparent;color:var(--faint);border-color:var(--unknown);border-style:dashed;font-weight:400}
+  /* Chips are buttons: the explanation has to be reachable by tap and keyboard,
+     not just by hovering a native title attribute that phones never show. */
+  button.trend{cursor:pointer;font-family:'Space Mono',monospace;appearance:none}
+  button.trend::after{content:'';display:inline-block;width:3px}
+  button.trend:hover,button.trend[aria-expanded="true"]{filter:brightness(1.35)}
+  button.trend:focus-visible{outline:2px solid var(--crimson-bright);outline-offset:2px}
+
+  /* Explanation popover. Lives on <body> because .zone clips its overflow. */
+  .pop{
+    position:fixed;z-index:9999;max-width:min(21rem,calc(100vw - 24px));
+    background:var(--surface-2);border:1px solid var(--line-bright);border-radius:8px;
+    box-shadow:0 16px 44px rgba(0,0,0,.7);padding:13px 15px;
+    font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;color:var(--muted);
+    opacity:0;visibility:hidden;transition:opacity .12s;
+  }
+  .pop[data-open="true"]{opacity:1;visibility:visible}
+  .pop h4{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin-bottom:6px;
+  }
+  .pop p{margin:0 0 8px}
+  .pop p:last-child{margin-bottom:0}
+  .pop .rows{
+    font-family:'Space Mono',monospace;font-size:11.5px;
+    background:rgba(0,0,0,.3);border-radius:5px;padding:7px 9px;margin:0 0 9px;
+  }
+  .pop .rows div{display:flex;justify-content:space-between;gap:12px}
+  .pop .rows b{color:var(--ink);font-weight:700}
+  .pop .why{color:var(--faint);font-size:12px}
+  .pop .why b{color:var(--muted);font-weight:600}
+  .pop ul{margin:4px 0 0;padding-left:16px;color:var(--faint);font-size:12px}
+  .pop li{margin-bottom:3px}
 
   /* Conditions strip on each zone card */
   .conds{
@@ -796,11 +828,85 @@
 
   /* ---------- Trend chips ---------- */
 
+  /*
+   * Chips are buttons that open an explanation, not spans with a title
+   * attribute. Two reasons: phones never show native tooltips, and a chip that
+   * says "no compare" without saying why is just an unexplained refusal. The
+   * whole point of suppressing a comparison is that the suppression is
+   * meaningful — so it has to be readable.
+   *
+   * Explanation markup is kept in a registry keyed by id rather than stuffed
+   * into a data- attribute, so it can contain markup without escaping games.
+   */
   var ARROW = { up:'↑', down:'↓', flat:'→' };
+  var EXPLAIN = {};
+  var explainSeq = 0;
+  var popEl = null;
+  var popAnchor = null;
 
-  function chip(cls, text, title){
-    return '<span class="trend '+cls+'"'+(title ? ' title="'+esc(title)+'"' : '')+'>'+text+'</span>';
+  function chip(cls, text, explainHtml){
+    if(!explainHtml) return '<span class="trend '+cls+'">'+text+'</span>';
+    var id = 'x' + (++explainSeq);
+    EXPLAIN[id] = explainHtml;
+    return '<button type="button" class="trend '+cls+'" data-explain="'+id+'" ' +
+           'aria-expanded="false" aria-haspopup="dialog">'+text+'</button>';
   }
+
+  function rows(pairs){
+    return '<div class="rows">' + pairs.map(function(p){
+      return '<div><span>'+esc(p[0])+'</span><b>'+esc(p[1])+'</b></div>';
+    }).join('') + '</div>';
+  }
+
+  function ensurePop(){
+    if(popEl) return popEl;
+    popEl = document.createElement('div');
+    popEl.className = 'pop';
+    popEl.setAttribute('role','dialog');
+    popEl.setAttribute('data-open','false');
+    document.body.appendChild(popEl);
+    return popEl;
+  }
+
+  function closePop(){
+    if(!popEl) return;
+    popEl.setAttribute('data-open','false');
+    if(popAnchor){ popAnchor.setAttribute('aria-expanded','false'); popAnchor = null; }
+  }
+
+  function openPop(btn){
+    var html = EXPLAIN[btn.getAttribute('data-explain')];
+    if(!html) return;
+
+    var el = ensurePop();
+    el.innerHTML = html;
+    el.setAttribute('data-open','true');
+    btn.setAttribute('aria-expanded','true');
+    popAnchor = btn;
+
+    // Position after paint so we can measure. Prefer below the chip, flip above
+    // when that would run off the bottom, and clamp horizontally to the viewport.
+    var r = btn.getBoundingClientRect();
+    var pr = el.getBoundingClientRect();
+    var top = r.bottom + 8;
+    if(top + pr.height > window.innerHeight - 8) top = Math.max(8, r.top - pr.height - 8);
+    var left = Math.min(Math.max(8, r.left), window.innerWidth - pr.width - 8);
+    el.style.top = top + 'px';
+    el.style.left = left + 'px';
+  }
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('button.trend');
+    if(btn){
+      e.stopPropagation();
+      if(popAnchor === btn) closePop(); else { closePop(); openPop(btn); }
+      return;
+    }
+    if(popEl && !e.target.closest('.pop')) closePop();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closePop(); });
+  window.addEventListener('resize', closePop);
+  window.addEventListener('scroll', closePop, true);
 
   /* AQI direction. Rising is bad, so `up` wears the alert colour — the opposite
      of the usual "up is good" reflex, and worth the inversion here. */
@@ -811,15 +917,45 @@
 
     // A station swap is not a change in the air. Never render it as one.
     if(!a.comparable){
-      return chip('muted', 'no compare', a.note || 'the reporting station changed');
+      var was = a.fromStation || 'a different station';
+      var now = a.toStation || 'another station';
+      return chip('muted', 'no compare',
+        '<h4>Can&rsquo;t compare these</h4>' +
+        '<p>This zone reports the <b>worst</b> air of every station in range. ' +
+        'The station holding that title changed between the two readings, so the ' +
+        'numbers aren&rsquo;t measuring the same place.</p>' +
+        rows([
+          ['~' + t.comparedToHours + 'h ago', was + ' — ' + a.from],
+          ['now', now + ' — ' + a.to]
+        ]) +
+        '<p class="why"><b>Why this happens:</b></p>' +
+        '<ul>' +
+          '<li>the sensor reading worst went offline, so a cleaner one is now the worst in range</li>' +
+          '<li>a station came back online and is reporting higher than the rest</li>' +
+          '<li>stations report on their own schedules, so the set in range shifts between runs</li>' +
+        '</ul>' +
+        '<p class="why" style="margin-top:8px"><b>Why it matters:</b> if the sensor seeing ' +
+        'the worst air drops out, the number falls without the air improving. Showing that ' +
+        'as a &ldquo;−94&rdquo; would be good news we haven&rsquo;t earned.</p>');
     }
 
     var label = a.direction === 'flat'
       ? ARROW.flat + ' steady'
       : ARROW[a.direction] + ' ' + (a.delta > 0 ? '+' : '') + a.delta;
 
+    var heading = a.direction === 'flat' ? 'Air holding steady'
+                : a.direction === 'up'   ? 'Air getting worse'
+                                         : 'Air improving';
+
     return chip(a.direction, label,
-      'was ' + a.from + ' about ' + t.comparedToHours + 'h ago (' + a.station + ')');
+      '<h4>' + heading + '</h4>' +
+      rows([
+        ['~' + t.comparedToHours + 'h ago', String(a.from)],
+        ['now', String(a.to)],
+        ['change', (a.delta > 0 ? '+' : '') + a.delta]
+      ]) +
+      '<p class="why">Same station both times (<b>' + esc(a.toStation || 'unknown') + '</b>), ' +
+      'so this is a like-for-like comparison.</p>');
   }
 
   /* Fire intensity by summed radiative power, plus whether it is closing. */
@@ -829,19 +965,49 @@
     var f = t.fire;
 
     if(!f.frpDirection){
-      return f.note ? chip('muted', 'no new pass', f.note) : '';
+      if(!f.note) return '';
+      return chip('muted', 'no new pass',
+        '<h4>No new satellite pass</h4>' +
+        '<p>Both readings describe the <b>same</b> overpass, so any change between ' +
+        'them would be our polling cadence rather than the fire.</p>' +
+        '<p class="why">VIIRS crosses overhead only a few times a day, and near-real-time ' +
+        'processing runs a few hours behind. Between passes there is genuinely nothing ' +
+        'new to compare &mdash; so we say so instead of drawing an arrow.</p>' +
+        (f.lastPassAt ? rows([['newest detection', ago(f.lastPassAt) || 'unknown']]) : ''));
     }
 
     var label = f.frpDirection === 'flat'
       ? ARROW.flat + ' steady'
       : ARROW[f.frpDirection] + ' ' + (f.frpDirection === 'up' ? 'growing' : 'easing');
 
-    var title = 'fire radiative power ' + f.frpFrom + ' → ' + f.frpTo +
-      ' MW over ~' + t.comparedToHours + 'h';
-    if(f.closing) title += ' · nearest edge moved ' + f.distanceFrom + 'km → ' + f.distanceTo + 'km';
+    var heading = f.frpDirection === 'flat' ? 'Fire holding steady'
+                : f.frpDirection === 'up'   ? 'Fire intensifying'
+                                            : 'Fire easing';
 
-    return chip(f.frpDirection, label, title) +
-      (f.closing ? chip('up', ARROW.down + ' closing', 'the nearest detection is nearer than it was') : '');
+    var pairs = [
+      ['~' + t.comparedToHours + 'h ago', f.frpFrom + ' MW'],
+      ['now', f.frpTo + ' MW']
+    ];
+    if(f.distanceFrom != null && f.distanceTo != null){
+      pairs.push(['nearest', f.distanceFrom + 'km → ' + f.distanceTo + 'km']);
+    }
+
+    var body = chip(f.frpDirection, label,
+      '<h4>' + heading + '</h4>' + rows(pairs) +
+      '<p class="why">Measured as total <b>fire radiative power</b> &mdash; the energy the ' +
+      'detections are putting out. That tracks intensity far better than counting ' +
+      'detections, because pixel counts rise and fall with the satellite&rsquo;s viewing ' +
+      'angle even when the fire is unchanged.</p>');
+
+    if(f.closing){
+      body += chip('up', ARROW.down + ' closing',
+        '<h4>Getting closer</h4>' +
+        rows([['was', f.distanceFrom + ' km'], ['now', f.distanceTo + ' km']]) +
+        '<p class="why">The nearest detection is nearer than it was ~' + t.comparedToHours +
+        'h ago. Note this is the closest <em>detected pixel</em>, not a mapped fire edge &mdash; ' +
+        'a new detection on the near side can shift this without the fire actually spreading.</p>');
+    }
+    return body;
   }
 
   /* Days since measurable rain — an accumulator, not a delta. */
@@ -849,7 +1015,9 @@
     var r = z.trend && z.trend.daysSinceRain;
     if(!r || r.days == null) return '';
     var txt = (r.atLeast ? '>' : '') + r.days + 'd since rain';
-    return '<span>' + esc(txt) + '</span>';
+    return '<span title="' + esc(r.atLeast
+      ? 'At least ' + r.days + ' days — our history does not reach further back'
+      : 'Last measurable rain (over 0.2mm) was ' + r.days + ' days ago') + '">' + esc(txt) + '</span>';
   }
 
   function airMetric(z){
@@ -952,6 +1120,13 @@
   function render(){
     if(!payload) return;
     var zones = payload.zones || [];
+
+    // Cards are rebuilt on every poll, so last render's explanations are dead
+    // markup. Clear them, and dismiss any popover whose anchor is about to be
+    // destroyed — otherwise it hangs on screen attached to nothing.
+    closePop();
+    EXPLAIN = {};
+    explainSeq = 0;
     var lvl = overall(zones);
 
     var sub;
