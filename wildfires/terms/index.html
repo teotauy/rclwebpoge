@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use — Wildfire Watch</title>
+<meta name="description" content="What Wildfire Watch is and isn't a substitute for, and the terms governing its use.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0d; --surface:#141619; --line:#2a2e35; --line-bright:#3a3f49;
+    --ink:#F2F0EB; --muted:#B4BAC4; --faint:#868D98; --crimson-bright:#a3283a; --alert:#FF3B54;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:56px}
+  .wrap{max-width:38rem;margin:0 auto;padding:0 20px}
+  a{color:var(--muted)}
+  .back{display:inline-block;margin-top:30px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-decoration:none}
+  .back:hover{color:var(--crimson-bright)}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(28px,7vw,38px);text-transform:uppercase;letter-spacing:.01em;margin:14px 0 6px}
+  h1 span{color:var(--crimson-bright)}
+  .updated{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--faint);margin-bottom:34px}
+  .callout{
+    background:rgba(255,59,84,.08);border:1px solid rgba(255,59,84,.3);border-left:3px solid var(--alert);
+    border-radius:6px;padding:14px 16px;margin-bottom:34px;font-size:14.5px;color:var(--muted);
+  }
+  .callout b{color:var(--ink)}
+  section{margin-bottom:26px}
+  h2{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px;color:var(--ink)}
+  p,li{color:var(--muted);font-size:14.5px}
+  p+p{margin-top:10px}
+  ul{padding-left:20px;margin-top:6px}
+  li{margin-bottom:6px}
+  a.inline{color:var(--muted);text-decoration:underline;text-decoration-color:var(--line-bright)}
+  a.inline:hover{color:var(--crimson-bright)}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  footer a{color:var(--faint);text-decoration:none}
+  footer a:hover{color:var(--crimson-bright)}
+  footer .dot{color:var(--line-bright)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/wildfires">&larr; Wildfire Watch</a>
+  <h1>Terms <span>of Use</span></h1>
+  <p class="updated">Last updated: July 2026</p>
+
+  <div class="callout">
+    <b>Wildfire Watch is not an emergency service.</b> It is a convenience layer over
+    other people's instruments, refreshed every few hours. Never use it — or its
+    absence of a warning — to make an evacuation decision. Follow your local emergency
+    services and official sources (AEMET, Météo-France, Copernicus EMS) for anything
+    that matters.
+  </div>
+
+  <section>
+    <h2>1. Acceptance</h2>
+    <p>By using redcrowlabs.com/wildfires you agree to these terms. If you don't, please
+    don't use the site.</p>
+  </section>
+
+  <section>
+    <h2>2. What the data actually is</h2>
+    <p>Fire detections are satellite-derived thermal anomalies from NASA FIRMS (VIIRS),
+    roughly 375m resolution — a detection is not a confirmed, mapped, or contained fire,
+    and heavy cloud cover can hide one entirely. Air quality figures come from the
+    nearest reporting stations in the World Air Quality Index network and may not
+    reflect conditions at your exact location. Wind, humidity, and rainfall are
+    model-derived estimates from Open-Meteo. All of it can be wrong, missing, or hours
+    old — the dashboard states the age of what you're looking at for exactly this
+    reason.</p>
+  </section>
+
+  <section>
+    <h2>3. No warranty</h2>
+    <p>The site is provided "as is," with no warranty of accuracy, completeness, or
+    availability. Data sources can go down, satellites miss passes, and thresholds are
+    judgment calls, not scientific fact. Verify anything that matters against the
+    primary sources linked on each card before acting on it.</p>
+  </section>
+
+  <section>
+    <h2>4. Data sources &amp; attribution</h2>
+    <p>This site republishes public data from
+    <a class="inline" href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a>,
+    <a class="inline" href="https://aqicn.org/" target="_blank" rel="noopener">the World Air Quality Index project</a>, and
+    <a class="inline" href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>,
+    each under their own terms. We are not affiliated with, and do not speak for, any of
+    them, nor for AEMET, Météo-France, or Copernicus EMS, whose services are linked as
+    manual-check sources only.</p>
+  </section>
+
+  <section>
+    <h2>5. Intellectual property</h2>
+    <p>The Wildfire Watch name, design, and code are the property of Red Crow Labs.
+    Underlying environmental data belongs to its respective providers and is used under
+    their public terms.</p>
+  </section>
+
+  <section>
+    <h2>6. Limitation of liability</h2>
+    <p>Red Crow Labs is not liable for any damages arising from your use of this site,
+    including decisions made or not made based on data displayed here, data
+    inaccuracies, or service interruptions.</p>
+  </section>
+
+  <section>
+    <h2>7. Changes to these terms</h2>
+    <p>These terms may be updated at any time. Continued use of the site after a change
+    means you accept the update.</p>
+  </section>
+
+  <section>
+    <h2>8. Contact</h2>
+    <p>Questions? <a class="inline" href="mailto:colby@colbyangusblack.com">colby@colbyangusblack.com</a></p>
+  </section>
+
+  <footer>
+    <a href="/wildfires">Wildfire Watch</a>
+    <span class="dot">&middot;</span>
+    <a href="/wildfires/privacy">Privacy</a>
+    <span class="dot">&middot;</span>
+    <a href="https://redcrowlabs.com" target="_blank" rel="noopener">Red Crow Labs</a>
+  </footer>
+</div>
+</body>
+</html>

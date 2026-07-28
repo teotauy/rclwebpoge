@@ -407,6 +407,20 @@
   .f-links a{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-decoration:none}
   .f-links a:hover{color:var(--crimson-bright)}
 
+  /* Site-wide bar — matches the treatment on redcrowlabs.com and 13runleague.com */
+  .f-site{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
+    margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);
+  }
+  .f-site a{color:var(--faint);text-decoration:none}
+  .f-site a:hover{color:var(--crimson-bright)}
+  .f-site .bmc{color:#F0B90B}
+  .f-site .bmc:hover{color:#ffcc33}
+  .f-site .dot{color:var(--line-bright)}
+  .f-site .copy{text-transform:none;letter-spacing:0}
+
   .skeleton{color:var(--faint);font-family:'Space Mono',monospace;font-size:12.5px;padding:40px 0;text-align:center;grid-column:1/-1}
 </style>
 </head>
@@ -490,6 +504,18 @@
       <a href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener">FIRMS Map</a>
       <a href="https://aqicn.org/map/europe/" target="_blank" rel="noopener">AQI Map</a>
     </nav>
+
+    <div class="f-site">
+      <a class="bmc" href="https://buymeacoffee.com/colbyblack" target="_blank" rel="noopener">&#9749; Buy me a coffee</a>
+      <span class="dot">&middot;</span>
+      <a href="/wildfires/privacy">Privacy</a>
+      <span class="dot">&middot;</span>
+      <a href="/wildfires/terms">Terms</a>
+      <span class="dot">&middot;</span>
+      <a href="https://redcrowlabs.com" target="_blank" rel="noopener">Built by Red Crow Labs</a>
+      <span class="dot">&middot;</span>
+      <span class="copy">&copy; 2026 Red Crow Labs. All rights reserved.</span>
+    </div>
   </footer>
 </div>
 
