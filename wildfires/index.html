@@ -177,6 +177,50 @@
     box-shadow:0 0 12px rgba(255,107,44,.5);
   }
 
+  .legend-toggle{
+    display:none;
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);background:transparent;
+    border:0;padding:2px 4px;cursor:pointer;
+  }
+  .legend-items{display:flex;flex-wrap:wrap;gap:5px 14px}
+
+  /* Tap-to-interact shield. Without it, a finger landing on the map pans the
+     map instead of scrolling the page — the classic mobile map trap. */
+  .map-guard{
+    position:absolute;inset:0;z-index:600;display:none;
+    align-items:center;justify-content:center;
+    background:rgba(10,11,13,.35);backdrop-filter:blur(1px);cursor:pointer;
+  }
+  .map-guard[data-on="true"]{display:flex}
+  .map-guard span{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink);
+    background:rgba(10,11,13,.9);border:1px solid var(--line-bright);
+    padding:9px 16px;border-radius:999px;
+  }
+
+  @media (max-width: 760px){
+    /* The legend is 13 entries; expanded it swallows the map. */
+    .legend-toggle{display:block}
+    .map-legend[data-open="false"] .legend-items{display:none}
+    .map-legend{left:10px;bottom:10px}
+
+    /* Chips are tap targets, not just labels. */
+    .trend{font-size:11px;padding:5px 9px}
+    .mlinks a,.m-src{padding:3px 0;display:inline-block}
+    .pop{font-size:13.5px}
+  }
+
+  @media (max-width: 430px){
+    /* Two metric columns leave ~150px each — not enough for a 29px number plus
+       a trend chip. Stack them rather than let the chip wrap under the unit. */
+    .metrics{grid-template-columns:1fr}
+    .m-val{font-size:26px}
+    h1{font-size:clamp(28px,10vw,40px)}
+    .verdict-head{font-size:22px}
+  }
+
   /* Trend chips */
   .trend{
     display:inline-flex;align-items:center;gap:3px;
@@ -215,7 +259,9 @@
     font-family:'Space Mono',monospace;font-size:11.5px;
     background:rgba(0,0,0,.3);border-radius:5px;padding:7px 9px;margin:0 0 9px;
   }
-  .pop .rows div{display:flex;justify-content:space-between;gap:12px}
+  .pop .rows div{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .pop .rows div>span{flex:0 0 auto;color:var(--faint)}
+  .pop .rows b{min-width:0;text-align:right;overflow-wrap:anywhere}
   .pop .rows b{color:var(--ink);font-weight:700}
   .pop .why{color:var(--faint);font-size:12px}
   .pop .why b{color:var(--muted);font-weight:600}
@@ -393,7 +439,10 @@
 
   <div class="map-shell">
     <div id="map"></div>
-    <div class="map-legend">
+    <div class="map-guard" id="map-guard"><span>Tap to interact</span></div>
+    <div class="map-legend" id="legend" data-open="false">
+      <button type="button" class="legend-toggle" id="legend-toggle" aria-expanded="false">Key</button>
+      <div class="legend-items">
       <span class="lg"><i style="background:var(--clear)"></i>Clear</span>
       <span class="lg"><i style="background:var(--watch)"></i>Watch</span>
       <span class="lg"><i style="background:var(--alert)"></i>Alert</span>
@@ -407,6 +456,7 @@
       <span class="lg"><i style="background:#C8102E"></i>150</span>
       <span class="lg"><i style="background:#8B2FA8"></i>200</span>
       <span class="lg"><i style="background:#7E1020"></i>300+</span>
+      </div>
     </div>
   </div>
   <p class="map-note" id="map-note">Fire detections are 375m satellite hotspots, not mapped fire perimeters.</p>
@@ -522,6 +572,59 @@
     return '#7E1020';
   }
 
+  function isNarrow(){
+    return window.matchMedia('(max-width: 760px)').matches;
+  }
+
+  /* Coarse pointer, i.e. a finger. Not the same question as screen width — a
+     small laptop window should keep normal map dragging. */
+  function isTouch(){
+    return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  }
+
+  function initLegend(){
+    var legend = document.getElementById('legend');
+    var toggle = document.getElementById('legend-toggle');
+    if(!legend || !toggle) return;
+
+    // Open by default on wide screens, where it costs nothing.
+    legend.setAttribute('data-open', isNarrow() ? 'false' : 'true');
+    toggle.setAttribute('aria-expanded', isNarrow() ? 'false' : 'true');
+
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = legend.getAttribute('data-open') === 'true';
+      legend.setAttribute('data-open', open ? 'false' : 'true');
+      toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  }
+
+  /*
+   * On a touch device the map starts inert and a shield covers it. Dragging is
+   * enabled only once you tap deliberately, so scrolling past the page does not
+   * turn into panning Spain. Tapping the shield also collapses the layer panel
+   * if it is covering what you are trying to see.
+   */
+  function initMapGuard(){
+    var guard = document.getElementById('map-guard');
+    if(!guard || !map) return;
+
+    if(!isTouch()){
+      guard.setAttribute('data-on','false');
+      return;
+    }
+
+    map.dragging.disable();
+    map.touchZoom.disable();
+    guard.setAttribute('data-on','true');
+
+    guard.addEventListener('click', function(){
+      map.dragging.enable();
+      map.touchZoom.enable();
+      guard.setAttribute('data-on','false');
+    });
+  }
+
   function initMap(){
     if(map || typeof L === 'undefined') return;
 
@@ -582,9 +685,12 @@
       'Wind'               : windLayer,
       'Humidity'           : humidityLayer,
       'Rain, last 24h'     : precipLayer
-    },{ collapsed:false, position:'topright' }).addTo(map);
+    },{ collapsed: isNarrow(), position:'topright' }).addTo(map);
 
     map.setView([42.6,-2.4], 6);
+
+    initLegend();
+    initMapGuard();
   }
 
   /* Regional context. Loaded separately so the zone cards never wait on it. */
@@ -1157,7 +1263,11 @@
 
     // Clicking a card flies the map to that zone.
     Array.prototype.forEach.call(document.querySelectorAll('.zone'), function(el){
-      el.addEventListener('click', function(){
+      el.addEventListener('click', function(e){
+        // Chips, source links and manual-check links live inside the card. A tap
+        // on one of those must do its own job, not fly the map and scroll the
+        // page out from under the thing you just opened.
+        if(e.target.closest('button, a')) return;
         var z = zones.find(function(x){ return x.id === el.getAttribute('data-zone'); });
         var p = z && (z.points||[])[0];
         if(map && p && isFinite(p.lat)){
