@@ -342,6 +342,21 @@
 
   .social-empty{font-size:12.5px;color:var(--faint);font-style:italic}
 
+  .lang-toggle{display:flex;gap:5px}
+  .lang-toggle button{
+    font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    color:var(--faint);background:var(--surface);border:1px solid var(--line);
+    border-radius:5px;padding:4px 9px;cursor:pointer;transition:.15s;
+  }
+  .lang-toggle button:hover{color:var(--ink);border-color:var(--line-bright)}
+  .lang-toggle button.active{color:var(--ink);background:var(--surface-2);border-color:var(--crimson-bright)}
+
+  .social-post-meta{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:3px;padding-left:10px}
+  .social-post-meta time{font-family:'Space Mono',monospace;font-size:10px;color:var(--faint)}
+  /* Always visible, never behind a tap — a translation being uncertain is the
+     same category of thing as data being stale, and gets the same treatment. */
+  .mt-note{font-size:10.5px;color:var(--faint);font-style:italic}
+
   .zones{display:grid;grid-template-columns:1fr;gap:14px}
   @media(min-width:760px){.zones{grid-template-columns:1fr 1fr}}
 
@@ -528,7 +543,12 @@
 
   <div class="sec-head" id="social-head" style="display:none">
     <h2 class="sec-title">Official Sources</h2>
-    <span class="sec-meta">Not X/Twitter or Threads — see why below</span>
+    <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Translation language">
+      <button type="button" data-lang="EN-US">EN</button>
+      <button type="button" data-lang="FR">FR</button>
+      <button type="button" data-lang="ES">ES</button>
+      <button type="button" data-lang="EU">EU</button>
+    </div>
   </div>
   <div class="social-grid" id="social-grid"></div>
 
@@ -552,7 +572,10 @@
       tier as of 2026; Threads' API explicitly does not allow a third party to read another
       public account's posts at all. Bluesky's is open and free, and the agencies that actually
       matter here — Météo-France and AEMET — are both active on it, verified, and posting
-      several times a day.
+      several times a day. Posts are machine-translated (via DeepL) into English, French,
+      Spanish, and Basque — every translated post says so and links to the original, since a
+      confident bad translation of a safety advisory is worse than an honest one that admits
+      it's a translation.
     </p>
     <nav class="f-links">
       <a href="/">Red Crow Labs</a>
@@ -804,17 +827,65 @@
       .catch(function(){ /* context layer only */ });
   }
 
+  /*
+   * Language state for the Official Sources feed. Separate from everything
+   * else on the page — zone cards are never translated, only these posts.
+   */
+  var LANG_LABEL = { 'EN-US':'English', FR:'French', ES:'Spanish', EU:'Basque' };
+  var socialLang = (function(){
+    try { return localStorage.getItem('wildfires-lang') || 'EN-US'; }
+    catch(e){ return 'EN-US'; }
+  })();
+  var lastSocial = null;
+  var langToggleWired = false;
+
+  function setSocialLang(code){
+    socialLang = code;
+    try { localStorage.setItem('wildfires-lang', code); } catch(e){ /* private browsing, etc. */ }
+    if(lastSocial) renderSocial(lastSocial);
+  }
+
   function renderSocial(d){
+    lastSocial = d;
     var head = document.getElementById('social-head');
     var grid = document.getElementById('social-grid');
     var accounts = d.accounts || [];
     if(!accounts.length){ head.style.display = 'none'; grid.innerHTML = ''; return; }
 
     head.style.display = '';
+
+    var toggle = document.getElementById('lang-toggle');
+    if(toggle && !langToggleWired){
+      langToggleWired = true;
+      Array.prototype.forEach.call(toggle.querySelectorAll('button'), function(btn){
+        btn.addEventListener('click', function(){ setSocialLang(btn.getAttribute('data-lang')); });
+      });
+    }
+    if(toggle){
+      Array.prototype.forEach.call(toggle.querySelectorAll('button'), function(btn){
+        var on = btn.getAttribute('data-lang') === socialLang;
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+
     grid.innerHTML = accounts.map(function(a){
       var posts = (a.posts || []).map(function(p){
+        var native = p.lang === socialLang;
+        var translated = p.translations && p.translations[socialLang];
+        var text = native ? p.text : (translated || p.text);
+
+        var note = '';
+        if(!native){
+          var srcLabel = esc(LANG_LABEL[p.lang] || p.lang);
+          note = translated
+            ? '<span class="mt-note">Machine-translated from '+srcLabel+'</span>'
+            : '<span class="mt-note">Translation unavailable — showing original '+srcLabel+'</span>';
+        }
+
         return '<li class="social-post"><a href="'+esc(p.url)+'" target="_blank" rel="noopener">'+
-          esc(p.text) + '<time>' + esc(ago(p.createdAt) || '') + '</time></a></li>';
+          esc(text) + '</a><div class="social-post-meta"><time>' +
+          esc(ago(p.createdAt) || '') + '</time>' + note + '</div></li>';
       }).join('');
 
       var body = a.ok && posts
