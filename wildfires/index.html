@@ -276,6 +276,17 @@
   }
   .conds b{color:var(--muted);font-weight:700}
   .conds .dry b{color:var(--watch)}
+
+  /* Last alert sent — a snapshot of what actually went out, not a live reading.
+     Kept visually distinct from .conds (which is current) with a darker fill. */
+  .last-alert{
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    padding:9px 17px;border-top:1px solid var(--line);background:rgba(0,0,0,.22);
+    font-family:'Space Mono',monospace;font-size:11px;color:var(--faint);
+  }
+  .last-alert .la-icon{font-size:13px;line-height:1;flex-shrink:0}
+  .last-alert b{color:var(--muted);font-weight:700}
+  .last-alert button.trend{margin-left:auto}
   .leaflet-popup-content-wrapper{
     background:var(--surface-2);color:var(--ink);border-radius:7px;border:1px solid var(--line-bright);
   }
@@ -1152,6 +1163,38 @@
       : 'Last measurable rain (over 0.2mm) was ' + r.days + ' days ago') + '">' + esc(txt) + '</span>';
   }
 
+  /*
+   * The last alert actually sent, verbatim. This is deliberately a snapshot —
+   * the exact headline, summary and rows the server built and pushed at
+   * notify time — not the live card. It does not update as the zone's numbers
+   * move, which is the point: it answers "what was I told", a different
+   * question from "what is true right now". Shown even when the zone is
+   * currently unknown, since the last real alert is still worth having if the
+   * zone has since gone dark.
+   */
+  function lastAlertBlock(z){
+    var a = z.lastAlert;
+    if(!a || !a.message) return '';
+
+    var channels = (a.channels||[]).map(function(c){
+      return c.charAt(0).toUpperCase() + c.slice(1);
+    }).join(', ') || 'no channel recorded';
+
+    var body = '<h4>' + esc(a.message.icon||'') + ' ' + esc(a.message.headline) + '</h4>' +
+      (a.message.summary ? '<p>' + esc(a.message.summary) + '</p>' : '') +
+      rows(a.message.rows || []) +
+      '<p class="why">Sent ' + esc(ago(a.notifiedAt) || 'recently') + ' via <b>' + esc(channels) +
+      '</b>. This is a snapshot of what actually went out — it will not update as ' +
+      'conditions change.</p>';
+
+    return '<div class="last-alert">' +
+      '<span class="la-icon">' + esc(a.message.icon||'') + '</span>' +
+      '<span>Last alert: <b>' + esc(a.message.headline) + '</b> &middot; ' +
+        esc(ago(a.notifiedAt) || 'recently') + ' via ' + esc(channels) + '</span>' +
+      chip('muted', 'View message', body) +
+      '</div>';
+  }
+
   function airMetric(z){
     var a = z.air || {};
     var head = '<div class="m-top"><span class="m-label">Air</span>'+
@@ -1230,6 +1273,7 @@
       '<div class="metrics">'+fireMetric(z)+airMetric(z)+'</div>'+
       wind+
       cond+
+      lastAlertBlock(z)+
       '<div class="z-foot">'+stamp+'<div class="mlinks">'+links+'</div></div>'+
     '</article>';
   }
