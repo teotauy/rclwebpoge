@@ -311,6 +311,37 @@
   }
   .sec-meta{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}
 
+  /* ================= Official sources (Bluesky) ================= */
+  .social-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:760px){.social-grid{grid-template-columns:repeat(3,1fr)}}
+
+  .social-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:15px 17px 16px;display:flex;flex-direction:column;gap:11px;
+  }
+  .social-card[data-ok="false"]{border-style:dashed;opacity:.7}
+  .social-head{display:flex;flex-direction:column;gap:2px}
+  .social-org{font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;letter-spacing:.01em}
+  .social-role{font-size:12px;color:var(--faint)}
+  .social-handle{
+    font-family:'Space Mono',monospace;font-size:10.5px;color:var(--faint);
+    text-decoration:none;margin-top:2px;opacity:.85;
+  }
+  .social-handle:hover{color:var(--crimson-bright);opacity:1}
+
+  .social-posts{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .social-post a{
+    display:block;color:var(--muted);text-decoration:none;font-size:13px;line-height:1.5;
+    border-left:2px solid var(--line-bright);padding-left:10px;
+  }
+  .social-post a:hover{color:var(--ink);border-left-color:var(--crimson-bright)}
+  .social-post time{
+    display:block;font-family:'Space Mono',monospace;font-size:10px;color:var(--faint);
+    margin-top:3px;
+  }
+
+  .social-empty{font-size:12.5px;color:var(--faint);font-style:italic}
+
   .zones{display:grid;grid-template-columns:1fr;gap:14px}
   @media(min-width:760px){.zones{grid-template-columns:1fr 1fr}}
 
@@ -495,6 +526,12 @@
     <p class="skeleton">Loading zone status…</p>
   </main>
 
+  <div class="sec-head" id="social-head" style="display:none">
+    <h2 class="sec-title">Official Sources</h2>
+    <span class="sec-meta">Not X/Twitter or Threads — see why below</span>
+  </div>
+  <div class="social-grid" id="social-grid"></div>
+
   <footer>
     <p class="f-title">What this is and isn't</p>
     <p class="f-copy">
@@ -509,6 +546,13 @@
     <p class="f-copy">
       Copernicus EMS and Bison Futé publish no stable feed to poll, so they are linked per zone as
       manual checks rather than pulled automatically.
+    </p>
+    <p class="f-copy">
+      Official Sources pulls posts from Bluesky, not X/Twitter or Threads. X's API has no free
+      tier as of 2026; Threads' API explicitly does not allow a third party to read another
+      public account's posts at all. Bluesky's is open and free, and the agencies that actually
+      matter here — Météo-France and AEMET — are both active on it, verified, and posting
+      several times a day.
     </p>
     <nav class="f-links">
       <a href="/">Red Crow Labs</a>
@@ -741,6 +785,51 @@
         drawRegion();
       })
       .catch(function(){ /* context layer only — the zone cards stand alone */ });
+  }
+
+  /*
+   * Official-agency posts (Bluesky). Same rule as the region layer: this is
+   * context, not a decision input — a failure here must never touch the zone
+   * cards, and an empty result simply means the section stays hidden rather
+   * than showing a broken-looking gap.
+   */
+  function loadSocial(){
+    var url = API.replace(/\/status$/, '/social');
+    return fetch(url)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if(!d || !d.available) return;
+        renderSocial(d);
+      })
+      .catch(function(){ /* context layer only */ });
+  }
+
+  function renderSocial(d){
+    var head = document.getElementById('social-head');
+    var grid = document.getElementById('social-grid');
+    var accounts = d.accounts || [];
+    if(!accounts.length){ head.style.display = 'none'; grid.innerHTML = ''; return; }
+
+    head.style.display = '';
+    grid.innerHTML = accounts.map(function(a){
+      var posts = (a.posts || []).map(function(p){
+        return '<li class="social-post"><a href="'+esc(p.url)+'" target="_blank" rel="noopener">'+
+          esc(p.text) + '<time>' + esc(ago(p.createdAt) || '') + '</time></a></li>';
+      }).join('');
+
+      var body = a.ok && posts
+        ? '<ul class="social-posts">'+posts+'</ul>'
+        : '<p class="social-empty">'+ (a.ok ? 'No recent posts.' : 'Unavailable right now.') +'</p>';
+
+      return '<div class="social-card" data-ok="'+(a.ok?'true':'false')+'">'+
+        '<div class="social-head">'+
+          '<span class="social-org">'+esc(a.label)+'</span>'+
+          '<span class="social-role">'+esc(a.role)+'</span>'+
+          '<a class="social-handle" href="https://bsky.app/profile/'+esc(a.handle)+'" target="_blank" rel="noopener">@'+esc(a.handle)+' &#8599;</a>'+
+        '</div>'+
+        body+
+      '</div>';
+    }).join('');
   }
 
   /* Humidity as fire weather: dry reads hot, damp reads cool. Inverted against
@@ -1409,8 +1498,10 @@
   initMap();
   load();
   loadRegion();
+  loadSocial();
   setInterval(function(){ load(false); }, POLL_MS);
   setInterval(loadRegion, POLL_MS);
+  setInterval(loadSocial, POLL_MS);
   setInterval(freshness, TICK_MS);
 })();
 </script>
