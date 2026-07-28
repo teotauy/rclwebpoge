@@ -696,7 +696,7 @@
   /* Regional context. Loaded separately so the zone cards never wait on it. */
   function loadRegion(){
     var url = API.replace(/\/status$/, '/region');
-    return fetch(url,{cache:'no-store'})
+    return fetch(url)  // CDN-cached; see the note on load()
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(d){
         if(!d || !d.available || !map) return;
@@ -1298,11 +1298,24 @@
     p.title = absTime(lastChecked);
   }
 
-  function load(){
+  /*
+   * `manual` is set only by the Check now button.
+   *
+   * Automatic polls deliberately go through the CDN cache. The endpoint caches
+   * for five minutes, collection runs every three to six hours, and the payload
+   * states its own age — so a cached response can never misrepresent freshness.
+   * The win is that twenty people with the page open cost roughly the same as
+   * one. Sending no-store on every poll, as this used to, made every viewer a
+   * direct origin hit and would have put a shared link on course for the KV read
+   * limit inside a day.
+   */
+  function load(manual){
     var btn = document.getElementById('refresh-btn');
     btn.disabled = true; btn.textContent = 'Checking…';
 
-    return fetch(API,{cache:'no-store'})
+    var url = manual ? API + (API.indexOf('?') < 0 ? '?' : '&') + 'cb=' + Date.now() : API;
+
+    return fetch(url, manual ? {cache:'reload'} : {})
       .then(function(r){
         if(!r.ok) throw new Error('status endpoint returned ' + r.status);
         return r.json();
@@ -1321,12 +1334,12 @@
       .then(function(){ btn.disabled = false; btn.textContent = 'Check now'; });
   }
 
-  document.getElementById('refresh-btn').addEventListener('click', load);
+  document.getElementById('refresh-btn').addEventListener('click', function(){ load(true); });
 
   initMap();
   load();
   loadRegion();
-  setInterval(load, POLL_MS);
+  setInterval(function(){ load(false); }, POLL_MS);
   setInterval(loadRegion, POLL_MS);
   setInterval(freshness, TICK_MS);
 })();
