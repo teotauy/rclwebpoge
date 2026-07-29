@@ -344,12 +344,18 @@
 
   .lang-toggle{display:flex;gap:5px}
   .lang-toggle button{
-    font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-    color:var(--faint);background:var(--surface);border:1px solid var(--line);
-    border-radius:5px;padding:4px 9px;cursor:pointer;transition:.15s;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;line-height:1;width:32px;height:26px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:5px;padding:0;cursor:pointer;transition:.15s;
+    filter:grayscale(65%) brightness(.9);opacity:.75;
   }
-  .lang-toggle button:hover{color:var(--ink);border-color:var(--line-bright)}
-  .lang-toggle button.active{color:var(--ink);background:var(--surface-2);border-color:var(--crimson-bright)}
+  .lang-toggle button svg{display:block}
+  .lang-toggle button:hover{border-color:var(--line-bright);filter:none;opacity:1}
+  .lang-toggle button.active{
+    background:var(--surface-2);border-color:var(--crimson-bright);
+    filter:none;opacity:1;box-shadow:0 0 0 1px var(--crimson-bright);
+  }
 
   .social-post-meta{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:3px;padding-left:10px}
   .social-post-meta time{font-family:'Space Mono',monospace;font-size:10px;color:var(--faint)}
@@ -544,10 +550,22 @@
   <div class="sec-head" id="social-head" style="display:none">
     <h2 class="sec-title">Official Sources</h2>
     <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Translation language">
-      <button type="button" data-lang="EN-US">EN</button>
-      <button type="button" data-lang="FR">FR</button>
-      <button type="button" data-lang="ES">ES</button>
-      <button type="button" data-lang="EU">EU</button>
+      <button type="button" data-lang="EN-US" title="English" aria-label="English">🇺🇸</button>
+      <button type="button" data-lang="FR" title="Français" aria-label="Français">🇫🇷</button>
+      <button type="button" data-lang="ES" title="Español" aria-label="Español">🇪🇸</button>
+      <button type="button" data-lang="EU" title="Euskara" aria-label="Euskara">
+        <!-- No Unicode flag exists for the Basque Country — it isn't a sovereign
+             state, and Unicode only special-cases three UK subdivision flags.
+             This is the ikurriña, drawn inline rather than defaulting to Spain's
+             flag or leaving Basque as the one text label among three emoji. -->
+        <svg viewBox="0 0 30 18" width="20" height="12" aria-hidden="true">
+          <rect width="30" height="18" fill="#EA1F27"/>
+          <g stroke="#fff" stroke-width="4"><line x1="0" y1="0" x2="30" y2="18"/><line x1="30" y1="0" x2="0" y2="18"/></g>
+          <g stroke="#009B3A" stroke-width="2.2"><line x1="0" y1="0" x2="30" y2="18"/><line x1="30" y1="0" x2="0" y2="18"/></g>
+          <rect x="0" y="7" width="30" height="4" fill="#fff"/>
+          <rect x="13" y="0" width="4" height="18" fill="#fff"/>
+        </svg>
+      </button>
     </div>
   </div>
   <div class="social-grid" id="social-grid"></div>
