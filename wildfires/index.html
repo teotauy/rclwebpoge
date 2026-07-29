@@ -342,6 +342,11 @@
 
   .social-empty{font-size:12.5px;color:var(--faint);font-style:italic}
 
+  .lang-toggle-wrap{display:flex;align-items:center;gap:8px}
+  .lang-toggle-label{
+    font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);
+  }
   .lang-toggle{display:flex;gap:5px}
   .lang-toggle button{
     display:flex;align-items:center;justify-content:center;
@@ -549,6 +554,8 @@
 
   <div class="sec-head" id="social-head" style="display:none">
     <h2 class="sec-title">Official Sources</h2>
+    <div class="lang-toggle-wrap">
+    <span class="lang-toggle-label">Translate:</span>
     <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Translation language">
       <button type="button" data-lang="EN-US" title="English" aria-label="English">🇺🇸</button>
       <button type="button" data-lang="FR" title="Français" aria-label="Français">🇫🇷</button>
@@ -566,6 +573,7 @@
           <rect x="13" y="0" width="4" height="18" fill="#fff"/>
         </svg>
       </button>
+    </div>
     </div>
   </div>
   <div class="social-grid" id="social-grid"></div>
