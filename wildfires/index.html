@@ -387,6 +387,36 @@
   .zone[data-level="alert"]{border-color:rgba(255,59,84,.3)}
 
   .z-head{display:flex;align-items:flex-start;gap:11px;padding:15px 17px 12px}
+
+  /* Drag handle — a CSS-drawn six-dot grip, no image asset. touch-action:none is
+     what lets a touch-drag on this specific element reorder instead of scrolling
+     the page; every other part of the card keeps normal scroll behaviour. */
+  .drag-handle{
+    flex-shrink:0;width:18px;height:24px;margin-top:2px;position:relative;
+    background:transparent;border:0;padding:0;cursor:grab;touch-action:none;
+  }
+  .drag-handle::before{
+    content:'';position:absolute;left:50%;top:50%;
+    width:3px;height:3px;border-radius:50%;background:var(--faint);
+    box-shadow:
+      -5px -6px 0 var(--faint), 5px -6px 0 var(--faint),
+      -5px  0px 0 var(--faint), 5px  0px 0 var(--faint),
+      -5px  6px 0 var(--faint), 5px  6px 0 var(--faint);
+    transform:translate(-50%,-50%);
+  }
+  .drag-handle:hover::before{background:var(--muted);box-shadow:
+      -5px -6px 0 var(--muted), 5px -6px 0 var(--muted),
+      -5px  0px 0 var(--muted), 5px  0px 0 var(--muted),
+      -5px  6px 0 var(--muted), 5px  6px 0 var(--muted);}
+  .drag-handle:active{cursor:grabbing}
+
+  .zone.dragging{
+    opacity:.55;box-shadow:0 20px 45px rgba(0,0,0,.6);
+    cursor:grabbing;z-index:50;
+  }
+  /* Prevent the drag gesture from also selecting card text as the pointer
+     moves quickly across siblings. */
+  body.zone-drag-active{user-select:none;-webkit-user-select:none}
   .z-id{flex:1;min-width:0}
   .z-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:22px;letter-spacing:.01em;line-height:1.15}
   .z-sub{font-size:12.5px;color:var(--faint);margin-top:1px;line-height:1.4}
@@ -460,6 +490,14 @@
   .stamp{font-family:'Space Mono',monospace;font-size:10px;color:var(--faint)}
   .stamp b{color:var(--muted);font-weight:400}
   .stamp.stale b{color:var(--watch)}
+  .share-btn{
+    display:flex;align-items:center;gap:5px;
+    font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--faint);background:transparent;border:1px solid var(--line-bright);
+    border-radius:999px;padding:4px 10px;cursor:pointer;transition:.15s;
+  }
+  .share-btn:hover{color:var(--ink);border-color:var(--crimson-bright)}
+  .share-btn.copied{color:var(--clear);border-color:var(--clear)}
   .mlinks{display:flex;flex-wrap:wrap;gap:5px 11px;margin-left:auto}
   .mlinks a{font-family:'Space Mono',monospace;font-size:10px;color:var(--faint);text-decoration:none;opacity:.8}
   .mlinks a:hover{color:var(--crimson-bright);opacity:1}
@@ -1451,7 +1489,9 @@
       : '<span class="stamp stale">Never updated</span>';
 
     return '<article class="zone" data-level="'+esc(lvl)+'" data-zone="'+esc(z.id)+'">'+
-      '<div class="z-head"><div class="z-id">'+
+      '<div class="z-head">'+
+        '<button type="button" class="drag-handle" aria-label="Drag to reorder" title="Drag to reorder"></button>'+
+        '<div class="z-id">'+
         '<h3 class="z-name">'+esc(z.name)+'</h3>'+
         '<p class="z-sub">'+esc(z.subtitle||'')+'</p></div>'+
         '<span class="chip" data-level="'+esc(lvl)+'">'+esc(chipText(z))+'</span></div>'+
@@ -1460,7 +1500,12 @@
       wind+
       cond+
       lastAlertBlock(z)+
-      '<div class="z-foot">'+stamp+'<div class="mlinks">'+links+'</div></div>'+
+      '<div class="z-foot">'+stamp+
+        '<button type="button" class="share-btn" data-share-zone="'+esc(z.id)+'" title="Share this zone" aria-label="Share this zone">'+
+          '<svg viewBox="0 0 20 20" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M14 3a3 3 0 1 0-2.94 3.94L6.9 9.53a3 3 0 1 0 0 2.94l4.16 2.6A3 3 0 1 0 12 13.5c0-.18-.02-.36-.05-.53l-4.16-2.6a3.01 3.01 0 0 0 0-.74l4.16-2.6c.5.36 1.1.57 1.76.57A3 3 0 0 0 17 4a3 3 0 0 0-3-1Z"/></svg>'+
+          '<span>Share</span>'+
+        '</button>'+
+        '<div class="mlinks">'+links+'</div></div>'+
     '</article>';
   }
 
@@ -1477,6 +1522,123 @@
     // Missing any zone means we cannot honestly claim everything is clear.
     if(anyMissing && worst === 'clear') return 'unknown';
     return worst;
+  }
+
+  /*
+   * Zone order, persisted for the browser session only (sessionStorage, not
+   * localStorage) — closing the tab resets it, matching "for the session"
+   * rather than a permanent preference.
+   */
+  var ZONE_ORDER_KEY = 'wildfires-zone-order';
+  var zoneDragActive = false;
+  var pendingZones = null; // render() deferred while a drag is in progress
+
+  function loadZoneOrder(){
+    try { return JSON.parse(sessionStorage.getItem(ZONE_ORDER_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function saveZoneOrder(ids){
+    try { sessionStorage.setItem(ZONE_ORDER_KEY, JSON.stringify(ids)); }
+    catch(e){ /* private browsing, storage full, etc. — order just won't persist */ }
+  }
+
+  /** Apply the saved order; a zone missing from it (newly added, or first
+      load ever) falls in at the end, in its normal API order. */
+  function applyZoneOrder(zones){
+    var order = loadZoneOrder();
+    if(!order.length) return zones;
+    var byId = {};
+    zones.forEach(function(z){ byId[z.id] = z; });
+    var ordered = [];
+    order.forEach(function(id){
+      if(byId[id]){ ordered.push(byId[id]); delete byId[id]; }
+    });
+    zones.forEach(function(z){ if(byId[z.id]) ordered.push(z); });
+    return ordered;
+  }
+
+  /*
+   * Pointer-based drag reorder — not the native HTML5 Drag and Drop API,
+   * which has no touch support at all and would make this unusable on a
+   * phone, which is exactly what this dashboard is built for. Pointer Events
+   * unify mouse and touch in one code path.
+   *
+   * Reordering uses nearest-center distance rather than a pure Y-coordinate
+   * comparison, because the zone grid is two columns on wider screens — a
+   * Y-only check breaks down for same-row swaps between columns.
+   */
+  function initZoneDrag(){
+    var container = document.getElementById('zones');
+    var dragCard = null, dragPointerId = null;
+
+    container.addEventListener('pointerdown', function(e){
+      var handle = e.target.closest('.drag-handle');
+      if(!handle) return;
+      var card = handle.closest('.zone');
+      if(!card) return;
+
+      e.preventDefault();
+      dragCard = card;
+      dragPointerId = e.pointerId;
+      zoneDragActive = true;
+      try { card.setPointerCapture(e.pointerId); } catch(err){}
+      card.classList.add('dragging');
+      document.body.classList.add('zone-drag-active');
+    });
+
+    container.addEventListener('pointermove', function(e){
+      if(!dragCard || e.pointerId !== dragPointerId) return;
+
+      var siblings = Array.prototype.filter.call(container.children, function(el){
+        return el !== dragCard && el.classList.contains('zone');
+      });
+      if(!siblings.length) return;
+
+      var x = e.clientX, y = e.clientY;
+      var closest = null, closestDist = Infinity;
+      siblings.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        var cx = r.left + r.width/2, cy = r.top + r.height/2;
+        var d = Math.hypot(cx - x, cy - y);
+        if(d < closestDist){ closestDist = d; closest = el; }
+      });
+      if(!closest) return;
+
+      var closestIndex = Array.prototype.indexOf.call(container.children, closest);
+      var cardIndex = Array.prototype.indexOf.call(container.children, dragCard);
+      if(cardIndex < closestIndex){
+        container.insertBefore(dragCard, closest.nextSibling);
+      } else {
+        container.insertBefore(dragCard, closest);
+      }
+    });
+
+    function endDrag(e){
+      if(!dragCard || e.pointerId !== dragPointerId) return;
+      dragCard.classList.remove('dragging');
+      document.body.classList.remove('zone-drag-active');
+
+      var ids = Array.prototype.map.call(
+        container.querySelectorAll('.zone'),
+        function(el){ return el.getAttribute('data-zone'); }
+      );
+      saveZoneOrder(ids);
+
+      dragCard = null;
+      dragPointerId = null;
+      zoneDragActive = false;
+
+      // A poll may have landed while the drag was in progress and been held
+      // back rather than yanking the card out from under a still-active
+      // pointer. Apply it now, in the order just saved.
+      if(pendingZones){
+        var toApply = pendingZones;
+        pendingZones = null;
+        renderZones(toApply);
+      }
+    }
+    container.addEventListener('pointerup', endDrag);
+    container.addEventListener('pointercancel', endDrag);
   }
 
   function render(){
@@ -1515,6 +1677,22 @@
     document.getElementById('zone-count').textContent =
       zones.length + (zones.length === 1 ? ' zone' : ' zones') + ' tracked';
 
+    var displayZones = applyZoneOrder(zones);
+    if(zoneDragActive){
+      // A poll landed mid-drag. Rebuilding #zones now would yank the card out
+      // from under an active pointer capture — hold the data and apply it the
+      // moment the drag ends instead.
+      pendingZones = displayZones;
+    } else {
+      renderZones(displayZones);
+    }
+
+    drawMap();
+    freshness();
+  }
+
+  /** Build and wire the zone cards. Order-agnostic — callers decide order. */
+  function renderZones(zones){
     document.getElementById('zones').innerHTML = zones.map(card).join('');
 
     // Clicking a card flies the map to that zone.
@@ -1533,8 +1711,50 @@
       });
     });
 
-    drawMap();
-    freshness();
+    // Share button: native share sheet on mobile (the whole point — one tap
+    // into iMessage/WhatsApp), clipboard-copy fallback everywhere else.
+    Array.prototype.forEach.call(document.querySelectorAll('.share-btn'), function(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = btn.getAttribute('data-share-zone');
+        var z = zones.find(function(x){ return x.id === id; });
+        shareZone(z, btn);
+      });
+    });
+  }
+
+  function shareUrlBase(){
+    return location.pathname.indexOf('/wildfires') === 0 ? '/wildfires/share/' : '/share/';
+  }
+
+  function shareZone(z, btn){
+    if(!z) return;
+    var url = location.origin + shareUrlBase() + z.id;
+    var lvl = shownLevel(z);
+    var text = z.name + ' — ' + (lvl === 'unknown' ? 'status unknown' : lvl) +
+      (z.drivers && z.drivers.length ? ' (' + z.drivers.join(', ') + ')' : '');
+
+    if(navigator.share){
+      // Errors here are almost always the user backing out of the share
+      // sheet — not a failure worth surfacing.
+      navigator.share({ title: z.name + ' — Wildfire Watch', text: text, url: url }).catch(function(){});
+      return;
+    }
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){
+        if(!btn) return;
+        var original = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<span>Copied!</span>';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.innerHTML = original;
+        }, 1800);
+      }).catch(function(){ window.prompt('Copy this link:', url); });
+    } else {
+      window.prompt('Copy this link:', url);
+    }
   }
 
   function freshness(){
@@ -1593,6 +1813,7 @@
   document.getElementById('refresh-btn').addEventListener('click', function(){ load(true); });
 
   initMap();
+  initZoneDrag();
   load();
   loadRegion();
   loadSocial();
