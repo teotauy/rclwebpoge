@@ -1796,17 +1796,21 @@
     var url = location.origin + shareUrlBase() + z.id;
     var tileUrl = url + '/tile.svg';
     var lvl = shownLevel(z);
-    var text = z.name + ' — ' + (lvl === 'unknown' ? 'status unknown' : lvl) +
-      (z.drivers && z.drivers.length ? ' (' + z.drivers.join(', ') + ')' : '') +
-      '\n' + url;
+    var caption = z.name + ' — ' + (lvl === 'unknown' ? 'status unknown' : lvl) +
+      (z.drivers && z.drivers.length ? ' (' + z.drivers.join(', ') + ')' : '');
+    // Only used for the link-only fallback below, deliberately never alongside
+    // the image — see the comment at the share() call for why.
+    var textWithLink = caption + '\n' + url;
 
     tileToPngBlob(tileUrl).then(function(pngBlob){
       if(pngBlob){
         var file = new File([pngBlob], z.id + '-wildfire-watch.png', { type: 'image/png' });
         if(navigator.canShare && navigator.canShare({ files: [file] })){
-          // The real thing: an actual picture in the share sheet. Errors here
-          // are almost always the user backing out, not worth surfacing.
-          navigator.share({ files: [file], title: z.name + ' — Wildfire Watch', text: text }).catch(function(){});
+          // The picture IS the content here, so the caption stays a plain
+          // caption — no raw URL. Including one made Messages try to unfurl
+          // it as a *second*, separate link-preview card, stacked awkwardly
+          // right below the real image that had just worked correctly.
+          navigator.share({ files: [file], title: z.name + ' — Wildfire Watch', text: caption }).catch(function(){});
           return;
         }
         // No file-share support (most desktop browsers), but the Clipboard
@@ -1815,11 +1819,11 @@
         if(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem){
           navigator.clipboard.write([new ClipboardItem({ 'image/png': pngBlob })])
             .then(function(){ shareFeedback(btn, 'Image copied!'); })
-            .catch(function(){ shareLinkOnly(z, url, text, btn); });
+            .catch(function(){ shareLinkOnly(z, url, textWithLink, btn); });
           return;
         }
       }
-      shareLinkOnly(z, url, text, btn);
+      shareLinkOnly(z, url, textWithLink, btn);
     });
   }
 
