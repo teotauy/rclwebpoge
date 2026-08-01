@@ -1727,34 +1727,100 @@
     return location.pathname.indexOf('/wildfires') === 0 ? '/wildfires/share/' : '/share/';
   }
 
-  function shareZone(z, btn){
-    if(!z) return;
-    var url = location.origin + shareUrlBase() + z.id;
-    var lvl = shownLevel(z);
-    var text = z.name + ' — ' + (lvl === 'unknown' ? 'status unknown' : lvl) +
-      (z.drivers && z.drivers.length ? ' (' + z.drivers.join(', ') + ')' : '');
+  /*
+   * Rasterize the server-rendered SVG tile into a PNG entirely in the
+   * visitor's own browser (an <img> load + a <canvas> draw + toBlob) — not on
+   * the Worker. This exists because a *link's* preview image depends on the
+   * receiving app fetching and rendering our og:image, and testing showed
+   * iMessage does not do that for SVG at all: it fetched the title and domain
+   * fine and silently fell back to a generic grey icon in the image slot. A
+   * real PNG file, handed to the share sheet as an attachment, sidesteps that
+   * whole dependency — it just shows up as a picture, the same as sharing a
+   * photo, regardless of what any app's link-unfurler supports.
+   *
+   * Resolves to null on any failure so the caller can fall back to a link
+   * share rather than erroring.
+   */
+  function tileToPngBlob(svgUrl){
+    return fetch(svgUrl)
+      .then(function(r){ return r.ok ? r.blob() : null; })
+      .then(function(svgBlob){
+        if(!svgBlob) return null;
+        return new Promise(function(resolve){
+          var img = new Image();
+          var objUrl = URL.createObjectURL(svgBlob);
+          img.onload = function(){
+            var canvas = document.createElement('canvas');
+            canvas.width = 1200; canvas.height = 630;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, 1200, 630);
+            URL.revokeObjectURL(objUrl);
+            canvas.toBlob(function(pngBlob){ resolve(pngBlob); }, 'image/png');
+          };
+          img.onerror = function(){ URL.revokeObjectURL(objUrl); resolve(null); };
+          img.src = objUrl;
+        });
+      })
+      .catch(function(){ return null; });
+  }
 
+  function shareFeedback(btn, label){
+    if(!btn) return;
+    var original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<span>'+label+'</span>';
+    setTimeout(function(){
+      btn.classList.remove('copied');
+      btn.innerHTML = original;
+    }, 1800);
+  }
+
+  /** Link-only path: native share sheet with a URL, or clipboard-copy. Used
+      when a real image isn't available (rasterize failed, or the platform's
+      share sheet won't take a file) — never left with no share option at all. */
+  function shareLinkOnly(z, url, text, btn){
     if(navigator.share){
-      // Errors here are almost always the user backing out of the share
-      // sheet — not a failure worth surfacing.
       navigator.share({ title: z.name + ' — Wildfire Watch', text: text, url: url }).catch(function(){});
       return;
     }
-
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(function(){
-        if(!btn) return;
-        var original = btn.innerHTML;
-        btn.classList.add('copied');
-        btn.innerHTML = '<span>Copied!</span>';
-        setTimeout(function(){
-          btn.classList.remove('copied');
-          btn.innerHTML = original;
-        }, 1800);
-      }).catch(function(){ window.prompt('Copy this link:', url); });
+      navigator.clipboard.writeText(url).then(function(){ shareFeedback(btn, 'Copied!'); })
+        .catch(function(){ window.prompt('Copy this link:', url); });
     } else {
       window.prompt('Copy this link:', url);
     }
+  }
+
+  function shareZone(z, btn){
+    if(!z) return;
+    var url = location.origin + shareUrlBase() + z.id;
+    var tileUrl = url + '/tile.svg';
+    var lvl = shownLevel(z);
+    var text = z.name + ' — ' + (lvl === 'unknown' ? 'status unknown' : lvl) +
+      (z.drivers && z.drivers.length ? ' (' + z.drivers.join(', ') + ')' : '') +
+      '\n' + url;
+
+    tileToPngBlob(tileUrl).then(function(pngBlob){
+      if(pngBlob){
+        var file = new File([pngBlob], z.id + '-wildfire-watch.png', { type: 'image/png' });
+        if(navigator.canShare && navigator.canShare({ files: [file] })){
+          // The real thing: an actual picture in the share sheet. Errors here
+          // are almost always the user backing out, not worth surfacing.
+          navigator.share({ files: [file], title: z.name + ' — Wildfire Watch', text: text }).catch(function(){});
+          return;
+        }
+        // No file-share support (most desktop browsers), but the Clipboard
+        // API can still paste a real image into Slack/Mail/etc. — nicer than
+        // a bare URL, and still an actual picture rather than a link.
+        if(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem){
+          navigator.clipboard.write([new ClipboardItem({ 'image/png': pngBlob })])
+            .then(function(){ shareFeedback(btn, 'Image copied!'); })
+            .catch(function(){ shareLinkOnly(z, url, text, btn); });
+          return;
+        }
+      }
+      shareLinkOnly(z, url, text, btn);
+    });
   }
 
   function freshness(){
