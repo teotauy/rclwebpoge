@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFC 2026-27 — Upcoming Fixture Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0d0f;
+    --surface:#16181c;
+    --surface-2:#1d2025;
+    --line:#3a3f49;
+    --ink:#F2F0EB;
+    --muted:#B4BAC4;
+    --faint:#8B929D;
+    --red:#C8102E;
+    --blue:#4671C6;
+    --gold:#D9A441;
+    --amber:#E0822E;
+    --green:#3FB680;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:48px;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px}
+  header{padding:34px 0 22px;border-bottom:1px solid var(--line)}
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--red);margin-bottom:10px;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:clamp(32px,7vw,58px);line-height:.98;
+    letter-spacing:-.01em;text-transform:uppercase;
+  }
+  .sub{max-width:70ch;margin-top:12px;color:var(--muted)}
+  .sub strong{color:var(--ink)}
+  .toolbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;flex-wrap:wrap;gap:9px;align-items:center;
+    padding:14px 0 16px;margin-bottom:4px;
+    background:linear-gradient(var(--bg) 78%, rgba(12,13,15,0));
+  }
+  button,.select-wrap,input,select,textarea{
+    font:inherit;
+  }
+  button,.select-wrap{
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--muted);
+    border-radius:999px;
+    padding:8px 14px;
+  }
+  button{cursor:pointer;transition:.15s}
+  button:hover{border-color:var(--faint);color:var(--ink)}
+  button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+  button.warn{color:#ff9aa8;border-color:rgba(200,16,46,.55)}
+  select{
+    border:0;background:transparent;color:var(--ink);
+    outline:0;padding-right:4px;
+  }
+  .status{
+    width:100%;
+    color:var(--faint);
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .panel{
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:12px;
+    padding:14px;
+    margin:10px 0 18px;
+  }
+  .panel-title{
+    font-family:'Space Mono',monospace;
+    color:var(--faint);
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .add-grid{
+    display:grid;
+    grid-template-columns:1fr 1.3fr .8fr .8fr;
+    gap:8px;
+  }
+  input,select,textarea{
+    width:100%;
+    min-width:0;
+    color:var(--ink);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:9px 10px;
+  }
+  textarea{resize:vertical;min-height:42px}
+  .fixture-list{display:grid;gap:10px}
+  .fixture{
+    display:grid;
+    grid-template-columns:34px 90px 1fr;
+    gap:12px;
+    align-items:start;
+    border:1px solid var(--line);
+    border-left:4px solid var(--line);
+    border-radius:12px;
+    background:var(--surface);
+    padding:12px;
+  }
+  .fixture.dragging{opacity:.45}
+  .fixture.pl{border-left-color:var(--red)}
+  .fixture.cl{border-left-color:var(--blue)}
+  .fixture.fa{border-left-color:var(--gold)}
+  .fixture.ca{border-left-color:var(--amber)}
+  .fixture.break{border-left-color:var(--green)}
+  .handle{
+    color:var(--faint);
+    cursor:grab;
+    font-family:'Space Mono',monospace;
+    font-size:18px;
+    line-height:1;
+    padding-top:8px;
+    text-align:center;
+  }
+  .date-stack{
+    font-family:'Space Mono',monospace;
+    color:var(--muted);
+    font-size:12px;
+  }
+  .date-stack b{display:block;color:var(--ink);font-size:18px}
+  .fixture-grid{
+    display:grid;
+    grid-template-columns:minmax(160px,1.4fr) 112px 118px 118px;
+    gap:8px;
+  }
+  .fixture textarea{grid-column:1/-1}
+  .fixture-actions{
+    grid-column:1/-1;
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+  }
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .tag{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:3px 7px;
+  }
+  .tag.no-club{color:#ff9aa8;border-color:rgba(200,16,46,.55);background:rgba(200,16,46,.12)}
+  .tag.manual{color:#f0a05c;border-color:rgba(224,130,46,.55)}
+  .empty{
+    color:var(--faint);
+    border:1px dashed var(--line);
+    border-radius:12px;
+    padding:28px;
+    text-align:center;
+  }
+  @media(max-width:720px){
+    .add-grid,.fixture-grid{grid-template-columns:1fr 1fr}
+    .fixture{grid-template-columns:28px 1fr}
+    .date-stack{grid-column:2}
+    .fixture-grid{grid-column:1/-1}
+  }
+  @media(max-width:520px){
+    .add-grid,.fixture-grid{grid-template-columns:1fr}
+    .toolbar button,.select-wrap{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Red Crow Labs · Matchday Planning</div>
+    <h1>Upcoming Fixture<br>Update Desk</h1>
+    <p class="sub">A working prototype for the next ten-ish Liverpool dates. Edit names, add missing cup fixtures, mark request eligibility, then click <strong>Update</strong> on the card when the text is right. Changes save in this browser until a real data backend is wired in.</p>
+  </header>
+
+  <div class="toolbar">
+    <button class="primary" id="saveBtn">Save changes</button>
+    <button id="addBtn">Add fixture</button>
+    <button id="exportBtn">Export JSON</button>
+    <button class="warn" id="resetBtn">Reset local edits</button>
+    <span class="select-wrap">Show
+      <select id="limitSelect" aria-label="Number of fixtures to show">
+        <option value="10">10</option>
+        <option value="12">12</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+    </span>
+    <div class="status" id="status">Seed data loaded</div>
+  </div>
+
+  <section class="panel" id="addPanel" hidden>
+    <div class="panel-title">Add missing fixture</div>
+    <div class="add-grid">
+      <input id="newDate" placeholder="Date label, e.g. late Sep">
+      <input id="newOpponent" placeholder="Opponent / event">
+      <select id="newComp">
+        <option value="pl">Premier League</option>
+        <option value="cl">Champions League</option>
+        <option value="fa">FA Cup</option>
+        <option value="ca">Carabao</option>
+        <option value="break">International break</option>
+      </select>
+      <select id="newVenue">
+        <option value="">Venue unknown</option>
+        <option value="H">Home</option>
+        <option value="A">Away</option>
+        <option value="N">Neutral</option>
+      </select>
+      <input id="newSort" placeholder="Sort key, e.g. 2026-09-24">
+      <select id="newStatus">
+        <option value="projected">Projected</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="tbc">TBC</option>
+      </select>
+      <input id="newRequest" placeholder="Club request, e.g. no">
+      <button class="primary" id="createBtn">Create</button>
+    </div>
+  </section>
+
+  <main class="fixture-list" id="fixtureList"></main>
+</div>
+
+<script>
+const STORAGE_KEY = 'rcl-lfc-upcoming-fixtures-v1';
+const SEED_FIXTURES = [
+  {id:'2026-09-12-fulham', sort:'2026-09-12', date:'Sep 12', dow:'Sat', time:'15:00', comp:'pl', opponent:'Fulham', venue:'H', status:'confirmed', request:'no', source:'seed'},
+  {id:'2026-09-19-bournemouth', sort:'2026-09-19', date:'Sep 19', dow:'Sat', time:'15:00', comp:'pl', opponent:'Bournemouth', venue:'A', status:'confirmed', note:'Iraola returns to his old club', source:'seed'},
+  {id:'2026-09-21-break', sort:'2026-09-21', date:'Sep 21 - Oct 6', dow:'INTL', time:'', comp:'break', opponent:'International break', venue:'', status:'confirmed', source:'seed'},
+  {id:'2026-09-24-carabao-r3', sort:'2026-09-24', date:'late Sep', dow:'R3', time:'', comp:'ca', opponent:'Carabao Cup - Round 3', venue:'', status:'tbc', source:'seed'},
+  {id:'2026-10-10-man-city', sort:'2026-10-10', date:'Oct 10', dow:'Sat', time:'15:00', comp:'pl', opponent:'Manchester City', venue:'H', status:'confirmed', source:'seed'},
+  {id:'2026-10-13-cl-md2', sort:'2026-10-13', date:'Oct 13-14', dow:'MD2', time:'', comp:'cl', opponent:'Champions League', venue:'', status:'confirmed', source:'seed'},
+  {id:'2026-10-17-brentford', sort:'2026-10-17', date:'Oct 17', dow:'Sat', time:'15:00', comp:'pl', opponent:'Brentford', venue:'A', status:'confirmed', source:'seed'},
+  {id:'2026-10-20-cl-md3', sort:'2026-10-20', date:'Oct 20-21', dow:'MD3', time:'', comp:'cl', opponent:'Champions League', venue:'', status:'confirmed', source:'seed'},
+  {id:'2026-10-24-brighton', sort:'2026-10-24', date:'Oct 24', dow:'Sat', time:'15:00', comp:'pl', opponent:'Brighton', venue:'H', status:'confirmed', request:'no', source:'seed'},
+  {id:'2026-10-28-carabao-r4', sort:'2026-10-28', date:'late Oct', dow:'R4', time:'', comp:'ca', opponent:'Carabao Cup - Round 4', venue:'', status:'tbc', source:'seed'},
+  {id:'2026-10-31-arsenal', sort:'2026-10-31', date:'Oct 31', dow:'Sat', time:'15:00', comp:'pl', opponent:'Arsenal', venue:'H', status:'confirmed', request:'no', source:'seed'},
+  {id:'2026-11-03-cl-md4', sort:'2026-11-03', date:'Nov 3-4', dow:'MD4', time:'', comp:'cl', opponent:'Champions League', venue:'', status:'confirmed', source:'seed'},
+  {id:'2026-11-07-palace', sort:'2026-11-07', date:'Nov 7', dow:'Sat', time:'15:00', comp:'pl', opponent:'Crystal Palace', venue:'A', status:'confirmed', source:'seed'},
+  {id:'2026-11-09-break', sort:'2026-11-09', date:'Nov 9-17', dow:'INTL', time:'', comp:'break', opponent:'International break', venue:'', status:'confirmed', source:'seed'},
+  {id:'2026-11-21-man-utd', sort:'2026-11-21', date:'Nov 21', dow:'Sat', time:'15:00', comp:'pl', opponent:'Manchester United', venue:'H', status:'confirmed', source:'seed'},
+  {id:'2026-11-24-cl-md5', sort:'2026-11-24', date:'Nov 24-25', dow:'MD5', time:'', comp:'cl', opponent:'Champions League', venue:'', status:'confirmed', source:'seed'}
+];
+
+const list = document.getElementById('fixtureList');
+const statusEl = document.getElementById('status');
+const limitSelect = document.getElementById('limitSelect');
+const addPanel = document.getElementById('addPanel');
+let fixtures = loadFixtures();
+let draggedId = null;
+
+function loadFixtures(){
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(!saved){ return structuredClone(SEED_FIXTURES); }
+  try { return JSON.parse(saved); }
+  catch { return structuredClone(SEED_FIXTURES); }
+}
+
+function persist(message='Saved locally'){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(fixtures));
+  statusEl.textContent = `${message} - ${new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
+}
+
+function shownFixtures(){
+  const limit = limitSelect.value;
+  const sorted = [...fixtures].sort((a,b)=> sortValue(a).localeCompare(sortValue(b)));
+  return limit === 'all' ? sorted : sorted.slice(0, Number(limit));
+}
+
+function sortValue(item){
+  return item.sort.startsWith('manual-') ? `0000-${item.sort}` : item.sort;
+}
+
+function compLabel(comp){
+  return {pl:'Premier League', cl:'Champions League', fa:'FA Cup', ca:'Carabao', break:'International break'}[comp] || comp;
+}
+
+function tagHTML(item){
+  const tags = [`<span class="tag">${compLabel(item.comp)}</span>`, `<span class="tag">${item.status || 'tbc'}</span>`];
+  if(item.venue){ tags.push(`<span class="tag">${item.venue === 'H' ? 'Home' : item.venue === 'A' ? 'Away' : 'Neutral'}</span>`); }
+  if(item.request === 'no'){ tags.push(`<span class="tag no-club">No club request</span>`); }
+  if(item.source === 'manual'){ tags.push(`<span class="tag manual">Manual</span>`); }
+  return tags.join('');
+}
+
+function render(){
+  const visible = shownFixtures();
+  list.innerHTML = visible.length ? '' : '<div class="empty">No fixtures to show.</div>';
+  visible.forEach(item=>{
+    const card = document.createElement('article');
+    card.className = `fixture ${item.comp}`;
+    card.draggable = true;
+    card.dataset.id = item.id;
+    card.innerHTML = `
+      <div class="handle" title="Drag to reorder">::</div>
+      <div class="date-stack"><b>${item.date}</b>${item.dow || ''}${item.time ? `<br>${item.time}` : ''}</div>
+      <div>
+        <div class="fixture-grid">
+          <input data-field="date" value="${escapeAttr(item.date)}" aria-label="Date label">
+          <input data-field="opponent" value="${escapeAttr(item.opponent)}" aria-label="Opponent or event">
+          <select data-field="comp" aria-label="Competition">${optionHTML(['pl','cl','fa','ca','break'], item.comp)}</select>
+          <select data-field="venue" aria-label="Venue">${optionHTML(['','H','A','N'], item.venue || '')}</select>
+          <input data-field="dow" value="${escapeAttr(item.dow || '')}" aria-label="Day or round">
+          <input data-field="time" value="${escapeAttr(item.time || '')}" aria-label="Time">
+          <select data-field="status" aria-label="Status">${optionHTML(['confirmed','projected','tbc'], item.status || 'tbc')}</select>
+          <select data-field="request" aria-label="Club request eligibility">${optionHTML(['','yes','no'], item.request || '')}</select>
+          <input data-field="sort" value="${escapeAttr(item.sort)}" aria-label="Sort key">
+          <textarea data-field="note" placeholder="Note">${escapeHTML(item.note || '')}</textarea>
+          <div class="fixture-actions">
+            <button type="button" class="primary update-item">Update</button>
+          </div>
+        </div>
+        <div class="tags">${tagHTML(item)}</div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function optionHTML(values, selected){
+  const labels = {'':'Unknown', H:'Home', A:'Away', N:'Neutral', yes:'Club can request', no:'No club request'};
+  return values.map(value=>`<option value="${value}" ${value === selected ? 'selected' : ''}>${labels[value] || compLabel(value) || value}</option>`).join('');
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+
+function escapeAttr(value){
+  return escapeHTML(value).replace(/`/g, '&#96;');
+}
+
+function readCardValues(card){
+  return [...card.querySelectorAll('[data-field]')].reduce((values, field)=>{
+    values[field.dataset.field] = field.value;
+    return values;
+  }, {});
+}
+
+function updateItemFromCard(card){
+  const item = fixtures.find(f=>f.id === card.dataset.id);
+  if(!item){ return; }
+  Object.assign(item, readCardValues(card));
+  persist('Updated fixture');
+  render();
+}
+
+function updateVisibleCards(){
+  document.querySelectorAll('.fixture').forEach(card=>{
+    const item = fixtures.find(f=>f.id === card.dataset.id);
+    if(item){ Object.assign(item, readCardValues(card)); }
+  });
+}
+
+list.addEventListener('click', event=>{
+  const updateBtn = event.target.closest('.update-item');
+  if(!updateBtn){ return; }
+  updateItemFromCard(updateBtn.closest('.fixture'));
+});
+
+list.addEventListener('dragstart', event=>{
+  const card = event.target.closest('.fixture');
+  if(!card){ return; }
+  draggedId = card.dataset.id;
+  card.classList.add('dragging');
+});
+
+list.addEventListener('dragend', event=>{
+  event.target.closest('.fixture')?.classList.remove('dragging');
+  draggedId = null;
+});
+
+list.addEventListener('dragover', event=>{
+  event.preventDefault();
+  const target = event.target.closest('.fixture');
+  if(!target || !draggedId || target.dataset.id === draggedId){ return; }
+  const dragged = fixtures.find(f=>f.id === draggedId);
+  const over = fixtures.find(f=>f.id === target.dataset.id);
+  const visible = shownFixtures();
+  const from = visible.findIndex(f=>f.id === draggedId);
+  const to = visible.findIndex(f=>f.id === target.dataset.id);
+  if(from < 0 || to < 0){ return; }
+  const reordered = visible.filter(f=>f.id !== draggedId);
+  reordered.splice(to, 0, dragged);
+  reordered.forEach((item, index)=>{
+    item.sort = `manual-${String(index + 1).padStart(3,'0')}`;
+  });
+  if(over){ render(); }
+});
+
+document.getElementById('saveBtn').addEventListener('click', ()=>{
+  updateVisibleCards();
+  persist();
+  render();
+});
+document.getElementById('addBtn').addEventListener('click', ()=>{
+  addPanel.hidden = !addPanel.hidden;
+});
+document.getElementById('createBtn').addEventListener('click', ()=>{
+  const date = document.getElementById('newDate').value.trim() || 'TBC';
+  const opponent = document.getElementById('newOpponent').value.trim() || 'New fixture';
+  const sort = document.getElementById('newSort').value.trim() || `manual-${Date.now()}`;
+  fixtures.push({
+    id:`manual-${Date.now()}`,
+    sort,
+    date,
+    opponent,
+    comp:document.getElementById('newComp').value,
+    venue:document.getElementById('newVenue').value,
+    status:document.getElementById('newStatus').value,
+    request:document.getElementById('newRequest').value.trim().toLowerCase(),
+    source:'manual'
+  });
+  persist('Added fixture');
+  render();
+});
+document.getElementById('exportBtn').addEventListener('click', async ()=>{
+  const json = JSON.stringify(fixtures, null, 2);
+  await navigator.clipboard?.writeText(json);
+  statusEl.textContent = 'JSON copied to clipboard';
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(!confirm('Reset local edits and restore seed data?')){ return; }
+  localStorage.removeItem(STORAGE_KEY);
+  fixtures = structuredClone(SEED_FIXTURES);
+  statusEl.textContent = 'Local edits reset';
+  render();
+});
+limitSelect.addEventListener('change', render);
+
+render();
+</script>
+</body>
+</html>
