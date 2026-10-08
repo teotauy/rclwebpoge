@@ -1578,6 +1578,7 @@ function renderDefense() {
   $('defense').innerHTML = [
     `<li><b>He wrote the songs.</b>${set.length ? `He has a writing credit on ${any} of the ${set.length} songs in the setlist${solo < any ? ` (${solo} on his own)` : ''}.` : 'He wrote nearly every song the band plays.'} Every band pays its songwriters this way. That's the job, not a loophole.</li>`,
     `<li><b>The partners get paid last.</b>Crew, hired players, the agent and the manager are paid first. If a night loses money, the partners cover it. ${loss > 0 ? `By these guesses, the American Legion show cost them about ${money(loss)}.` : ''}</li>`,
+    `<li><b>He's the one with his name on it.</b>The front man can't go sit in the Wrigley bleachers and chug an Old Style in peace. And when the band needs new songs, they come from him. If he stops writing, the money stops for everyone.</li>`,
     `<li><b>Every number here is a guess.</b>His real take is likely lower after things this page doesn't count: taxes, studio and staff costs, insurance, and the nights that don't sell out.</li>`,
   ].join('');
 }
