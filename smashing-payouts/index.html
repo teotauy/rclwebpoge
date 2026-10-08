@@ -120,7 +120,9 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; 
 .dollar-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; }
 .dollar-head p { margin: 0; font-size: 20px; max-width: 60ch; }
 .dollar-head p strong { font-family: var(--display); font-weight: 400; font-size: 30px; color: var(--pink); }
-.dollar-head p .hn { font-size: 14px; color: var(--muted); white-space: nowrap; }
+.dollar-head p .hn { font-size: 14px; color: var(--muted); }
+.dollar-head p strong.mid { color: var(--gold); }
+.dollar-head p .hn { display: block; margin-top: 4px; font-size: 15px; }
 .dollar-head .unit { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
 .bar { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); }
 .bar span { display: block; height: 100%; min-width: 0; transition: flex-basis .35s ease, opacity .15s; border-right: 1px solid var(--night); cursor: default; }
@@ -289,6 +291,13 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 .lane.dead { border-style: dashed; }
 .lane.dead h3 { color: var(--loss); }
 
+/* in Billy's defense */
+.defense { border: 1px dashed var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; max-width: 900px; }
+.defense h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--pink); }
+.defense ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 10px 24px; }
+.defense li { font-size: 14px; color: var(--muted); display: grid; gap: 2px; }
+.defense li b { color: var(--ink); font-weight: 600; }
+
 /* lineup */
 .lineup { display: grid; gap: 14px; }
 .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
@@ -397,6 +406,10 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 
   <section class="lineup">
     <h2>The lineup</h2>
+    <aside class="defense" aria-labelledby="defH">
+      <h3 id="defH">In Billy's defense</h3>
+      <ul id="defense"></ul>
+    </aside>
     <div class="cards" id="cards"></div>
   </section>
 
@@ -782,7 +795,7 @@ const SCEN = {
       const roomNote = room && room.note ? room.note : '';
       const billyTotal = b.pay.billy || 0, tot0 = fees + face + merch;
       return {
-        b, total: tot0, partner, lead: 'Of every dollar fans spent',
+        b, total: tot0, partner, lead: 'Of every dollar fans spent', leadCuts: true,
         headNote: song('billy') > 0.005 && partner.billy > 0 ? `${cents(partner.billy, tot0)} as a partner + ${cents(song('billy'), tot0)} as the songwriter` : '',
         unit: 'one night',
         trail: [
@@ -892,7 +905,7 @@ const SCEN = {
         note: 'The arena column uses whatever you set on the tour tab.',
       };
       return {
-        b, total: fee + merch, lead: 'Of every dollar the slot brought in', unit: 'one festival set',
+        b, total: fee + merch, lead: 'Of every dollar the slot brought in', leadCuts: true, unit: 'one festival set',
         caption: `${usd(fee)} guarantee · ${v.crowd.toLocaleString('en-US')} at the stage`,
         ghost: profit < 0 ? `This slot costs more than it pays: ${money(-profit)} short.` : '',
         compare,
@@ -1413,10 +1426,15 @@ function renderDollar(m) {
   }).join('');
   barInfo = sinks.map((n, i) => ({ ...n, color: n.kind === 'cut' ? 'var(--cut)' : colorOf(n), share: cents(n.value, tot), unit: m.unit }));
   const billy = m.b.pay.billy || 0;
-  $('headline').innerHTML = billy >= 0
-    ? `${m.lead || 'Of every dollar'}, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
-    : `This night costs Billy Corgan <strong>${money(-billy)}</strong>`;
-  if (m.headNote && billy >= 0) $('headline').innerHTML += ` <span class="hn">(${m.headNote})</span>`;
+  const middle = sinks.filter(n => n.kind === 'cut').reduce((t, n) => t + n.value, 0);
+  if (billy < 0) $('headline').innerHTML = `This night costs Billy Corgan <strong>${money(-billy)}</strong>`;
+  else if (m.leadCuts) {
+    $('headline').innerHTML = `${m.lead}, <strong class="mid">${cents(middle, m.total)}</strong> went to companies and middlemen.`
+      + ` <span class="hn">Billy Corgan ends up with ${cents(billy, m.total)}${m.headNote ? ` (${m.headNote})` : ''}.</span>`;
+  } else {
+    $('headline').innerHTML = `${m.lead || 'Of every dollar'}, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`;
+    if (m.headNote) $('headline').innerHTML += ` <span class="hn">(${m.headNote})</span>`;
+  }
   $('unit').textContent = m.unit;
   const pay = m.b.pay;
   const ln = (k, color, name, val, extra, kids, note) => {
@@ -1521,6 +1539,19 @@ function renderCompare(m) {
     <p class="note">${c.note}</p>`;
 }
 
+function renderDefense() {
+  const set = state.setlist.set.filter(k => CATALOG[k]);
+  const solo = set.filter(k => { const w = CATALOG[k].writers; return w.length === 1 && w[0] === 'billy'; }).length;
+  const any = set.filter(k => CATALOG[k].writers.includes('billy')).length;
+  const legion = JSON.parse(JSON.stringify(state.tour)); legion.room = 'legion'; applyRoom(legion);
+  const lp = SCEN.tour.compute(legion).partner, loss = -((lp.billy || 0) + (lp.james || 0) + (lp.jimmy || 0));
+  $('defense').innerHTML = [
+    `<li><b>He wrote the songs.</b>${set.length ? `He has a writing credit on ${any} of the ${set.length} songs in the setlist${solo < any ? ` (${solo} on his own)` : ''}.` : 'He wrote nearly every song the band plays.'} Every band pays its songwriters this way. That's the job, not a loophole.</li>`,
+    `<li><b>The partners get paid last.</b>Crew, hired players, the agent and the manager are paid first. If a night loses money, the partners cover it. ${loss > 0 ? `By these guesses, the American Legion show cost them about ${money(loss)}.` : ''}</li>`,
+    `<li><b>Every number here is a guess.</b>His real take is likely lower after things this page doesn't count: taxes, studio and staff costs, insurance, and the nights that don't sell out.</li>`,
+  ].join('');
+}
+
 function renderTrail(m) {
   $('lanes').innerHTML = (m.trail || []).map(l => `<div class="lane${l.dead ? ' dead' : ''}"><h3>${l.name}</h3><ol>${
     l.steps.map(st => `<li><span class="who">${st.who}</span><span class="what">${st.what}</span>${st.when ? `<span class="when">${st.when}</span>` : ''}</li>`).join('')
@@ -1533,6 +1564,7 @@ function update(fromTab) {
   lastModel = m;
   $('caption').textContent = m.caption;
   $('ghost').textContent = m.ghost || '';
+  renderDefense();
   drawSankey(m); renderDollar(m); renderCards(m, !fromTab); renderOthers(m); renderTrail(m); renderCompare(m);
 }
 
