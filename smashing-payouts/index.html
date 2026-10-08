@@ -315,7 +315,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
     <h1>Smashing Payouts<span class="star">✦</span></h1>
     <button class="note-btn" type="button" id="noteOpen">A note from Colby</button>
     <p class="lede">Pick a money stream, drag the assumptions, and watch a fan's dollar split between the label, the middlemen, the hired players and the four people who made the records. Every default is a ballpark guess. The real band agreements are private.</p>
-    <button class="art" type="button" id="artSheet" aria-label="Open tonight's setlist">
+    <button class="art" type="button" id="artSheet" aria-label="Build a setlist">
       <span class="tape" aria-hidden="true"></span>
       <span class="ah">Tonight · what Billy makes</span>
       <span class="ar"><span class="at">Today</span><span class="av">$$$$</span></span>
@@ -685,7 +685,7 @@ const SCEN = {
       b.why.darcy = 'Not on the tour and not in the touring business. $0.';
       b.why.kiki = 'A fixed nightly fee, paid whether the night profits or not. No share of the upside.';
       const sl = SCEN.setlist.compute({ ...state.setlist, src: 'tour' }).b.pay;
-      const goto = (id, verb) => sl[id] > 0 ? ` <a href="#" class="goto" data-goto="setlist">Plus ${money(sl[id])} in songwriter royalties from tonight's setlist →</a>` : '';
+      const goto = (id, verb) => sl[id] > 0 ? ` <a href="#" class="goto" data-goto="setlist">Plus ${money(sl[id])} in songwriter royalties from the setlist →</a>` : '';
       b.why.billy += goto('billy'); b.why.james += goto('james');
       const room = ROOMS[v.room];
       const roomNote = room && room.note ? room.note : '';
@@ -818,7 +818,7 @@ const SCEN = {
   },
 
   setlist: {
-    tab: "Tonight's setlist", admit: 'Who wrote what they played',
+    tab: 'Build a setlist', admit: 'Songwriter pay, song by song',
     about: "The same night as the tour tab. Venues and promoters pay ASCAP and BMI a small slice of the ticket sales, and the setlist decides which songwriters get it. Build one, or paste a real one from setlist.fm.",
     groups: [
       { name: 'The setlist', controls: [ { id: 'set', type: 'setlist', value: SAMPLE_SET } ]},
