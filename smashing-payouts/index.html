@@ -292,7 +292,15 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 .lane.dead h3 { color: var(--loss); }
 
 /* in Billy's defense */
-.defense { border: 1px dashed var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; max-width: 900px; }
+.asides { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 900px) { .asides { grid-template-columns: minmax(0, 1fr); } }
+.defense { border: 1px dashed var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+.darcy { border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; background: var(--panel); }
+.darcy h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--lilac); }
+.darcy .big { font-family: var(--display); font-size: 40px; line-height: 1; color: var(--ink); }
+.darcy .big small { font-family: var(--body); font-size: 14px; color: var(--muted); }
+.darcy .zero { font-family: var(--mono); font-size: 13px; color: var(--loss); letter-spacing: .04em; }
+.darcy p { margin: 0; font-size: 14px; color: var(--muted); }
 .defense h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--pink); }
 .defense ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 10px 24px; }
 .defense li { font-size: 14px; color: var(--muted); display: grid; gap: 2px; }
@@ -406,10 +414,16 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 
   <section class="lineup">
     <h2>The lineup</h2>
-    <aside class="defense" aria-labelledby="defH">
-      <h3 id="defH">In Billy's defense</h3>
-      <ul id="defense"></ul>
-    </aside>
+    <div class="asides">
+      <aside class="defense" aria-labelledby="defH">
+        <h3 id="defH">In Billy's defense</h3>
+        <ul id="defense"></ul>
+      </aside>
+      <aside class="darcy" aria-labelledby="darH">
+        <h3 id="darH">Meanwhile, D'arcy</h3>
+        <div id="darcy"></div>
+      </aside>
+    </div>
     <div class="cards" id="cards"></div>
   </section>
 
@@ -604,6 +618,11 @@ const CATALOG = {
   sojourner: C('Sojourner', ['billy'], [], { assumed: true }), jesussun: C('Jesus Is the Sun', ['billy'], [], { assumed: true }), spaceboy: C('Spaceboy'), beguiled: C('Beguiled'), doomsday: C('Doomsday Clock'), sighommi: C('Sighommi'), empires: C('Empires'),
 };
 // The Barclays Center show, Brooklyn, Oct 4, 2026 (from setlist.fm)
+// Songs from records D'arcy is credited on (Gish through Adore, plus the B-sides and singles of that era)
+const DARCY_ERA = new Set(['siva', 'rhinoceros', 'iamone', 'tristessa', 'snail', 'daughter', 'starla', 'drown', 'blewaway', 'cherub', 'quiet', 'today',
+  'hummer', 'rocket', 'disarm', 'soma', 'geek', 'mayonaise', 'silverfuck', 'landslide', 'tonight', 'jellybelly', 'zero', 'bullet', 'muzzle', 'porcelina',
+  '1979', 'tales', 'thirtythree', 'xyu', 'takemedown', 'fuckyou', 'cupid', 'bodies', 'galapogos', 'herenowhy', 'toforgive', 'bystarlight', 'mcistitle',
+  'ava', 'perfect', 'eye', 'tear', 'spaceboy', 'nlmda']);
 const BARCLAYS_SET = ['1979', 'bullet', 'cupid', 'porcelina', 'jellybelly', 'bodies', 'galapogos', 'thirtythree', 'tonight', 'herenowhy',
   'toforgive', 'fuckyou', 'zero', 'muzzle', 'bystarlight', 'mcistitle',
   'bullet', 'sojourner', 'edin', 'pentagrams', 'disarm', 'ava', 'wardreams', 'mayonaise', 'asromeburns', 'today', 'cherub', 'jesussun', 'everlasting', 'superchrist'];
@@ -1545,6 +1564,12 @@ function renderDefense() {
   const any = set.filter(k => CATALOG[k].writers.includes('billy')).length;
   const legion = JSON.parse(JSON.stringify(state.tour)); legion.room = 'legion'; applyRoom(legion);
   const lp = SCEN.tour.compute(legion).partner, loss = -((lp.billy || 0) + (lp.james || 0) + (lp.jimmy || 0));
+  const dn = set.filter(k => DARCY_ERA.has(k)).length;
+  const loaded = slShow ? `the ${slShow.split(' · ')[0]} show` : 'the setlist';
+  $('darcy').innerHTML = set.length ? `<div class="big">${dn} of ${set.length} <small>songs</small></div>
+    <span class="zero">her pay from the show: $0</span>
+    <p>That's how many songs in ${esc(loaded)} come from records she's credited on as the band's bassist. Not a partner in the tour and no writing credits on these, so the show pays her nothing. Her only income from these songs is artist royalties on the old records, which the label pays when they're streamed or sold.</p>`
+    : '<p>Add songs to the setlist to see how many come from records she played on.</p>';
   $('defense').innerHTML = [
     `<li><b>He wrote the songs.</b>${set.length ? `He has a writing credit on ${any} of the ${set.length} songs in the setlist${solo < any ? ` (${solo} on his own)` : ''}.` : 'He wrote nearly every song the band plays.'} Every band pays its songwriters this way. That's the job, not a loophole.</li>`,
     `<li><b>The partners get paid last.</b>Crew, hired players, the agent and the manager are paid first. If a night loses money, the partners cover it. ${loss > 0 ? `By these guesses, the American Legion show cost them about ${money(loss)}.` : ''}</li>`,
