@@ -312,6 +312,11 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 @media (max-width: 1080px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .cards { grid-template-columns: minmax(0, 1fr); } }
 .card { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 6px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+@supports (grid-template-rows: subgrid) {
+  .cards { row-gap: 12px; }
+  .card { grid-row: span 5; grid-template-rows: subgrid; row-gap: 8px; }
+}
+.card .tags:empty { min-height: 0; }
 .card .who { display: grid; gap: 1px; }
 .card .nm { font-family: var(--display); font-size: 22px; line-height: 1.1; }
 .card .rl { font-size: 12.5px; color: var(--muted); }
