@@ -109,7 +109,16 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; 
 .dollar-head p strong { font-family: var(--display); font-weight: 400; font-size: 30px; color: var(--pink); }
 .dollar-head .unit { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
 .bar { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); }
-.bar span { display: block; height: 100%; min-width: 0; transition: flex-basis .35s ease; border-right: 1px solid var(--night); }
+.bar span { display: block; height: 100%; min-width: 0; transition: flex-basis .35s ease, opacity .15s; border-right: 1px solid var(--night); cursor: default; }
+.bar:hover span { opacity: .45; }
+.bar span:hover, .bar span.on { opacity: 1; }
+.tip { position: fixed; z-index: 50; pointer-events: none; min-width: 180px; max-width: 260px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; box-shadow: 0 10px 28px rgba(0,0,0,.45); display: grid; gap: 2px; }
+.tip .tn { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+.tip .tn i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.tip .tk { font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.tip .tc { font-family: var(--display); font-size: 24px; line-height: 1.1; color: var(--ink); }
+.tip .tc small { font-family: var(--body); font-size: 12.5px; color: var(--muted); }
+.tip .tm { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
 .chips b { color: var(--ink); font-weight: 500; }
 .chips i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
@@ -291,6 +300,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
       <span class="unit" id="unit"></span>
     </div>
     <div class="bar" id="bar" role="img" aria-label="How one dollar splits"></div>
+    <div class="tip" id="tip" hidden></div>
     <div class="chips" id="chips"></div>
   </section>
 
@@ -1148,6 +1158,39 @@ function drawSankey(m) {
     .text(d => `${money(d.value)}${m.total > 0 && d.kind !== 'loss' ? ' · ' + cents(d.value, m.total) : ''}`);
 }
 
+const KIND_NAME = { member: 'Band member', hired: 'Hired player', outside: 'Outside songwriter', cut: 'Company or middleman', loss: '' };
+let barInfo = [];
+(() => {
+  const bar = $('bar'), tip = $('tip');
+  let lit = null;
+  const hide = () => { tip.hidden = true; if (lit) lit.classList.remove('on'); lit = null; };
+  const show = e => {
+    const el = e.target.closest('span[data-i]');
+    if (!el) return hide();
+    const n = barInfo[+el.dataset.i];
+    if (!n) return hide();
+    if (lit !== el) {
+      if (lit) lit.classList.remove('on');
+      lit = el; el.classList.add('on');
+      tip.innerHTML = `<span class="tk">${KIND_NAME[n.kind] || ''}</span>
+        <span class="tn"><i style="background:${n.color}"></i>${n.label}</span>
+        <span class="tc">${n.share} <small>of every dollar</small></span>
+        <span class="tm">${money(n.value)} · ${n.unit}</span>`;
+      tip.hidden = false;
+    }
+    const pad = 12, w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = e.clientX - w / 2, y = e.clientY - h - 14;
+    if (y < pad) y = e.clientY + 18;
+    x = Math.max(pad, Math.min(window.innerWidth - w - pad, x));
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  };
+  bar.addEventListener('pointermove', show);
+  bar.addEventListener('pointerdown', show);
+  bar.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hide(); });
+  document.addEventListener('pointerdown', e => { if (!bar.contains(e.target)) hide(); });
+  window.addEventListener('scroll', hide, { passive: true });
+})();
+
 function renderDollar(m) {
   const sinks = [];
   const outgoing = new Set(m.b.links.map(l => l.source));
@@ -1159,8 +1202,9 @@ function renderDollar(m) {
   const tot = sinks.reduce((s, n) => s + n.value, 0) || 1;
   $('bar').innerHTML = sinks.map((n, i) => {
     const c = n.kind === 'cut' ? `color-mix(in srgb, var(--cut) ${100 - (i % 3) * 18}%, var(--night))` : colorOf(n);
-    return `<span style="flex:0 0 ${n.value / tot * 100}%;background:${c}" title="${n.label}: ${cents(n.value, tot)} of each dollar"></span>`;
+    return `<span style="flex:0 0 ${n.value / tot * 100}%;background:${c}" data-i="${i}" aria-label="${n.label}: ${cents(n.value, tot)} of each dollar"></span>`;
   }).join('');
+  barInfo = sinks.map((n, i) => ({ ...n, color: n.kind === 'cut' ? 'var(--cut)' : colorOf(n), share: cents(n.value, tot), unit: m.unit }));
   const billy = m.b.pay.billy || 0;
   $('headline').innerHTML = billy >= 0
     ? `Of every dollar, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
