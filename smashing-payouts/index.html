@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#0d0e26">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Martian+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Martian+Mono:wght@400;500&family=Permanent+Marker&display=swap">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -37,6 +37,7 @@ img { max-width: 100%; }
   --tang: #ffa86b;
   --lilac: #d6a8ff;
   --teal: #5ad1c2;
+  --sand: #e6c9a8;
   --pool: #8f86d9;
   --cut: #4f4b8a;
   --loss: #ff6b6b;
@@ -78,7 +79,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; 
 .tab .go { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--faint); transition: color .15s, transform .15s; }
 .tab:hover .go { color: var(--gold); transform: translate(3px, -50%); }
 .tab[aria-selected="true"] .go { color: var(--night); }
-.tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.tabs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 1000px) { .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 720px) { .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .tab {
@@ -154,6 +155,42 @@ select { width: 100%; font: inherit; font-size: 14px; color: var(--ink); backgro
 .compare .note { margin: 8px 0 0; font-size: 12.5px; color: var(--faint); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); }
 .legend i { display: inline-block; width: 12px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: 3px; }
+
+/* setlist editor */
+.sheet { background: #f3f1ec; color: #15151a; border-radius: 3px; padding: 14px 12px 12px; box-shadow: 0 6px 18px rgba(0,0,0,.35); transform: rotate(-.6deg); display: grid; gap: 6px; }
+.sheet .sheet-h { font-family: 'Permanent Marker', 'Marker Felt', 'Comic Sans MS', cursive; font-size: 13px; color: #b0303a; letter-spacing: .02em; }
+.sl { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-height: 380px; overflow-y: auto; counter-reset: sl; }
+.sl li { counter-increment: sl; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 1px 0; border-bottom: 1px solid #d9d5cc; }
+.sl li .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'Permanent Marker', 'Marker Felt', 'Comic Sans MS', cursive; font-size: 17px; line-height: 1.5; text-transform: uppercase; color: #15151a; }
+.sl li .w { font-family: var(--mono); font-size: 9.5px; color: #6b6878; white-space: nowrap; }
+.sl li .w.out { color: #b0303a; }
+.sl-x { font: inherit; font-size: 16px; line-height: 1; color: #8d8a96; background: none; border: 0; cursor: pointer; padding: 2px 4px; }
+.sl-x:hover { color: #b0303a; }
+.sheet:empty { display: none; }
+.sl-row { display: flex; gap: 8px; }
+.sl-row select { flex: 1; min-width: 0; }
+.sl-btn { font: inherit; font-size: 12.5px; color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 6px 10px; cursor: pointer; white-space: nowrap; }
+.sl-btn:hover { border-color: var(--faint); }
+.sl-btn.primary { background: var(--gold); border-color: var(--gold); color: var(--night); font-weight: 600; }
+.sl-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+textarea { width: 100%; font: inherit; font-size: 13px; color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 8px; resize: vertical; }
+textarea:focus-visible, .sl-btn:focus-visible, .sl-x:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.sl-msg { margin: 0; font-size: 12px; color: var(--muted); }
+.sl-msg:empty { display: none; }
+.controls a { color: var(--sky); font-size: 13px; }
+.compare td.txt { font-family: var(--body); text-align: left; }
+.pie-wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-bottom: 16px; }
+.pie-wrap h3 { flex-basis: 100%; margin: 0; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+#pie { flex: none; max-width: 100%; height: auto; }
+#pie path { stroke: var(--panel); stroke-width: 2px; }
+#pie .pc1 { font-family: var(--display); font-size: 30px; fill: var(--pink); text-anchor: middle; }
+#pie .pc2 { font-family: var(--mono); font-size: 9.5px; fill: var(--muted); text-anchor: middle; letter-spacing: .06em; text-transform: uppercase; }
+.pie-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; min-width: 0; flex: 1 1 220px; }
+.pie-legend li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; font-size: 13.5px; }
+.pie-legend i { width: 10px; height: 10px; border-radius: 50%; }
+.pie-legend .pp { font-family: var(--mono); font-size: 12px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pie-legend .pm { font-family: var(--mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
+.compare td.out { color: var(--sand); }
 
 /* note from Colby */
 .note-btn { justify-self: start; font: inherit; font-size: 13.5px; color: var(--gold); background: none; border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; cursor: pointer; }
@@ -268,6 +305,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
         <span><i style="background:var(--cut)"></i>Company or middleman</span>
         <span><i style="background:var(--teal)"></i>Hired player</span>
         <span><i style="background:var(--pink)"></i>Band member</span>
+        <span><i style="background:var(--sand)"></i>Outside songwriter</span>
       </div>
     </div>
   </div>
@@ -347,6 +385,9 @@ const PEOPLE = {
   kiki:  { name: 'Kiki Wong', role: 'Touring guitarist · joined 2024', kind: 'hired', color: 'var(--teal)' },
   bass:  { name: 'Touring bassist', role: '', kind: 'hired', color: 'var(--teal)' },
   keys:  { name: 'Touring keys & vocals', role: '', kind: 'hired', color: 'var(--teal)' },
+  nicks: { name: 'Stevie Nicks', role: 'Wrote "Landslide"', kind: 'outside', color: 'var(--sand)' },
+  gore:  { name: 'Martin Gore', role: 'Wrote "Never Let Me Down Again"', kind: 'outside', color: 'var(--sand)' },
+  opener:{ name: "Opening act's writers", role: '', kind: 'outside', color: 'var(--sand)' },
 };
 const CARD_ORDER = ['billy', 'james', 'jimmy', 'darcy', 'kiki'];
 
@@ -355,6 +396,7 @@ const ALBUMS = {
   siamese: { title: 'Siamese Dream (1993)', lineup: ['billy', 'james', 'darcy', 'jimmy'], producer: 'Butch Vig' },
   mellon:  { title: 'Mellon Collie (1995)', lineup: ['billy', 'james', 'darcy', 'jimmy'], producer: 'Flood & Alan Moulder' },
   adore:   { title: 'Adore (1998)', lineup: ['billy', 'james', 'darcy'], producer: 'Flood & Brad Wood' },
+  pisces:  { title: 'Pisces Iscariot (1994)', lineup: ['billy', 'james', 'darcy', 'jimmy'], producer: 'the producers' },
   early:   { title: 'Early rarity', lineup: ['billy', 'james', 'darcy', 'jimmy'], producer: 'the producers' },
 };
 const SONGS = {
@@ -368,13 +410,14 @@ const SONGS = {
   iamone:   { title: 'I Am One', album: 'gish', writers: ['billy', 'james'] },
   ava:      { title: 'Ava Adore', album: 'adore', writers: ['billy'] },
   daughter: { title: 'Daughter', album: 'early', writers: ['billy', 'darcy'] },
+  landslide:{ title: 'Landslide', album: 'pisces', writers: ['nicks'] },
 };
 const SERVICES = {
   spotify: { name: 'Spotify', label: 'Spotify (≈ $0.004 paid out per stream)', rev: .0055 },
   apple:   { name: 'Apple Music', label: 'Apple Music (≈ $0.008 per stream)', rev: .0115 },
   amazon:  { name: 'Amazon Music', label: 'Amazon Music (≈ $0.009 per stream)', rev: .0125 },
 };
-const SONG_OPTS = Object.entries(SONGS).map(([k, s]) => [k, `${s.title} · ${ALBUMS[s.album].title.replace(/ \(.*/, '')}${s.writers.length > 1 ? ' (co-write)' : ''}`]);
+const SONG_OPTS = Object.entries(SONGS).map(([k, s]) => [k, `${s.title} · ${ALBUMS[s.album].title.replace(/ \(.*/, '')}${!s.writers.includes('billy') ? ' (cover)' : s.writers.length > 1 ? ' (co-write)' : ''}`]);
 
 // formatting
 function money(x) {
@@ -415,7 +458,7 @@ function bandSplit(lineup, mode) {
   return o;
 }
 function writerSplit(song, co) {
-  return song.writers.length > 1 ? { billy: co / 100, [song.writers[1]]: 1 - co / 100 } : { billy: 1 };
+  return song.writers.length > 1 ? { billy: co / 100, [song.writers[1]]: 1 - co / 100 } : { [song.writers[0]]: 1 };
 }
 const splitCtl = { id: 'split', label: 'Band royalty split', type: 'select', value: 'equal',
   options: [['equal', 'Equal among members on the record'], ['billy', 'Billy-weighted (Billy 50%)']] };
@@ -447,6 +490,44 @@ function recordWhy(b, alb, recLabel) {
   if (!alb.lineup.includes('jimmy')) b.why.jimmy = `Out of the band during ${alb.title}; drum machines and session drummers filled in. ${recLabel}`;
   b.why.kiki = 'Not on the record and not a writer, so nothing here. Touring hires earn on the road.';
 }
+
+
+// songs that turn up in setlists, with writing credits (Corgan alone unless noted)
+const C = (title, writers = ['billy'], aliases = []) => ({ title, writers, aliases });
+const CATALOG = {
+  siva: C('Siva'), rhinoceros: C('Rhinoceros'), iamone: C('I Am One', ['billy', 'james']), tristessa: C('Tristessa'), snail: C('Snail'),
+  daughter: C('Daughter', ['billy', 'darcy']), starla: C('Starla'), drown: C('Drown'), blewaway: C('Blew Away', ['james']),
+  cherub: C('Cherub Rock'), quiet: C('Quiet'), today: C('Today'), hummer: C('Hummer'), rocket: C('Rocket'), disarm: C('Disarm'),
+  soma: C('Soma', ['billy', 'james']), geek: C('Geek U.S.A.', ['billy'], ['geek usa']), mayonaise: C('Mayonaise', ['billy', 'james'], ['mayonnaise']),
+  silverfuck: C('Silverfuck'), landslide: C('Landslide', ['nicks']),
+  tonight: C('Tonight, Tonight', ['billy'], ['tonight tonight']), jellybelly: C('Jellybelly'), zero: C('Zero'),
+  bullet: C('Bullet with Butterfly Wings'), muzzle: C('Muzzle'), porcelina: C('Porcelina of the Vast Oceans', ['billy'], ['porcelina']),
+  '1979': C('1979'), tales: C('Tales of a Scorched Earth'), thirtythree: C('Thirty-Three', ['billy'], ['thirty three', '33']),
+  xyu: C('X.Y.U.', ['billy'], ['xyu']), takemedown: C('Take Me Down', ['james']), fuckyou: C('Fuck You (An Ode to No One)', ['billy'], ['fuck you']),
+  ava: C('Ava Adore'), perfect: C('Perfect'), eye: C('Eye'), tear: C('Tear'),
+  standinside: C('Stand Inside Your Love'), everlasting: C('The Everlasting Gaze', ['billy'], ['everlasting gaze']),
+  nlmda: C('Never Let Me Down Again', ['gore']), tarantula: C('Tarantula'), solara: C('Solara'), cyr: C('Cyr'),
+  cupid: C('Cupid de Locke'), spaceboy: C('Spaceboy'), beguiled: C('Beguiled'), doomsday: C('Doomsday Clock'), sighommi: C('Sighommi'), empires: C('Empires'),
+};
+const SAMPLE_SET = ['siva', 'rhinoceros', 'today', 'cherub', 'zero', 'mayonaise', 'thirtythree', 'ava', 'landslide', 'disarm',
+  'tarantula', 'tonight', '1979', 'nlmda', 'solara', 'hummer', 'bullet', 'silverfuck'];
+const surname = id => ({ opener: 'Opener' })[id] || PEOPLE[id].name.split(' ').slice(-1)[0];
+const creditLabel = song => song.writers.map(surname).join('/');
+const norm = t => t.toLowerCase().replace(/\(.*?\)/g, '').replace(/&/g, 'and').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+const CAT_INDEX = new Map();
+Object.entries(CATALOG).forEach(([k, c]) => [c.title, ...c.aliases].forEach(t => CAT_INDEX.set(norm(t), k)));
+function parseSetlist(text) {
+  const found = [], skipped = [];
+  for (let line of text.split(/\n+/)) {
+    line = line.replace(/^\s*\d+[.)]?\s*/, '').trim();
+    if (!line) continue;
+    const key = CAT_INDEX.get(norm(line));
+    if (key) found.push(key);
+    else if (line.length < 50 && !/play video|song info|encore|setlist|tape|edit|stats|tour|concert|show|\d{4}/i.test(line)) skipped.push(line);
+  }
+  return { found, skipped };
+}
+let slMsg = '';
 
 const SCEN = {
   tour: {
@@ -651,6 +732,71 @@ const SCEN = {
     },
   },
 
+  setlist: {
+    tab: 'Setlist', admit: 'Songwriters, live',
+    about: "Venues and promoters pay ASCAP and BMI a small slice of every show's ticket sales. The setlist decides which songwriters get it. Build one, or paste a real one from setlist.fm.",
+    groups: [
+      { name: 'The setlist', controls: [ { id: 'set', type: 'setlist', value: SAMPLE_SET } ]},
+      { name: 'The night', controls: [
+        { id: 'gross', label: 'Ticket sales for the night', type: 'range', min: 100000, max: 3000000, step: 10000, value: 1220000, fmt: usd, hint: 'The arena default on the tour tab is about $1.22M.' },
+        { id: 'lic', label: 'Songwriter license fee', type: 'range', min: .2, max: 3, step: .1, value: 1, fmt: v => v.toFixed(1) + '%', hint: 'Rough combined guess for ASCAP and BMI. The real rates are negotiated and change.' },
+        { id: 'open', label: 'Songs by the opening act', type: 'range', min: 0, max: 12, step: 1, value: 0, fmt: v => String(v), hint: 'Opening sets get reported too, and take a share of the same pot.' },
+      ]},
+      { name: 'Collection', controls: [
+        { id: 'pro', label: 'PRO overhead', type: 'range', min: 5, max: 20, step: 1, value: 12, fmt: pct },
+        { id: 'adm', label: 'Publishing admin fee', type: 'range', min: 0, max: 25, step: 1, value: 15, fmt: pct, hint: "Taken from the publisher's half only." },
+        { ...coCtl, hint: 'For Mayonaise, Soma, I Am One and Daughter.' },
+      ]},
+    ],
+    compute(v) {
+      const b = B();
+      const set = v.set.filter(k => CATALOG[k]);
+      const pot = v.gross * v.lic / 100, pro = pot * v.pro / 100, dist = pot - pro;
+      const n = set.length + v.open, per = n ? dist / n : 0;
+      b.n('src', 'Songwriter license (ASCAP/BMI)', 'source');
+      b.l('src', b.n('pro', 'PRO overhead', 'cut'), pro);
+      b.l('src', b.n('wshare', "Writer's share (paid direct)", 'pool'), dist / 2);
+      b.l('src', b.n('pshare', "Publisher's share", 'pool'), dist / 2);
+      const adm = dist / 2 * v.adm / 100;
+      b.l('pshare', b.n('adm', 'Publishing administrator', 'cut'), adm);
+      const tally = {}, songsBy = {};
+      const rows = set.map(k => {
+        const c = CATALOG[k], ws = writerSplit(c, v.co);
+        Object.entries(ws).forEach(([id, f]) => { tally[id] = (tally[id] || 0) + f; songsBy[id] = (songsBy[id] || 0) + 1; });
+        const bf = ws.billy || 0;
+        return { title: c.title, credit: creditLabel(c), out: !c.writers.some(w => PEOPLE[w].kind === 'member'), val: per, billy: (per / 2 + per / 2 * (1 - v.adm / 100)) * bf };
+      });
+      if (v.open) { tally.opener = v.open; rows.push({ title: `Opening act (${v.open} song${v.open > 1 ? 's' : ''})`, credit: 'Their writers', out: true, val: per * v.open, billy: 0 }); }
+      const order = ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'];
+      order.filter(id => tally[id]).forEach(id => {
+        b.give('wshare', id, per * tally[id] / 2);
+        b.give('pshare', id, (per / 2 - per / 2 * v.adm / 100) * tally[id]);
+      });
+      const cnt = id => songsBy[id] || 0, total = set.length;
+      ['billy', 'james', 'darcy'].forEach(id => { if (tally[id]) b.tag(id, 'Writer'); });
+      b.why.billy = `Credited on ${cnt('billy')} of ${total} songs tonight. Every one of them pays him both the writer's half and, through his own publishing, most of the publisher's half.`;
+      b.why.james = cnt('james') ? `A writer on ${cnt('james')} song${cnt('james') > 1 ? 's' : ''} in this set, so he gets a slice of the pot on top of his touring profit.` : 'Plays every song but wrote none of these, so nothing from this pot.';
+      b.why.jimmy = 'Drums on every song, writer on none. Nothing from this pot.';
+      b.why.darcy = cnt('darcy') ? "Not on stage, but she co-wrote a song in the set, so she gets paid for tonight." : "Not on stage and no writing credit in this set. $0.";
+      b.why.kiki = 'Plays every song but wrote none of them. Her pay is the nightly fee on the tour tab.';
+      return {
+        b, total: pot, unit: `songwriter royalties from one ${total}-song set`,
+        caption: `${usd(v.gross)} in tickets · ${v.lic.toFixed(1)}% license · ${money(per)} per song`,
+        ghost: total ? '' : 'The setlist is empty. Add songs, paste one from setlist.fm, or load the sample.',
+        setTable: rows, perBilly: per / 2 + per / 2 * (1 - v.adm / 100),
+        trail: [
+          { name: 'Songwriter royalties from a concert', steps: [
+            S('Venue or promoter', `Pays ASCAP and BMI a license fee for the right to have music performed, usually a small percentage of ticket sales (${money(pot)} here).`, 'After the show'),
+            S('Tour manager', 'Reports what was played, song by song, to ASCAP OnStage and BMI Live. Opening acts report their sets too. Unreported songs pay nothing.', 'After the show'),
+            S('ASCAP or BMI', `Keeps its overhead (${money(pro)}) and splits the rest across the songs reported, roughly ${money(per)} per song here.`, 'Quarterly'),
+            S("Writer's half", 'Goes straight to each song\'s writers, split by credit.', 'Quarterly'),
+            S("Publisher's half", `Goes to each writer's publisher. For Billy, that's his own company via an administrator (fee: ${money(adm)} across the night).`, 'Quarterly or twice a year'),
+          ]},
+        ],
+      };
+    },
+  },
+
   stream: {
     tab: 'Streams', admit: 'Spotify & co.',
     about: 'Each stream pays twice: once for the recording (the master, owned by the label) and once for the song (publishing, owned by the writers).',
@@ -700,7 +846,8 @@ const SCEN = {
       Object.keys(ws).forEach(id => b.tag(id, 'Writer'));
       b.why.billy = song.writers.length > 1
         ? `Band royalty as a member, plus ${v.co}% of the song side as co-writer with ${PEOPLE[song.writers[1]].name.split(' ')[0]}.`
-        : 'Band royalty as a member, plus the whole writer payout because he wrote it alone.';
+        : ws.billy ? 'Band royalty as a member, plus the whole writer payout because he wrote it alone.'
+        : `Band royalty as a member, same as everyone else on the record. It's a cover, so the song side goes to ${PEOPLE[song.writers[0]].name}.`;
       b.why.james = ws.james
         ? `Band royalty plus ${100 - v.co}% of the song side as co-writer.`
         : 'Band royalty as a member who played on the record. No writing share on this one.';
@@ -764,7 +911,7 @@ const SCEN = {
         caption = `${count(v.spins)} spins · ${usd(v.fmrate)} each to the PROs`;
         ghost = 'Label, James-as-guitarist, Jimmy and D\'arcy: $0. The US has no performance royalty for recordings on AM/FM radio, so only songwriters get paid.';
         ['billy', 'james', 'jimmy', 'darcy'].forEach(id => { if (!ws[id]) b.why[id] = 'Played on it, but US AM/FM radio pays performers nothing. $0.'; });
-        ghost = ghost.replace("James-as-guitarist, Jimmy and D'arcy", ['james', 'jimmy', 'darcy'].filter(id => !ws[id]).map(id => PEOPLE[id].name.split(' ')[0]).join(', ').replace(/, ([^,]*)$/, ' and $1'));
+        ghost = ghost.replace("James-as-guitarist, Jimmy and D'arcy", ['billy', 'james', 'jimmy', 'darcy'].filter(id => !ws[id]).map(id => PEOPLE[id].name.split(' ')[0]).join(', ').replace(/, ([^,]*)$/, ' and $1'));
         if (!alb.lineup.includes('jimmy')) b.why.jimmy = `Not on ${alb.title}, and AM/FM pays performers nothing anyway.`;
         b.why.kiki = 'Not on the record and not a writer. $0.';
         const pro = total * v.pro / 100, half = (total - pro) / 2, adm = half * v.adm / 100;
@@ -795,7 +942,7 @@ const SCEN = {
         b.why.darcy = 'Paid her featured-artist share straight from SoundExchange, which skips the label entirely.' + (ws.darcy ? ' Plus her co-writer cut of the song side.' : '');
         b.why.jimmy = b.why.jimmy || 'Featured-artist share from SoundExchange as a member on the record.';
         b.why.james = ws.james ? 'Featured-artist share plus a co-writer cut of the song side.' : 'Featured-artist share from SoundExchange as a member on the record.';
-        b.why.billy = 'Featured-artist share plus the writer payout on the song side.';
+        b.why.billy = ws.billy ? 'Featured-artist share plus the writer payout on the song side.' : `Featured-artist share only. The song side goes to ${PEOPLE[song.writers[0]].name}.`;
         unit = `${count(v.plays)} satellite & internet plays of "${song.title}"`;
         caption = `${count(v.plays)} listener plays`;
         const pro = pubAmt * v.pro / 100, adm = (pubAmt - pro) / 2 * v.adm / 100;
@@ -847,8 +994,8 @@ const SCEN = {
       Object.entries(ws).forEach(([id, f]) => b.give('sfee', id, wr * f));
       recordWhy(b, alb, '');
       Object.keys(ws).forEach(id => b.tag(id, 'Writer'));
-      b.tag('billy', 'Has a veto');
-      b.why.billy = 'Band share plus the writer side. As the writer, his publishing can refuse the placement.';
+      if (ws.billy) b.tag('billy', 'Has a veto');
+      b.why.billy = ws.billy ? 'Band share plus the writer side. As the writer, his publishing can refuse the placement.' : `Band share of the master fee only. ${PEOPLE[song.writers[0]].name}'s publisher decides whether the song can be used at all.`;
       b.why.james = ws.james ? 'Band share plus his co-writer cut, and a say in approving it.' : 'Band share of the master fee as a member on the record.';
       b.why.jimmy = b.why.jimmy || 'Band share of the master fee as a member on the record.';
       b.why.darcy = ws.darcy ? 'Band share plus her co-writer cut, and a say in approving it.' : 'Band share of the master fee, assuming her deal still pays her. No say in approval.';
@@ -880,7 +1027,7 @@ const defaults = {};
 for (const [k, s] of Object.entries(SCEN)) {
   defaults[k] = {};
   s.groups.forEach(g => g.controls.forEach(c => defaults[k][c.id] = c.value));
-  state[k] = { ...defaults[k] };
+  state[k] = JSON.parse(JSON.stringify(defaults[k]));
 }
 let cur = 'tour';
 try { const t = localStorage.getItem('sp-tab'); if (SCEN[t]) cur = t; } catch (e) {}
@@ -913,7 +1060,34 @@ function renderControls() {
       if (c.show && !c.show(v)) continue;
       const id = `${cur}-${c.id}`, row = document.createElement('div');
       row.className = 'ctl';
-      if (c.type === 'select') {
+      if (c.type === 'setlist') {
+        const opts = Object.entries(CATALOG).sort((a, z) => a[1].title.localeCompare(z[1].title))
+          .map(([k, x]) => `<option value="${k}">${x.title} (${creditLabel(x)})</option>`).join('');
+        row.innerHTML = `<div class="sheet"><span class="sheet-h">Tonight</span><ol class="sl" id="setlist-list">${v.set.map((k, i) => { const x = CATALOG[k]; const out = !x.writers.some(w => PEOPLE[w].kind === 'member');
+            return `<li><span class="t">${x.title}</span><span class="w${out ? ' out' : ''}">${creditLabel(x)}</span><button type="button" class="sl-x" data-i="${i}" aria-label="Remove ${x.title}">×</button></li>`; }).join('')}</ol></div>
+          <div class="sl-row"><select id="setlist-add" aria-label="Song to add">${opts}</select><button type="button" class="sl-btn" id="setlist-addbtn">Add</button></div>
+          <label for="setlist-paste">Paste a setlist</label>
+          <textarea id="setlist-paste" rows="4" placeholder="Copy the song list from a show on setlist.fm and paste it here, one song per line."></textarea>
+          <div class="sl-btns">
+            <button type="button" class="sl-btn primary" id="setlist-load">Use pasted setlist</button>
+            <button type="button" class="sl-btn" id="setlist-sample">Load sample</button>
+            <button type="button" class="sl-btn" id="setlist-clear">Clear</button>
+          </div>
+          <p class="sl-msg" id="setlist-msg">${slMsg}</p>
+          <a href="https://www.setlist.fm/search?query=the+smashing+pumpkins" target="_blank" rel="noopener">Find a show on setlist.fm ↗</a>`;
+        const redo = () => { renderControls(); update(); };
+        row.querySelectorAll('.sl-x').forEach(btn => btn.addEventListener('click', () => { v.set.splice(+btn.dataset.i, 1); slMsg = ''; redo(); }));
+        row.querySelector('#setlist-addbtn').addEventListener('click', () => { v.set.push(row.querySelector('#setlist-add').value); slMsg = ''; redo(); });
+        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slMsg = 'Loaded a sample setlist. It\'s an example, not a specific show.'; redo(); });
+        row.querySelector('#setlist-clear').addEventListener('click', () => { v.set = []; slMsg = ''; redo(); });
+        row.querySelector('#setlist-load').addEventListener('click', () => {
+          const { found, skipped } = parseSetlist(row.querySelector('#setlist-paste').value);
+          if (!found.length) { slMsg = 'No songs recognized. Paste the song titles, one per line.'; redo(); return; }
+          v.set = found;
+          slMsg = `Loaded ${found.length} song${found.length > 1 ? 's' : ''}.` + (skipped.length ? ` Didn't recognize: ${skipped.slice(0, 8).join(', ')}${skipped.length > 8 ? '…' : ''}. Add them by hand if they're songs.` : '');
+          redo();
+        });
+      } else if (c.type === 'select') {
         row.innerHTML = `<label for="${id}">${c.label}</label><select id="${id}">${c.options.map(([k, l]) => `<option value="${k}"${v[c.id] === k ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
         row.querySelector('select').addEventListener('change', e => { v[c.id] = e.target.value; if (c.onChange) c.onChange(v); if (c.rerender) renderControls(); update(); });
       } else {
@@ -928,7 +1102,7 @@ function renderControls() {
   }
   const reset = document.createElement('button');
   reset.className = 'reset'; reset.type = 'button'; reset.textContent = 'Reset to defaults';
-  reset.addEventListener('click', () => { state[cur] = { ...defaults[cur] }; renderControls(); update(); });
+  reset.addEventListener('click', () => { state[cur] = JSON.parse(JSON.stringify(defaults[cur])); slMsg = ''; renderControls(); update(); });
   ctl.append(reset);
 }
 
@@ -1037,6 +1211,36 @@ function renderOthers(m) {
 
 function renderCompare(m) {
   const c = m.compare, el = $('compare');
+  if (m.setTable) {
+    if (el.dataset.mode !== 'set') {
+      el.dataset.mode = 'set';
+      el.innerHTML = `<div class="pie-wrap"><h3>Tonight's songwriter pot</h3>
+        <svg id="pie" viewBox="-110 -110 220 220" width="220" height="220" role="img" aria-label="Share of tonight's songwriter royalties"><g class="arcs"></g>
+        <text class="pc1" y="6"></text><text class="pc2" y="26">to Billy</text></svg>
+        <ul class="pie-legend" id="pieLegend"></ul></div><div id="setTbl"></div>`;
+    }
+    const pay = m.b.pay, ids = ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'];
+    const data = ids.map(id => ({ id, label: PEOPLE[id].name, color: PEOPLE[id].color, v: Math.max(0, pay[id] || 0) }));
+    const writersSum = data.reduce((t, d) => t + d.v, 0);
+    data.push({ id: 'fees', label: 'ASCAP/BMI & admin fees', color: 'var(--cut)', v: Math.max(0, m.total - writersSum) });
+    const tot = data.reduce((t, d) => t + d.v, 0);
+    const arc = d3.arc().innerRadius(62).outerRadius(104).cornerRadius(2);
+    const pie = d3.pie().sort(null).value(d => d.v).padAngle(.008);
+    d3.select('#pie .arcs').selectAll('path').data(pie(data), d => d.data.id)
+      .join(enter => enter.append('path').each(function (d) { this._cur = { startAngle: 0, endAngle: 0, padAngle: 0 }; }))
+      .style('fill', d => d.data.color)
+      .transition().duration(reduce ? 0 : 650).ease(d3.easeCubicOut)
+      .attrTween('d', function (d) { const i = d3.interpolate(this._cur, d); this._cur = i(1); return t => arc(i(t)); });
+    d3.select('#pie .pc1').text(tot ? Math.round((pay.billy || 0) / tot * 100) + '%' : '—');
+    $('pieLegend').innerHTML = data.filter(d => d.v > 0).map(d =>
+      `<li><i style="background:${d.color}"></i><span>${d.label}</span><span class="pp">${Math.round(d.v / tot * 100)}%</span><span class="pm">${money(d.v)}</span></li>`).join('');
+    $('setTbl').innerHTML = m.setTable.length ? `<table><caption>Song by song</caption>
+      <thead><tr><th>Song</th><th>Written by</th><th>Pays its writers</th></tr></thead>
+      <tbody>${m.setTable.map(r => `<tr><td>${r.title}</td><td class="txt${r.out ? ' out' : ''}">${r.credit}</td><td>${money(r.val)}</td></tr>`).join('')}</tbody></table>
+      <p class="note">Tonight, a song Billy wrote alone is worth ${money(m.perBilly)} to him, a co-write about half that, and a cover nothing. Every reported song gets an equal share here; real PROs weight things a little differently.</p>` : '';
+    return;
+  }
+  el.dataset.mode = '';
   if (!c) { el.innerHTML = ''; return; }
   const cell = (x, other, key) => `<td class="${key && x > other ? 'win' : ''}">${money(x)}</td>`;
   el.innerHTML = `<table><caption>Festival slot vs. one arena night</caption>
