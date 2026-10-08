@@ -241,6 +241,20 @@ textarea:focus-visible, .sl-btn:focus-visible, .sl-x:focus-visible { outline: 2p
 .pie-legend .pm { font-family: var(--mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
 .compare td.out { color: var(--sand); }
 
+.sf { display: grid; gap: 8px; border: 1px solid var(--line); border-radius: 6px; padding: 10px; background: var(--panel-2); }
+.sf-h { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.sf-row { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 6px; }
+.sf-row select, .sf-row input { font: inherit; font-size: 13px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 6px 8px; min-width: 0; width: 100%; }
+.sf-row input:focus-visible, .sf-show:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.sf-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 260px; overflow-y: auto; }
+.sf-show { width: 100%; text-align: left; font: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; cursor: pointer; display: grid; gap: 1px; }
+.sf-show:hover { border-color: var(--gold); }
+.sf-show b { font-size: 13.5px; font-weight: 600; }
+.sf-show span { font-size: 12px; color: var(--muted); }
+.sf-pager { display: flex; justify-content: space-between; gap: 8px; }
+.sf-credit { font-size: 11.5px; color: var(--faint); }
+.sf-credit a, .sl-msg a { color: var(--sky); }
+
 /* note from Colby */
 .note-btn { justify-self: start; font: inherit; font-size: 13.5px; color: var(--gold); background: none; border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; cursor: pointer; }
 .note-btn:hover { border-color: var(--gold); }
@@ -451,6 +465,7 @@ const PEOPLE = {
   nicks: { name: 'Stevie Nicks', role: 'Wrote "Landslide"', kind: 'outside', color: 'var(--sand)' },
   gore:  { name: 'Martin Gore', role: 'Wrote "Never Let Me Down Again"', kind: 'outside', color: 'var(--sand)' },
   opener:{ name: "Opening act's writers", role: '', kind: 'outside', color: 'var(--sand)' },
+  other: { name: 'Other covered songwriters', role: '', kind: 'outside', color: 'var(--sand)' },
 };
 const CARD_ORDER = ['billy', 'james', 'jimmy', 'darcy', 'kiki'];
 
@@ -574,8 +589,9 @@ const CATALOG = {
 };
 const SAMPLE_SET = ['siva', 'rhinoceros', 'today', 'cherub', 'zero', 'mayonaise', 'thirtythree', 'ava', 'landslide', 'disarm',
   'tarantula', 'tonight', '1979', 'nlmda', 'solara', 'hummer', 'bullet', 'silverfuck'];
-const surname = id => ({ opener: 'Opener' })[id] || PEOPLE[id].name.split(' ').slice(-1)[0];
-const creditLabel = song => song.writers.map(surname).join('/');
+const surname = id => ({ opener: 'Opener', other: 'Cover' })[id] || PEOPLE[id].name.split(' ').slice(-1)[0];
+const creditLabel = song => song.coverOf ? `${song.coverOf} cover` : song.writers.map(surname).join('/') + (song.assumed ? '?' : '');
+const esc = t => String(t).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
 const norm = t => t.toLowerCase().replace(/\(.*?\)/g, '').replace(/&/g, 'and').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
 const CAT_INDEX = new Map();
 Object.entries(CATALOG).forEach(([k, c]) => [c.title, ...c.aliases].forEach(t => CAT_INDEX.set(norm(t), k)));
@@ -590,7 +606,51 @@ function parseSetlist(text) {
   }
   return { found, skipped };
 }
-let slMsg = '';
+let slMsg = '', slShow = '';
+// Real shows from setlist.fm, through the site's own proxy (/api/smashing-setlists).
+// Only works on redcrowlabs.com; anywhere else the search stays hidden and paste still works.
+const SF = { ready: null, year: '', q: '', page: 1, shows: [], more: false, busy: false, err: '' };
+function sfProbe(then) {
+  if (SF.ready !== null) return;
+  SF.ready = false;
+  fetch('/api/smashing-setlists?probe=1').then(r => r.ok ? r.json() : null).then(j => { SF.ready = !!(j && j.ready); then(); }).catch(() => {});
+}
+function sfSearch(then) {
+  SF.busy = true; SF.err = ''; then();
+  const qs = new URLSearchParams({ page: SF.page });
+  if (SF.year) qs.set('year', SF.year);
+  if (SF.q) qs.set('q', SF.q);
+  fetch('/api/smashing-setlists?' + qs).then(r => r.json().then(j => ({ ok: r.ok, j })))
+    .then(({ ok, j }) => {
+      SF.busy = false;
+      if (!ok) { SF.err = j.error === 'rate_limited' ? 'setlist.fm is busy right now. Try again in a minute, or paste a setlist below.' : "Couldn't reach setlist.fm. Paste a setlist below instead."; SF.shows = []; }
+      else { SF.shows = j.shows || []; SF.more = !!j.more; if (!SF.shows.length) SF.err = 'No shows found. Try another year, city or venue.'; }
+      then();
+    })
+    .catch(() => { SF.busy = false; SF.err = "Couldn't reach setlist.fm. Paste a setlist below instead."; then(); });
+}
+function sfLoad(show) {
+  const keys = [], guessed = [];
+  for (const song of show.songs) {
+    let k = CAT_INDEX.get(norm(song.name));
+    if (!k) {
+      k = 'x:' + norm(song.name);
+      if (!CATALOG[k]) {
+        CATALOG[k] = song.cover
+          ? { title: song.name, writers: ['other'], aliases: [], coverOf: song.cover }
+          : { title: song.name, writers: ['billy'], aliases: [], assumed: true };
+      }
+      if (!song.cover) guessed.push(song.name);
+    }
+    keys.push(k);
+  }
+  const d = show.date ? new Date(show.date + 'T12:00:00') : null;
+  const when = d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+  slShow = [show.venue, when].filter(Boolean).join(' · ');
+  slMsg = `Loaded ${esc(show.venue)}${show.city ? ', ' + esc(show.city) : ''}${when ? ' · ' + when : ''}: ${keys.length} songs. Setlist from <a href="${esc(show.url)}" target="_blank" rel="noopener">setlist.fm</a>.`
+    + (guessed.length ? ` Credits we couldn't confirm, marked "?" and counted as Corgan songs: ${guessed.slice(0, 6).map(esc).join(', ')}${guessed.length > 6 ? '…' : ''}.` : '');
+  return keys;
+}
 
 // "Pick a room" presets for the tour tab. Every number is a guess.
 const BASE_ROOM = { tax: 6, promo: 15, agent: 10, mgr: 15, biz: 5, sal: 2500, vmerch: 20, cogs: 32 };
@@ -699,7 +759,7 @@ const SCEN = {
       const slm = SCEN.setlist.compute({ ...state.setlist, src: 'tour' });
       const k = slm.total > 0 ? lic / slm.total : 0;
       let writersPaid = 0;
-      ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'].forEach(id => {
+      ['billy', 'james', 'darcy', 'nicks', 'gore', 'other', 'opener'].forEach(id => {
         const amt = (slm.b.pay[id] || 0) * k;
         if (amt > 0) { b.give('lic', id, amt); writersPaid += amt; }
       });
@@ -883,7 +943,7 @@ const SCEN = {
         return { title: c.title, credit: creditLabel(c), out: !c.writers.some(w => PEOPLE[w].kind === 'member'), val: per, billy: (per / 2 + per / 2 * (1 - v.adm / 100)) * bf };
       });
       if (v.open) { tally.opener = v.open; rows.push({ title: `Opening act (${v.open} song${v.open > 1 ? 's' : ''})`, credit: 'Their writers', out: true, val: per * v.open, billy: 0 }); }
-      const order = ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'];
+      const order = ['billy', 'james', 'darcy', 'nicks', 'gore', 'other', 'opener'];
       order.filter(id => tally[id]).forEach(id => {
         b.give('wshare', id, per * tally[id] / 2);
         b.give('pshare', id, (per / 2 - per / 2 * v.adm / 100) * tally[id]);
@@ -1186,8 +1246,21 @@ function renderControls() {
       if (c.type === 'setlist') {
         const opts = Object.entries(CATALOG).sort((a, z) => a[1].title.localeCompare(z[1].title))
           .map(([k, x]) => `<option value="${k}">${x.title} (${creditLabel(x)})</option>`).join('');
-        row.innerHTML = `<div class="sheet"><span class="sheet-h">Tonight</span><ol class="sl" id="setlist-list">${v.set.map((k, i) => { const x = CATALOG[k]; const out = !x.writers.some(w => PEOPLE[w].kind === 'member');
-            return `<li><span class="t">${x.title}</span><span class="w${out ? ' out' : ''}">${creditLabel(x)}</span><button type="button" class="sl-x" data-i="${i}" aria-label="Remove ${x.title}">×</button></li>`; }).join('')}</ol></div>
+        row.innerHTML = `<div class="sheet"><span class="sheet-h">${slShow ? esc(slShow) : 'Tonight'}</span><ol class="sl" id="setlist-list">${v.set.map((k, i) => { const x = CATALOG[k]; const out = !x.writers.some(w => PEOPLE[w].kind === 'member');
+            return `<li><span class="t">${esc(x.title)}</span><span class="w${out ? ' out' : ''}">${esc(creditLabel(x))}</span><button type="button" class="sl-x" data-i="${i}" aria-label="Remove ${esc(x.title)}">×</button></li>`; }).join('')}</ol></div>
+          <div class="sf" id="sf"${SF.ready ? '' : ' hidden'}>
+            <span class="sf-h">Find a real show</span>
+            <div class="sf-row">
+              <select id="sf-year" aria-label="Year"><option value="">Any year</option>${Array.from({ length: 2026 - 1988 + 1 }, (_, i) => 2026 - i).map(y => `<option value="${y}"${SF.year == y ? ' selected' : ''}>${y}</option>`).join('')}</select>
+              <input id="sf-q" type="text" placeholder="City or venue" value="${esc(SF.q)}" aria-label="City or venue">
+              <button type="button" class="sl-btn primary" id="sf-go">Search</button>
+            </div>
+            ${SF.busy ? '<p class="sl-msg">Searching setlist.fm…</p>' : ''}
+            ${SF.err ? `<p class="sl-msg">${esc(SF.err)}</p>` : ''}
+            ${SF.shows.length ? `<ul class="sf-list">${SF.shows.map((sh, i) => `<li><button type="button" class="sf-show" data-i="${i}"><b>${esc(sh.venue)}</b><span>${esc(sh.city)}</span><span>${sh.date ? new Date(sh.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''} · ${sh.songs.length} songs</span></button></li>`).join('')}</ul>
+              <div class="sf-pager">${SF.page > 1 ? '<button type="button" class="sl-btn" id="sf-prev">← Newer</button>' : ''}${SF.more ? '<button type="button" class="sl-btn" id="sf-next">Older →</button>' : ''}</div>` : ''}
+            <span class="sf-credit">Setlists from <a href="https://www.setlist.fm/search?query=the+smashing+pumpkins" target="_blank" rel="noopener">setlist.fm</a></span>
+          </div>
           <div class="sl-row"><select id="setlist-add" aria-label="Song to add">${opts}</select><button type="button" class="sl-btn" id="setlist-addbtn">Add</button></div>
           <label for="setlist-paste">Paste a setlist</label>
           <textarea id="setlist-paste" rows="4" placeholder="Copy the song list from a show on setlist.fm and paste it here, one song per line."></textarea>
@@ -1201,13 +1274,21 @@ function renderControls() {
         const redo = () => { renderControls(); update(); };
         row.querySelectorAll('.sl-x').forEach(btn => btn.addEventListener('click', () => { v.set.splice(+btn.dataset.i, 1); slMsg = ''; redo(); }));
         row.querySelector('#setlist-addbtn').addEventListener('click', () => { v.set.push(row.querySelector('#setlist-add').value); slMsg = ''; redo(); });
-        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slMsg = 'Loaded a sample setlist. It\'s an example, not a specific show.'; redo(); });
-        row.querySelector('#setlist-clear').addEventListener('click', () => { v.set = []; slMsg = ''; redo(); });
+        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slShow = ''; slMsg = 'Loaded a sample setlist. It\'s an example, not a specific show.'; redo(); });
+        row.querySelector('#setlist-clear').addEventListener('click', () => { v.set = []; slMsg = ''; slShow = ''; redo(); });
+        sfProbe(() => { if (SF.ready && cur === 'setlist') renderControls(); });
+        const sfGo = () => { SF.year = row.querySelector('#sf-year').value; SF.q = row.querySelector('#sf-q').value.trim(); sfSearch(() => { if (cur === 'setlist') renderControls(); }); };
+        row.querySelector('#sf-go').addEventListener('click', () => { SF.page = 1; sfGo(); });
+        row.querySelector('#sf-q').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); SF.page = 1; sfGo(); } });
+        const prev = row.querySelector('#sf-prev'), next = row.querySelector('#sf-next');
+        if (prev) prev.addEventListener('click', () => { SF.page--; sfGo(); });
+        if (next) next.addEventListener('click', () => { SF.page++; sfGo(); });
+        row.querySelectorAll('.sf-show').forEach(btn => btn.addEventListener('click', () => { v.set = sfLoad(SF.shows[+btn.dataset.i]); redo(); }));
         row.querySelector('#setlist-load').addEventListener('click', () => {
           const { found, skipped } = parseSetlist(row.querySelector('#setlist-paste').value);
           if (!found.length) { slMsg = 'No songs recognized. Paste the song titles, one per line.'; redo(); return; }
-          v.set = found;
-          slMsg = `Loaded ${found.length} song${found.length > 1 ? 's' : ''}.` + (skipped.length ? ` Didn't recognize: ${skipped.slice(0, 8).join(', ')}${skipped.length > 8 ? '…' : ''}. Add them by hand if they're songs.` : '');
+          v.set = found; slShow = '';
+          slMsg = `Loaded ${found.length} song${found.length > 1 ? 's' : ''}.` + (skipped.length ? ` Didn't recognize: ${skipped.slice(0, 8).map(esc).join(', ')}${skipped.length > 8 ? '…' : ''}. Add them by hand if they're songs.` : '');
           redo();
         });
       } else if (c.type === 'select') {
@@ -1335,7 +1416,7 @@ function renderDollar(m) {
   const person = id => ln(id, PEOPLE[id].color, PEOPLE[id].name, pay[id] || 0);
   const sum = ids => ids.reduce((t, id) => t + (pay[id] || 0), 0);
   const founders = ['billy', 'james', 'jimmy', 'darcy'], hired = ['kiki', 'bass', 'keys'];
-  const outside = ['nicks', 'gore', 'opener'].filter(id => (pay[id] || 0) > 0);
+  const outside = ['nicks', 'gore', 'other', 'opener'].filter(id => (pay[id] || 0) > 0);
   const hiredSum = sum(hired), musicians = sum(founders) + hiredSum;
   const cutsList = sinks.filter(n => n.kind === 'cut');
   const cutSum = cutsList.reduce((t, n) => t + n.value, 0);
@@ -1397,7 +1478,7 @@ function renderCompare(m) {
         <text class="pc1" y="6"></text><text class="pc2" y="26">to Billy</text></svg>
         <ul class="pie-legend" id="pieLegend"></ul></div><div id="setTbl"></div>`;
     }
-    const pay = m.b.pay, ids = ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'];
+    const pay = m.b.pay, ids = ['billy', 'james', 'darcy', 'nicks', 'gore', 'other', 'opener'];
     const data = ids.map(id => ({ id, label: PEOPLE[id].name, color: PEOPLE[id].color, v: Math.max(0, pay[id] || 0) }));
     const writersSum = data.reduce((t, d) => t + d.v, 0);
     data.push({ id: 'fees', label: 'ASCAP/BMI & admin fees', color: 'var(--cut)', v: Math.max(0, m.total - writersSum) });
