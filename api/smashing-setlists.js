@@ -37,14 +37,14 @@ function trim(s) {
 
 async function search(key, params) {
   const url = `${API}/search/setlists?${new URLSearchParams(params)}`;
-  const r = await fetch(url, { headers: { 'x-api-key': key, Accept: 'application/json' } });
+  const r = await fetch(url, { headers: { 'x-api-key': key, Accept: 'application/json', 'User-Agent': 'SmashingPayouts/1.0 (redcrowlabs.com)' } });
   if (r.status === 404) return { setlist: [], total: 0 };
   if (!r.ok) { const e = new Error('upstream'); e.status = r.status; throw e; }
   return r.json();
 }
 
 module.exports = async (req, res) => {
-  const key = process.env.SETLISTFM_API_KEY;
+  const key = (process.env.SETLISTFM_API_KEY || '').trim();
   const q = req.query || {};
   if (q.probe) return send(res, 200, { ready: Boolean(key) }, false);
   if (!key) return send(res, 503, { error: 'not_configured' }, false);
