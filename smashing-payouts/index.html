@@ -782,7 +782,7 @@ const SCEN = {
       const roomNote = room && room.note ? room.note : '';
       const billyTotal = b.pay.billy || 0, tot0 = fees + face + merch;
       return {
-        b, total: tot0, partner,
+        b, total: tot0, partner, lead: 'Of every dollar fans spent',
         headNote: song('billy') > 0.005 && partner.billy > 0 ? `${cents(partner.billy, tot0)} as a partner + ${cents(song('billy'), tot0)} as the songwriter` : '',
         unit: 'one night',
         trail: [
@@ -892,7 +892,7 @@ const SCEN = {
         note: 'The arena column uses whatever you set on the tour tab.',
       };
       return {
-        b, total: fee + merch, unit: 'one festival set',
+        b, total: fee + merch, lead: 'Of every dollar the slot brought in', unit: 'one festival set',
         caption: `${usd(fee)} guarantee · ${v.crowd.toLocaleString('en-US')} at the stage`,
         ghost: profit < 0 ? `This slot costs more than it pays: ${money(-profit)} short.` : '',
         compare,
@@ -965,7 +965,7 @@ const SCEN = {
       b.why.darcy = cnt('darcy') ? "Not on stage, but she co-wrote a song in the set, so she gets paid for tonight." : "Not on stage and no writing credit in this set. $0.";
       b.why.kiki = 'Plays every song but wrote none of them. Her pay is the nightly fee on the tour tab.';
       return {
-        b, total: pot, unit: `songwriter royalties from one ${total}-song set`,
+        b, total: pot, lead: 'Of every dollar of songwriter royalties', unit: `songwriter royalties from one ${total}-song set`,
         caption: `${usd(gross)} in tickets${v.src === 'tour' ? ' (from the tour tab)' : ''} · ${v.lic.toFixed(1)}% license · ${money(per)} per song`,
         ghost: total ? '' : 'The setlist is empty. Add songs, paste one from setlist.fm, or load the sample.',
         setTable: rows, perBilly: per / 2 + per / 2 * (1 - v.adm / 100),
@@ -1039,7 +1039,7 @@ const SCEN = {
       b.why.jimmy = b.why.jimmy || 'Band royalty as a member who played on the record. No writing share.';
       b.why.darcy = ws.darcy ? `Band royalty plus ${100 - v.co}% of the song side as co-writer. One of the few songs where she earns as a writer.` : "Band royalty for a record she's on, assuming her deal still pays her. No writing share.";
       return {
-        b, total: gross, unit: `${count(v.n)} ${SERVICES[v.svc].name} streams of "${song.title}"`,
+        b, total: gross, lead: `Of every dollar ${SERVICES[v.svc].name} collects`, unit: `${count(v.n)} ${SERVICES[v.svc].name} streams of "${song.title}"`,
         trail: [
           { name: 'Recording side (the master)', steps: [
             S(SERVICES[v.svc].name, `Pools a month of subscription and ad money, keeps its cut (${money(dsp)}) and pays each master owner by its share of all streams. ${money(rec)} here.`, 'Monthly'),
@@ -1146,7 +1146,7 @@ const SCEN = {
       if (!b.why.billy) b.why.billy = 'Writer, so he collects both the writer\'s half and (through his own publishing) most of the publisher\'s half.';
       if (!b.why.james && ws.james) b.why.james = 'Co-writer, so he earns on the song side even though performers get nothing here.';
       if (!b.why.darcy && ws.darcy) b.why.darcy = 'Co-writer, so she earns on the song side even though performers get nothing here.';
-      return { b, total, unit, caption, ghost, trail };
+      return { b, total, unit, caption, ghost, trail, lead: v.mode === 'fm' ? 'Of every dollar the station pays for the song' : 'Of every dollar SiriusXM or Pandora pays' };
     },
   },
 
@@ -1185,7 +1185,7 @@ const SCEN = {
       b.why.jimmy = b.why.jimmy || 'Band share of the master fee as a member on the record.';
       b.why.darcy = ws.darcy ? 'Band share plus her co-writer cut, and a say in approving it.' : 'Band share of the master fee, assuming her deal still pays her. No say in approval.';
       return {
-        b, total: v.fee * 2, unit: `"${song.title}" in one placement`,
+        b, total: v.fee * 2, lead: 'Of every dollar the brand pays', unit: `"${song.title}" in one placement`,
         trail: [
           { name: 'Recording side (master use)', steps: [
             S('Music supervisor', "Works for the brand, agency or studio. Asks the label for permission to use this exact recording and negotiates the fee.", 'Weeks before air'),
@@ -1414,7 +1414,7 @@ function renderDollar(m) {
   barInfo = sinks.map((n, i) => ({ ...n, color: n.kind === 'cut' ? 'var(--cut)' : colorOf(n), share: cents(n.value, tot), unit: m.unit }));
   const billy = m.b.pay.billy || 0;
   $('headline').innerHTML = billy >= 0
-    ? `Of every dollar, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
+    ? `${m.lead || 'Of every dollar'}, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
     : `This night costs Billy Corgan <strong>${money(-billy)}</strong>`;
   if (m.headNote && billy >= 0) $('headline').innerHTML += ` <span class="hn">(${m.headNote})</span>`;
   $('unit').textContent = m.unit;
