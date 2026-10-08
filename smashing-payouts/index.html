@@ -120,6 +120,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; 
 .dollar-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; }
 .dollar-head p { margin: 0; font-size: 20px; max-width: 60ch; }
 .dollar-head p strong { font-family: var(--display); font-weight: 400; font-size: 30px; color: var(--pink); }
+.dollar-head p .hn { font-size: 14px; color: var(--muted); white-space: nowrap; }
 .dollar-head .unit { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
 .bar { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); }
 .bar span { display: block; height: 100%; min-width: 0; transition: flex-basis .35s ease, opacity .15s; border-right: 1px solid var(--night); cursor: default; }
@@ -657,7 +658,7 @@ const SCEN = {
       b.l('fans', b.n('merch', 'Merch table', 'pool'), merch);
       b.l('box', b.n('tax', 'Ticket taxes', 'cut'), tax);
       b.l('box', b.n('venue', 'Venue & show costs', 'cut'), cost - lic);
-      b.l('box', b.n('lic', 'Songwriter license (see setlist)', 'cut'), lic);
+      b.l('box', b.n('lic', 'Songwriter royalties (ASCAP/BMI)', 'pool'), lic);
       b.l('box', b.n('promo', 'Promoter profit', 'cut'), promo);
       b.l('box', b.n('take', "Band's take", 'pool'), artist);
       b.l('merch', b.n('vm', "Venue's merch cut", 'cut'), vm);
@@ -684,19 +685,38 @@ const SCEN = {
       b.why.jimmy = profit > 0 ? 'Partner in the touring business, splitting the remainder with James.' : 'Partner, so he shares the loss.';
       b.why.darcy = 'Not on the tour and not in the touring business. $0.';
       b.why.kiki = 'A fixed nightly fee, paid whether the night profits or not. No share of the upside.';
-      const sl = SCEN.setlist.compute({ ...state.setlist, src: 'tour' }).b.pay;
-      const goto = (id, verb) => sl[id] > 0 ? ` <a href="#" class="goto" data-goto="setlist">Plus ${money(sl[id])} in songwriter royalties from the setlist →</a>` : '';
+      // songwriter royalties from the setlist tab, scaled to the license fee taken out of this box office
+      const partner = { billy: b.pay.billy, james: b.pay.james, jimmy: b.pay.jimmy };
+      const slm = SCEN.setlist.compute({ ...state.setlist, src: 'tour' });
+      const k = slm.total > 0 ? lic / slm.total : 0;
+      let writersPaid = 0;
+      ['billy', 'james', 'darcy', 'nicks', 'gore', 'opener'].forEach(id => {
+        const amt = (slm.b.pay[id] || 0) * k;
+        if (amt > 0) { b.give('lic', id, amt); writersPaid += amt; }
+      });
+      b.l('lic', b.n('licfee', 'ASCAP/BMI & publishing fees', 'cut'), lic - writersPaid);
+      const song = id => (b.pay[id] || 0) - (partner[id] || 0);
+      const goto = id => song(id) > 0.005 ? ` <a href="#" class="goto" data-goto="setlist">Includes ${money(song(id))} in songwriter royalties from the setlist →</a>` : '';
       b.why.billy += goto('billy'); b.why.james += goto('james');
+      if (song('darcy') > 0.005) { b.why.darcy = 'Not on the tour, but she co-wrote a song in the set, so she gets paid for tonight.' + goto('darcy'); b.tag('darcy', 'Writer'); }
+      if (song('billy') > 0) b.tag('billy', 'Writer');
       const room = ROOMS[v.room];
       const roomNote = room && room.note ? room.note : '';
+      const billyTotal = b.pay.billy || 0, tot0 = fees + face + merch;
       return {
-        b, total: fees + face + merch,
+        b, total: tot0, partner,
+        headNote: song('billy') > 0.005 && partner.billy > 0 ? `${cents(partner.billy, tot0)} as a partner + ${cents(song('billy'), tot0)} as the songwriter` : '',
         unit: 'one night',
         trail: [
           { name: 'Tickets', steps: [
             S('Ticketmaster', `Sells the tickets, keeps the service fees (${money(fees)}) shared with the venue and promoter, and holds the face value until the show.`, 'On sale'),
             S('The promoter', 'Often sends the band a deposit against its guarantee months ahead, then pays the venue, staff and ads out of the box office.', 'Before and on show night'),
             S('Settlement', `After the show, the tour manager and the promoter's rep go through every cost line by line and agree on the band's share (${money(artist)}). It gets wired to the band's touring company.`, 'Show night'),
+          ]},
+          { name: 'Songwriter royalties', steps: [
+            S('Venue or promoter', `Pays ASCAP and BMI a license fee out of the box office, about ${((state.setlist && state.setlist.lic) || 1).toFixed(1)}% of ticket sales (${money(lic)}).`, 'After the show'),
+            S('Tour manager', 'Reports the setlist song by song. Each song reported earns its writers a share.', 'After the show'),
+            S('The writers', `Billy collects ${money(song('billy'))} as the writer, on top of his partner share. Covers pay their own writers instead.`, 'Quarterly'),
           ]},
           { name: 'Merch', steps: [
             S('The merch table', "The tour's merch manager counts stock in and out every night. The venue takes its cut at settlement.", 'Nightly'),
@@ -773,7 +793,7 @@ const SCEN = {
       b.why.kiki = 'Same nightly fee as an arena show. A bigger guarantee doesn\'t reach her.';
 
       // side-by-side with the tour tab's current settings
-      const t = SCEN.tour.compute(state.tour), tp = t.b.pay;
+      const t = SCEN.tour.compute(state.tour), tp = t.partner;
       const tv = state.tour, att = Math.round(tv.cap * tv.sell / 100), face = att * tv.price;
       const tNet = Math.max(0, face * (1 - tv.tax / 100 - tv.cost / 100)), tArtist = tNet * (1 - tv.promo / 100);
       const tMerch = att * tv.head * (1 - tv.vmerch / 100 - tv.cogs / 100);
@@ -1294,6 +1314,7 @@ function renderDollar(m) {
   $('headline').innerHTML = billy >= 0
     ? `Of every dollar, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
     : `This night costs Billy Corgan <strong>${money(-billy)}</strong>`;
+  if (m.headNote && billy >= 0) $('headline').innerHTML += ` <span class="hn">(${m.headNote})</span>`;
   $('unit').textContent = m.unit;
   const pay = m.b.pay;
   const ln = (k, color, name, val, extra, kids, note) => {
