@@ -677,7 +677,13 @@ function sfSearch(then) {
     })
     .catch(() => { SF.busy = false; SF.err = "Couldn't reach setlist.fm. Paste a setlist below instead."; then(); });
 }
+function setRoom(k) {
+  if (!state.tour || state.tour.room === k) return;
+  state.tour.room = k; applyRoom(state.tour);
+}
 function sfLoad(show) {
+  const isBarclays = /barclays/i.test(show.venue) && show.date === '2026-10-04';
+  setRoom(isBarclays ? 'barclays' : 'arena');
   const keys = [], guessed = [];
   for (const song of show.songs) {
     let k = CAT_INDEX.get(norm(song.name));
@@ -696,6 +702,7 @@ function sfLoad(show) {
   const when = d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
   slShow = [show.venue, when].filter(Boolean).join(' · ');
   slMsg = `Loaded ${esc(show.venue)}${show.city ? ', ' + esc(show.city) : ''}${when ? ' · ' + when : ''}: ${keys.length} songs. Setlist from <a href="${esc(show.url)}" target="_blank" rel="noopener">setlist.fm</a>.`
+    + (isBarclays ? '' : ' The money uses a typical arena night, since real attendance and ticket prices for this show aren\'t public.')
     + (guessed.length ? ` Credits we couldn't confirm, marked "?" and counted as Corgan songs: ${guessed.slice(0, 6).map(esc).join(', ')}${guessed.length > 6 ? '…' : ''}.` : '');
   return keys;
 }
@@ -1324,8 +1331,8 @@ function renderControls() {
         const redo = () => { renderControls(); update(); };
         row.querySelectorAll('.sl-x').forEach(btn => btn.addEventListener('click', () => { v.set.splice(+btn.dataset.i, 1); slMsg = ''; redo(); }));
         row.querySelector('#setlist-addbtn').addEventListener('click', () => { v.set.push(row.querySelector('#setlist-add').value); slMsg = ''; redo(); });
-        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = BARCLAYS_SET.slice(); slShow = 'Barclays Center · Oct 4, 2026'; slMsg = BARCLAYS_MSG; redo(); });
-        row.querySelector('#setlist-hits').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slShow = ''; slMsg = 'A made-up set of hits with two covers ("Landslide" and "Never Let Me Down Again"), to show what covers do. Not a real show.'; redo(); });
+        row.querySelector('#setlist-sample').addEventListener('click', () => { setRoom('barclays'); v.set = BARCLAYS_SET.slice(); slShow = 'Barclays Center · Oct 4, 2026'; slMsg = BARCLAYS_MSG; redo(); });
+        row.querySelector('#setlist-hits').addEventListener('click', () => { setRoom('arena'); v.set = SAMPLE_SET.slice(); slShow = ''; slMsg = 'A made-up set of hits with two covers ("Landslide" and "Never Let Me Down Again"), to show what covers do. Not a real show.'; redo(); });
         row.querySelector('#setlist-clear').addEventListener('click', () => { v.set = []; slMsg = ''; slShow = ''; redo(); });
         sfProbe(() => { if (SF.ready && cur === 'setlist') renderControls(); });
         const sfGo = () => { SF.year = row.querySelector('#sf-year').value; SF.q = row.querySelector('#sf-q').value.trim(); sfSearch(() => { if (cur === 'setlist') renderControls(); }); };
@@ -1338,7 +1345,7 @@ function renderControls() {
         row.querySelector('#setlist-load').addEventListener('click', () => {
           const { found, skipped } = parseSetlist(row.querySelector('#setlist-paste').value);
           if (!found.length) { slMsg = 'No songs recognized. Paste the song titles, one per line.'; redo(); return; }
-          v.set = found; slShow = '';
+          v.set = found; slShow = ''; setRoom('arena');
           slMsg = `Loaded ${found.length} song${found.length > 1 ? 's' : ''}.` + (skipped.length ? ` Didn't recognize: ${skipped.slice(0, 8).map(esc).join(', ')}${skipped.length > 8 ? '…' : ''}. Add them by hand if they're songs.` : '');
           redo();
         });
