@@ -119,9 +119,22 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; 
 .tip .tc { font-family: var(--display); font-size: 24px; line-height: 1.1; color: var(--ink); }
 .tip .tc small { font-family: var(--body); font-size: 12.5px; color: var(--muted); }
 .tip .tm { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
-.chips { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.chips b { color: var(--ink); font-weight: 500; }
-.chips i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.split { display: grid; gap: 2px; max-width: 620px; }
+.split details > summary { list-style: none; cursor: pointer; }
+.split details > summary::-webkit-details-marker { display: none; }
+.split .ln { display: grid; grid-template-columns: 14px 12px minmax(0, 1fr) auto 92px; gap: 10px; align-items: center; padding: 6px 4px; border-bottom: 1px dashed var(--line); font-size: 14px; }
+.split summary.ln:hover { background: var(--panel); }
+.split summary.ln:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.split .car { color: var(--gold); font-size: 13px; line-height: 1; transition: transform .15s; display: inline-block; }
+.split details[open] > summary .car { transform: rotate(90deg); }
+.split .dot { width: 10px; height: 10px; border-radius: 50%; }
+.split .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.split summary .nm { font-weight: 600; }
+.split .c { font-family: var(--mono); font-size: 12.5px; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+.split .c.neg { color: var(--loss); }
+.split .mo { font-family: var(--mono); font-size: 11px; color: var(--faint); text-align: right; font-variant-numeric: tabular-nums; }
+.split .kids { padding-left: 22px; }
+.split .note-n { font-size: 11.5px; color: var(--faint); font-weight: 400; margin-left: 6px; }
 
 /* main grid */
 .work { display: grid; grid-template-columns: minmax(0, 310px) minmax(0, 1fr); gap: 20px; align-items: start; }
@@ -257,6 +270,8 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 .card .tags { display: flex; flex-wrap: wrap; gap: 5px; }
 .card .tag { font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); color: var(--muted); border-radius: 99px; padding: 2px 7px; }
 .card .why { margin: 0; font-size: 13px; color: var(--muted); }
+.card .why .goto { display: block; margin-top: 6px; color: var(--gold); text-decoration: none; font-weight: 600; }
+.card .why .goto:hover { text-decoration: underline; }
 
 /* others */
 .others { display: grid; gap: 12px; }
@@ -301,7 +316,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
     </div>
     <div class="bar" id="bar" role="img" aria-label="How one dollar splits"></div>
     <div class="tip" id="tip" hidden></div>
-    <div class="chips" id="chips"></div>
+    <div class="split" id="split"></div>
   </section>
 
   <div class="work">
@@ -544,28 +559,51 @@ function parseSetlist(text) {
 }
 let slMsg = '';
 
+// "Pick a room" presets for the tour tab. Every number is a guess.
+const BASE_ROOM = { tax: 6, promo: 15, agent: 10, mgr: 15, biz: 5, sal: 2500, vmerch: 20, cogs: 32 };
+const ROOMS = {
+  arena:    { label: 'A typical arena night', set: { cap: 14000, sell: 92, price: 95, fee: 18, cost: 28, prod: 175000, head: 14 } },
+  barclays: { label: 'Barclays Center, Brooklyn (Oct 2026)', set: { cap: 16500, sell: 96, price: 115, fee: 24, cost: 30, prod: 175000, head: 16, vmerch: 25 },
+    note: "Ballpark guesses for a Brooklyn arena night. The real settlement isn't public." },
+  legion:   { label: 'American Legion Theater, Hollywood (May 2026)', set: { cap: 500, sell: 100, price: 150, fee: 25, tax: 0, cost: 35, prod: 60000, head: 45 },
+    note: 'The "In Memoriam: Zero" show: about 500 seats, a coffin on stage and two sets. Small special shows like this often lose money on purpose; they\'re marketing, not income.' },
+  stadium:  { label: 'A stadium (what-if)', set: { cap: 50000, sell: 88, price: 125, fee: 26, cost: 30, promo: 12, prod: 450000, head: 12, vmerch: 25 },
+    note: 'A hypothetical stadium headline night. Bigger crowds, bigger crews, and the same three partners at the end.' },
+  living:   { label: 'Your living room', set: { cap: 30, sell: 100, price: 20, fee: 0, tax: 0, cost: 0, promo: 0, agent: 0, prod: 300, sal: 500, head: 10, vmerch: 0 },
+    extras: [['Pizza for the band', 0], ['Noise complaint fine', 500], ['Court costs', 1200], ['Bail for three partners', 3000], ['Your security deposit', 1500]],
+    note: "Cash at the door, a very angry neighbor and a night in county. The manager still takes 15%." },
+};
+function applyRoom(v) {
+  const room = ROOMS[v.room];
+  if (!room) return;
+  Object.assign(v, BASE_ROOM, room.set);
+  v.extras = (room.extras || []).filter(([, amt]) => amt > 0);
+}
+
 const SCEN = {
   tour: {
     tab: 'One night on tour', admit: 'Live',
     about: 'An arena headline night. The promoter takes the room, the band takes a share of what is left, and the touring business pays everyone before the partners split the profit.',
     groups: [
       { name: 'The room', controls: [
-        { id: 'cap', label: 'Capacity', type: 'range', min: 2000, max: 20000, step: 500, value: 14000, fmt: v => v.toLocaleString('en-US') },
-        { id: 'sell', label: 'Tickets sold', type: 'range', min: 40, max: 100, step: 1, value: 92, fmt: pct },
-        { id: 'price', label: 'Average ticket', type: 'range', min: 40, max: 300, step: 5, value: 95, fmt: usd },
+        { id: 'room', label: 'Pick a room', type: 'select', value: 'arena', rerender: true, onChange: v => applyRoom(v),
+          options: Object.entries(ROOMS).map(([k, x]) => [k, x.label]).concat([['custom', 'Custom (your sliders)']]) },
+        { id: 'cap', label: 'Capacity', type: 'range', min: 10, max: 60000, step: 10, value: 14000, fmt: v => v.toLocaleString('en-US') },
+        { id: 'sell', label: 'Tickets sold', type: 'range', min: 10, max: 100, step: 1, value: 92, fmt: pct },
+        { id: 'price', label: 'Average ticket', type: 'range', min: 0, max: 300, step: 5, value: 95, fmt: usd },
         { id: 'fee', label: 'Service fee per ticket', type: 'range', min: 0, max: 45, step: 1, value: 18, fmt: usd, hint: 'Paid on top by fans. Shared by the ticketing company, venue and promoter.' },
       ]},
       { name: 'The deal', controls: [
         { id: 'tax', label: 'Ticket taxes', type: 'range', min: 0, max: 12, step: .5, value: 6, fmt: pct },
-        { id: 'cost', label: 'Venue & show costs', type: 'range', min: 10, max: 50, step: 1, value: 28, fmt: pct, hint: 'Rent, staff, security, ads. Share of ticket gross.' },
-        { id: 'promo', label: "Promoter's cut of the net", type: 'range', min: 5, max: 30, step: 1, value: 15, fmt: pct, hint: 'Classic headline deal: 85/15 after costs.' },
+        { id: 'cost', label: 'Venue & show costs', type: 'range', min: 0, max: 50, step: 1, value: 28, fmt: pct, hint: 'Rent, staff, security, ads. Share of ticket gross.' },
+        { id: 'promo', label: "Promoter's cut of the net", type: 'range', min: 0, max: 30, step: 1, value: 15, fmt: pct, hint: 'Classic headline deal: 85/15 after costs.' },
       ]},
       { name: 'The road', controls: [
-        { id: 'agent', label: 'Booking agent', type: 'range', min: 5, max: 15, step: 1, value: 10, fmt: pct },
-        { id: 'mgr', label: 'Manager', type: 'range', min: 10, max: 20, step: 1, value: 15, fmt: pct },
+        { id: 'agent', label: 'Booking agent', type: 'range', min: 0, max: 15, step: 1, value: 10, fmt: pct },
+        { id: 'mgr', label: 'Manager', type: 'range', min: 0, max: 20, step: 1, value: 15, fmt: pct },
         { id: 'biz', label: 'Business manager', type: 'range', min: 0, max: 6, step: .5, value: 5, fmt: pct },
-        { id: 'prod', label: 'Crew, trucks & production per night', type: 'range', min: 40000, max: 500000, step: 5000, value: 175000, fmt: usd },
-        { id: 'sal', label: 'Each hired player per night', type: 'range', min: 500, max: 10000, step: 250, value: 2500, fmt: usd, hint: 'Kiki Wong plus touring bass and keys.' },
+        { id: 'prod', label: 'Crew, trucks & production per night', type: 'range', min: 0, max: 600000, step: 100, value: 175000, fmt: usd },
+        { id: 'sal', label: 'Each hired player per night', type: 'range', min: 0, max: 10000, step: 250, value: 2500, fmt: usd, hint: 'Kiki Wong plus touring bass and keys.' },
       ]},
       { name: 'The merch table', controls: [
         { id: 'head', label: 'Merch spend per fan', type: 'range', min: 0, max: 40, step: 1, value: 14, fmt: usd },
@@ -586,14 +624,17 @@ const SCEN = {
       const pool = artist + mnet;
       const agent = artist * v.agent / 100, mgr = pool * v.mgr / 100, biz = pool * v.biz / 100;
       const hire = v.sal;
-      const profit = pool - agent - mgr - biz - v.prod - hire * 3;
+      const extras = v.extras || [], extraSum = extras.reduce((t, [, a]) => t + a, 0);
+      const profit = pool - agent - mgr - biz - v.prod - hire * 3 - extraSum;
+      const lic = Math.min(cost, face * ((state.setlist && state.setlist.lic) || 1) / 100);
 
       b.n('fans', "Fans' wallets", 'source');
       b.l('fans', b.n('fees', 'Ticketing & service fees', 'cut'), fees);
       b.l('fans', b.n('box', 'Box office', 'pool'), face);
       b.l('fans', b.n('merch', 'Merch table', 'pool'), merch);
       b.l('box', b.n('tax', 'Ticket taxes', 'cut'), tax);
-      b.l('box', b.n('venue', 'Venue & show costs', 'cut'), cost);
+      b.l('box', b.n('venue', 'Venue & show costs', 'cut'), cost - lic);
+      b.l('box', b.n('lic', 'Songwriter license (see setlist)', 'cut'), lic);
       b.l('box', b.n('promo', 'Promoter profit', 'cut'), promo);
       b.l('box', b.n('take', "Band's take", 'pool'), artist);
       b.l('merch', b.n('vm', "Venue's merch cut", 'cut'), vm);
@@ -604,6 +645,7 @@ const SCEN = {
       b.l('take', b.n('mgr', 'Manager', 'cut'), mgr);
       b.l('take', b.n('biz', 'Business manager', 'cut'), biz);
       b.l('take', b.n('prod', 'Crew, trucks & production', 'cut'), v.prod);
+      extras.forEach(([label, amt], i) => b.l('take', b.n('x' + i, label, 'cut'), amt));
       b.give('take', 'kiki', hire); b.give('take', 'bass', hire); b.give('take', 'keys', hire);
       const bs = v.bsplit / 100, rest = (1 - bs) / 2;
       if (profit > 0) {
@@ -619,6 +661,11 @@ const SCEN = {
       b.why.jimmy = profit > 0 ? 'Partner in the touring business, splitting the remainder with James.' : 'Partner, so he shares the loss.';
       b.why.darcy = 'Not on the tour and not in the touring business. $0.';
       b.why.kiki = 'A fixed nightly fee, paid whether the night profits or not. No share of the upside.';
+      const sl = SCEN.setlist.compute({ ...state.setlist, src: 'tour' }).b.pay;
+      const goto = (id, verb) => sl[id] > 0 ? ` <a href="#" class="goto" data-goto="setlist">Plus ${money(sl[id])} in songwriter royalties from tonight's setlist →</a>` : '';
+      b.why.billy += goto('billy'); b.why.james += goto('james');
+      const room = ROOMS[v.room];
+      const roomNote = room && room.note ? room.note : '';
       return {
         b, total: fees + face + merch,
         unit: 'one night',
@@ -639,7 +686,7 @@ const SCEN = {
           ]},
         ],
         caption: `${att.toLocaleString('en-US')} fans · ${usd(v.price)} average ticket`,
-        ghost: profit < 0 ? `This night lost ${money(-profit)}. The hired players and crew still get paid; the partners make up the difference.` : '',
+        ghost: [roomNote, profit < 0 ? `This night lost ${money(-profit)}. The hired players and crew still get paid; the partners make up the difference.` : ''].filter(Boolean).join(' '),
       };
     },
   },
@@ -748,12 +795,13 @@ const SCEN = {
   },
 
   setlist: {
-    tab: 'Setlist', admit: 'Songwriters, live',
-    about: "Venues and promoters pay ASCAP and BMI a small slice of every show's ticket sales. The setlist decides which songwriters get it. Build one, or paste a real one from setlist.fm.",
+    tab: "Tonight's setlist", admit: 'Songwriters, live',
+    about: "The same night as the tour tab. Venues and promoters pay ASCAP and BMI a small slice of the ticket sales, and the setlist decides which songwriters get it. Build one, or paste a real one from setlist.fm.",
     groups: [
       { name: 'The setlist', controls: [ { id: 'set', type: 'setlist', value: SAMPLE_SET } ]},
       { name: 'The night', controls: [
-        { id: 'gross', label: 'Ticket sales for the night', type: 'range', min: 100000, max: 3000000, step: 10000, value: 1220000, fmt: usd, hint: 'The arena default on the tour tab is about $1.22M.' },
+        { id: 'src', label: 'Ticket sales', type: 'select', value: 'tour', rerender: true, options: [['tour', 'Same night as the tour tab'], ['custom', 'Set my own']] },
+        { id: 'gross', label: 'Ticket sales for the night', type: 'range', min: 0, max: 6000000, step: 10000, value: 1220000, fmt: usd, show: v => v.src === 'custom' },
         { id: 'lic', label: 'Songwriter license fee', type: 'range', min: .2, max: 3, step: .1, value: 1, fmt: v => v.toFixed(1) + '%', hint: 'Rough combined guess for ASCAP and BMI. The real rates are negotiated and change.' },
         { id: 'open', label: 'Songs by the opening act', type: 'range', min: 0, max: 12, step: 1, value: 0, fmt: v => String(v), hint: 'Opening sets get reported too, and take a share of the same pot.' },
       ]},
@@ -766,7 +814,8 @@ const SCEN = {
     compute(v) {
       const b = B();
       const set = v.set.filter(k => CATALOG[k]);
-      const pot = v.gross * v.lic / 100, pro = pot * v.pro / 100, dist = pot - pro;
+      const t = state.tour, gross = v.src === 'tour' ? Math.round(t.cap * t.sell / 100) * t.price : v.gross;
+      const pot = gross * v.lic / 100, pro = pot * v.pro / 100, dist = pot - pro;
       const n = set.length + v.open, per = n ? dist / n : 0;
       b.n('src', 'Songwriter license (ASCAP/BMI)', 'source');
       b.l('src', b.n('pro', 'PRO overhead', 'cut'), pro);
@@ -796,7 +845,7 @@ const SCEN = {
       b.why.kiki = 'Plays every song but wrote none of them. Her pay is the nightly fee on the tour tab.';
       return {
         b, total: pot, unit: `songwriter royalties from one ${total}-song set`,
-        caption: `${usd(v.gross)} in tickets · ${v.lic.toFixed(1)}% license · ${money(per)} per song`,
+        caption: `${usd(gross)} in tickets${v.src === 'tour' ? ' (from the tour tab)' : ''} · ${v.lic.toFixed(1)}% license · ${money(per)} per song`,
         ghost: total ? '' : 'The setlist is empty. Add songs, paste one from setlist.fm, or load the sample.',
         setTable: rows, perBilly: per / 2 + per / 2 * (1 - v.adm / 100),
         trail: [
@@ -1050,9 +1099,16 @@ try { const t = localStorage.getItem('sp-tab'); if (SCEN[t]) cur = t; } catch (e
 const $ = id => document.getElementById(id);
 const tabsEl = $('tabs'), ctl = $('controls');
 
+const TAB_ORDER = ['tour', 'setlist', 'fest', 'stream', 'radio', 'sync'];
+function goTo(k) {
+  cur = k; try { localStorage.setItem('sp-tab', k); } catch (e) {}
+  renderTabs(); renderControls(); update(true);
+  $('tabs').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+}
 function renderTabs() {
   tabsEl.innerHTML = '';
-  for (const [k, s] of Object.entries(SCEN)) {
+  for (const k of TAB_ORDER) {
+    const s = SCEN[k];
     const btn = document.createElement('button');
     btn.className = 'tab'; btn.type = 'button'; btn.id = 'tab-' + k;
     btn.setAttribute('role', 'tab'); btn.setAttribute('aria-selected', String(k === cur));
@@ -1109,7 +1165,11 @@ function renderControls() {
         row.innerHTML = `<div class="ctl-top"><label for="${id}">${c.label}</label><output for="${id}">${c.fmt(v[c.id])}</output></div>
           <input type="range" id="${id}" min="${c.min}" max="${c.max}" step="${c.step}" value="${v[c.id]}">${c.hint ? `<p class="hint">${c.hint}</p>` : ''}`;
         const out = row.querySelector('output');
-        row.querySelector('input').addEventListener('input', e => { v[c.id] = +e.target.value; out.textContent = c.fmt(v[c.id]); update(); });
+        row.querySelector('input').addEventListener('input', e => {
+          v[c.id] = +e.target.value; out.textContent = c.fmt(v[c.id]);
+          if ('room' in v && v.room !== 'custom' && c.id !== 'bsplit') { v.room = 'custom'; const sel = $(`${cur}-room`); if (sel) sel.value = 'custom'; }
+          update();
+        });
       }
       fs.append(row);
     }
@@ -1158,6 +1218,8 @@ function drawSankey(m) {
     .text(d => `${money(d.value)}${m.total > 0 && d.kind !== 'loss' ? ' · ' + cents(d.value, m.total) : ''}`);
 }
 
+const openSplit = { mus: true, found: true };
+document.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('#split details')) openSplit[d.dataset.k] = d.open; }, true);
 const KIND_NAME = { member: 'Band member', hired: 'Hired player', outside: 'Outside songwriter', cut: 'Company or middleman', loss: '' };
 let barInfo = [];
 (() => {
@@ -1210,13 +1272,26 @@ function renderDollar(m) {
     ? `Of every dollar, Billy Corgan ends up with <strong>${cents(billy, m.total)}</strong>`
     : `This night costs Billy Corgan <strong>${money(-billy)}</strong>`;
   $('unit').textContent = m.unit;
-  const memberSum = ['billy', 'james', 'jimmy', 'darcy'].reduce((s, id) => s + Math.max(0, m.b.pay[id] || 0), 0);
-  const hiredSum = ['kiki', 'bass', 'keys'].reduce((s, id) => s + (m.b.pay[id] || 0), 0);
-  $('chips').innerHTML =
-    ['james', 'jimmy', 'darcy', 'kiki'].map(id => `<span><i style="background:${PEOPLE[id].color}"></i>${PEOPLE[id].name.split(' ')[0]} <b>${cents(Math.max(0, m.b.pay[id] || 0), m.total)}</b></span>`).join('') +
-    `<span><i style="background:var(--pool)"></i>All four members <b>${cents(memberSum, m.total)}</b></span>` +
-    (hiredSum ? `<span><i style="background:var(--teal)"></i>All hired players <b>${cents(hiredSum, m.total)}</b></span>` : '') +
-    `<span><i style="background:var(--cut)"></i>Everyone else <b>${cents(Math.max(0, m.total - memberSum - hiredSum), m.total)}</b></span>`;
+  const pay = m.b.pay;
+  const ln = (k, color, name, val, extra, kids, note) => {
+    const cl = val < -1e-9 ? 'c neg' : 'c';
+    const inner = `<span class="car">${kids ? '▸' : ''}</span><span class="dot" style="background:${color}"></span><span class="nm">${name}${note ? `<span class="note-n">${note}</span>` : ''}</span><span class="${cl}">${val < -1e-9 ? '−' + cents(-val, m.total) : cents(val, m.total)}</span><span class="mo">${money(val)}</span>`;
+    if (!kids) return `<div class="ln">${inner}</div>`;
+    return `<details data-k="${k}"${openSplit[k] ? ' open' : ''}><summary class="ln">${inner}</summary><div class="kids">${kids}</div></details>`;
+  };
+  const person = id => ln(id, PEOPLE[id].color, PEOPLE[id].name, pay[id] || 0);
+  const sum = ids => ids.reduce((t, id) => t + (pay[id] || 0), 0);
+  const founders = ['billy', 'james', 'jimmy', 'darcy'], hired = ['kiki', 'bass', 'keys'];
+  const outside = ['nicks', 'gore', 'opener'].filter(id => (pay[id] || 0) > 0);
+  const hiredSum = sum(hired), musicians = sum(founders) + hiredSum;
+  const cutsList = sinks.filter(n => n.kind === 'cut');
+  const cutSum = cutsList.reduce((t, n) => t + n.value, 0);
+  let html = ln('mus', 'var(--pink)', 'All musicians', musicians, '',
+    ln('found', 'var(--pink)', 'Founding four', sum(founders), '', founders.map(person).join(''), 'Billy, James, Jimmy, D\'arcy') +
+    (hiredSum > 0 ? ln('hired', 'var(--teal)', 'Hired players', hiredSum, '', hired.map(person).join(''), 'Kiki and the touring band') : ''));
+  if (outside.length) html += ln('writers', 'var(--sand)', 'Songwriters outside the band', sum(outside), '', outside.map(person).join(''));
+  if (cutsList.length) html += ln('else', 'var(--cut)', 'Everyone else', cutSum, '', cutsList.map(n => ln(n.id, 'var(--cut)', n.label, n.value)).join(''), 'companies and middlemen');
+  $('split').innerHTML = html;
 }
 
 let shown = {};
@@ -1224,6 +1299,7 @@ const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)
 function renderCards(m, animate) {
   const pay = m.b.pay;
   const max = Math.max(1e-12, ...CARD_ORDER.map(id => Math.abs(pay[id] || 0)));
+  $('cards').onclick = e => { const a = e.target.closest('[data-goto]'); if (a) { e.preventDefault(); goTo(a.dataset.goto); } };
   $('cards').innerHTML = CARD_ORDER.map(id => {
     const p = PEOPLE[id], amt = pay[id] || 0;
     const tags = (m.b.tags[id] || []).concat(Math.abs(amt) < 1e-9 ? ['$0'] : []);
