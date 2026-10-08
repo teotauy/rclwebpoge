@@ -340,7 +340,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
     <p class="lede">Pick a money stream, drag the assumptions, and watch a fan's dollar split between the label, the middlemen, the hired players and the four people who made the records. Every default is a ballpark guess. The real band agreements are private.</p>
     <button class="art" type="button" id="artSheet" aria-label="Build a setlist">
       <span class="tape" aria-hidden="true"></span>
-      <span class="ah">Tonight · what Billy makes</span>
+      <span class="ah">What each song pays Billy</span>
       <span class="ar"><span class="at">Today</span><span class="av">$$$$</span></span>
       <span class="ar"><span class="at">Cherub Rock</span><span class="av">$$$$</span></span>
       <span class="ar"><span class="at">Mayonaise</span><span class="av">$$</span></span>
@@ -571,7 +571,7 @@ function recordWhy(b, alb, recLabel) {
 
 
 // songs that turn up in setlists, with writing credits (Corgan alone unless noted)
-const C = (title, writers = ['billy'], aliases = []) => ({ title, writers, aliases });
+const C = (title, writers = ['billy'], aliases = [], extra = {}) => ({ title, writers, aliases, ...extra });
 const CATALOG = {
   siva: C('Siva'), rhinoceros: C('Rhinoceros'), iamone: C('I Am One', ['billy', 'james']), tristessa: C('Tristessa'), snail: C('Snail'),
   daughter: C('Daughter', ['billy', 'darcy']), starla: C('Starla'), drown: C('Drown'), blewaway: C('Blew Away', ['james']),
@@ -585,8 +585,17 @@ const CATALOG = {
   ava: C('Ava Adore'), perfect: C('Perfect'), eye: C('Eye'), tear: C('Tear'),
   standinside: C('Stand Inside Your Love'), everlasting: C('The Everlasting Gaze', ['billy'], ['everlasting gaze']),
   nlmda: C('Never Let Me Down Again', ['gore']), tarantula: C('Tarantula'), solara: C('Solara'), cyr: C('Cyr'),
-  cupid: C('Cupid de Locke'), spaceboy: C('Spaceboy'), beguiled: C('Beguiled'), doomsday: C('Doomsday Clock'), sighommi: C('Sighommi'), empires: C('Empires'),
+  cupid: C('Cupid de Locke'), bodies: C('Bodies'), galapogos: C('Galapogos', ['billy'], ['galapagos']), herenowhy: C('Here Is No Why'),
+  toforgive: C('To Forgive'), bystarlight: C('By Starlight'), mcistitle: C('Mellon Collie and the Infinite Sadness'),
+  edin: C('Edin'), pentagrams: C('Pentagrams'), wardreams: C('War Dreams of Itself'), asromeburns: C('As Rome Burns'), superchrist: C('Superchrist'),
+  sojourner: C('Sojourner', ['billy'], [], { assumed: true }), jesussun: C('Jesus Is the Sun', ['billy'], [], { assumed: true }), spaceboy: C('Spaceboy'), beguiled: C('Beguiled'), doomsday: C('Doomsday Clock'), sighommi: C('Sighommi'), empires: C('Empires'),
 };
+// The Barclays Center show, Brooklyn, Oct 4, 2026 (from setlist.fm)
+const BARCLAYS_SET = ['1979', 'bullet', 'cupid', 'porcelina', 'jellybelly', 'bodies', 'galapogos', 'thirtythree', 'tonight', 'herenowhy',
+  'toforgive', 'fuckyou', 'zero', 'muzzle', 'bystarlight', 'mcistitle',
+  'bullet', 'sojourner', 'edin', 'pentagrams', 'disarm', 'ava', 'wardreams', 'mayonaise', 'asromeburns', 'today', 'cherub', 'jesussun', 'everlasting', 'superchrist'];
+const BARCLAYS_URL = 'https://www.setlist.fm/setlist/the-smashing-pumpkins/2026/barclays-center-brooklyn-ny-23741cbf.html';
+const BARCLAYS_MSG = `The Barclays Center show, Oct 4, 2026: 30 songs across the Mellon Collie set and a second set. Setlist from <a href="${BARCLAYS_URL}" target="_blank" rel="noopener">setlist.fm</a>. "Bullet with Butterfly Wings" was played twice (once solo by Kristeen Young), so it pays Billy twice. Credits marked "?" are unconfirmed and counted as Corgan songs.`;
 const SAMPLE_SET = ['siva', 'rhinoceros', 'today', 'cherub', 'zero', 'mayonaise', 'thirtythree', 'ava', 'landslide', 'disarm',
   'tarantula', 'tonight', '1979', 'nlmda', 'solara', 'hummer', 'bullet', 'silverfuck'];
 const surname = id => ({ opener: 'Opener', other: 'Cover' })[id] || PEOPLE[id].name.split(' ').slice(-1)[0];
@@ -606,7 +615,7 @@ function parseSetlist(text) {
   }
   return { found, skipped };
 }
-let slMsg = '', slShow = '';
+let slMsg = BARCLAYS_MSG, slShow = 'Barclays Center · Oct 4, 2026';
 // Real shows from setlist.fm, through the site's own proxy (/api/smashing-setlists).
 // Only works on redcrowlabs.com; anywhere else the search stays hidden and paste still works.
 const SF = { ready: null, year: '', q: '', page: 1, shows: [], more: false, busy: false, err: '' };
@@ -656,7 +665,7 @@ function sfLoad(show) {
 const BASE_ROOM = { tax: 6, promo: 15, agent: 10, mgr: 15, biz: 5, sal: 2500, vmerch: 20, cogs: 32 };
 const ROOMS = {
   arena:    { label: 'A typical arena night', set: { cap: 14000, sell: 92, price: 95, fee: 18, cost: 28, prod: 175000, head: 14 } },
-  barclays: { label: 'Barclays Center, Brooklyn (Oct 2026)', set: { cap: 16500, sell: 96, price: 115, fee: 24, cost: 30, prod: 175000, head: 16, vmerch: 25 },
+  barclays: { label: 'Barclays Center, Brooklyn (Oct 4, 2026)', set: { cap: 17700, sell: 96, price: 115, fee: 24, cost: 30, prod: 175000, head: 16, vmerch: 25 },
     note: "Ballpark guesses for a Brooklyn arena night. The real settlement isn't public." },
   legion:   { label: 'American Legion Theater, Hollywood (May 2026)', set: { cap: 500, sell: 100, price: 150, fee: 25, tax: 0, cost: 35, prod: 60000, head: 45 },
     note: 'The "In Memoriam: Zero" show: about 500 seats, a coffin on stage and two sets. Small special shows like this often lose money on purpose; they\'re marketing, not income.' },
@@ -910,7 +919,7 @@ const SCEN = {
     tab: 'Build a setlist', admit: 'Songwriter pay, song by song',
     about: "The same night as the tour tab. Venues and promoters pay ASCAP and BMI a small slice of the ticket sales, and the setlist decides which songwriters get it. Build one, or paste a real one from setlist.fm.",
     groups: [
-      { name: 'The setlist', controls: [ { id: 'set', type: 'setlist', value: SAMPLE_SET } ]},
+      { name: 'The setlist', controls: [ { id: 'set', type: 'setlist', value: BARCLAYS_SET } ]},
       { name: 'The night', controls: [
         { id: 'src', label: 'Ticket sales', type: 'select', value: 'tour', rerender: true, options: [['tour', 'Same night as the tour tab'], ['custom', 'Set my own']] },
         { id: 'gross', label: 'Ticket sales for the night', type: 'range', min: 0, max: 6000000, step: 10000, value: 1220000, fmt: usd, show: v => v.src === 'custom' },
@@ -1203,6 +1212,7 @@ const defaults = {};
 for (const [k, s] of Object.entries(SCEN)) {
   defaults[k] = {};
   s.groups.forEach(g => g.controls.forEach(c => defaults[k][c.id] = c.value));
+  if (k === 'tour') { defaults.tour.room = 'barclays'; applyRoom(defaults.tour); }
   state[k] = JSON.parse(JSON.stringify(defaults[k]));
 }
 let cur = 'tour';
@@ -1266,7 +1276,8 @@ function renderControls() {
           <textarea id="setlist-paste" rows="4" placeholder="Copy the song list from a show on setlist.fm and paste it here, one song per line."></textarea>
           <div class="sl-btns">
             <button type="button" class="sl-btn primary" id="setlist-load">Use pasted setlist</button>
-            <button type="button" class="sl-btn" id="setlist-sample">Load sample</button>
+            <button type="button" class="sl-btn" id="setlist-sample">Barclays show</button>
+            <button type="button" class="sl-btn" id="setlist-hits">Hits + covers</button>
             <button type="button" class="sl-btn" id="setlist-clear">Clear</button>
           </div>
           <p class="sl-msg" id="setlist-msg">${slMsg}</p>
@@ -1274,7 +1285,8 @@ function renderControls() {
         const redo = () => { renderControls(); update(); };
         row.querySelectorAll('.sl-x').forEach(btn => btn.addEventListener('click', () => { v.set.splice(+btn.dataset.i, 1); slMsg = ''; redo(); }));
         row.querySelector('#setlist-addbtn').addEventListener('click', () => { v.set.push(row.querySelector('#setlist-add').value); slMsg = ''; redo(); });
-        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slShow = ''; slMsg = 'Loaded a sample setlist. It\'s an example, not a specific show.'; redo(); });
+        row.querySelector('#setlist-sample').addEventListener('click', () => { v.set = BARCLAYS_SET.slice(); slShow = 'Barclays Center · Oct 4, 2026'; slMsg = BARCLAYS_MSG; redo(); });
+        row.querySelector('#setlist-hits').addEventListener('click', () => { v.set = SAMPLE_SET.slice(); slShow = ''; slMsg = 'A made-up set of hits with two covers ("Landslide" and "Never Let Me Down Again"), to show what covers do. Not a real show.'; redo(); });
         row.querySelector('#setlist-clear').addEventListener('click', () => { v.set = []; slMsg = ''; slShow = ''; redo(); });
         sfProbe(() => { if (SF.ready && cur === 'setlist') renderControls(); });
         const sfGo = () => { SF.year = row.querySelector('#sf-year').value; SF.q = row.querySelector('#sf-q').value.trim(); sfSearch(() => { if (cur === 'setlist') renderControls(); }); };
