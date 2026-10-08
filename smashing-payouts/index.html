@@ -219,6 +219,13 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 .fine ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 14px 28px; }
 .fine li { display: grid; gap: 4px; font-size: 14px; color: var(--muted); }
 .fine li b { color: var(--ink); font-weight: 600; font-size: 15px; }
+.f-site { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-top: 20px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.f-site a { color: var(--faint); text-decoration: none; }
+.f-site a:hover { color: var(--gold); }
+.f-site .bmc { color: #F0B90B; }
+.f-site .bmc:hover { color: #ffcc33; }
+.f-site .dot { color: var(--line); }
+.f-site .copy { text-transform: none; letter-spacing: 0; }
 .foot { font-size: 12.5px; color: var(--faint); max-width: 80ch; margin: 0; }
 </style>
 </head>
@@ -293,8 +300,23 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
       <li><b>Hired players get paid on bad nights too.</b>If a show loses money, the partners cover it. Push production costs up on the tour tab to see it.</li>
       <li><b>Merch carries a lot of tours.</b>After the venue's cut and the cost of the shirts, the band keeps a bigger share of a T-shirt than of a ticket.</li>
     </ol>
-    <p class="foot">An illustration for curiosity, built from public industry rules of thumb. It isn't the band's actual books, contracts or splits, and it isn't financial or legal advice.</p>
+    <p class="foot">An illustration for curiosity, built from public industry rules of thumb. It isn't the band's actual books, contracts or splits, and it isn't financial or legal advice. (Please don't be mad, Billy.)</p>
   </section>
+
+  <footer>
+    <div class="f-site">
+      <a class="bmc" href="https://buymeacoffee.com/colbyblack" target="_blank" rel="noopener">&#9749; Buy me a coffee</a>
+      <span class="dot">&middot;</span>
+      <a href="https://redcrowlabs.com/smashing-payouts/privacy">Privacy</a>
+      <span class="dot">&middot;</span>
+      <a href="https://redcrowlabs.com/smashing-payouts/terms">Terms</a>
+      <span class="dot">&middot;</span>
+      <a href="https://redcrowlabs.com" target="_blank" rel="noopener">Built by Red Crow Labs</a>
+      <span class="dot">&middot;</span>
+      <span class="copy">&copy; 2026 Red Crow Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
 </div>
 
 <dialog class="note" id="note" aria-labelledby="noteHello">
