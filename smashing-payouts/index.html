@@ -265,6 +265,7 @@ dialog.note { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 4
 dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3px); }
 .note-body { padding: 28px 28px 24px; display: grid; gap: 14px; font-size: 16px; line-height: 1.6; }
 .note-body p { margin: 0; }
+.note-body .hello:focus { outline: none; }
 .note-body .hello { font-family: 'Lansbury Local', var(--display); font-size: 34px; line-height: 1.05; color: var(--gold); }
 .note-body .sig { font-family: 'Lansbury Local', var(--display); font-size: 30px; color: var(--pink); }
 .note-body .quiet { color: var(--muted); font-size: 15px; }
@@ -468,7 +469,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
 
 <dialog class="note" id="note" aria-labelledby="noteHello">
   <div class="note-body">
-    <p class="hello" id="noteHello">Hey, this is Colby.</p>
+    <p class="hello" id="noteHello" tabindex="-1">Hey, this is Colby.</p>
     <p>In August of 1994, I backed out of my parents' driveway and moved myself to college in Austin. I purposely cued up "Today" from Smashing Pumpkins. I cried.</p>
     <p>In October of 2026, I walked from my apartment to the Barclays Center in Brooklyn and saw the Smashing Pumpkins perform "Today." I cried.</p>
     <p>Somewhere in the middle I started thinking about how they were probably the perfect case study for how bands get paid. A former member (D'arcy). A former member becoming a member again (James). Touring musicians (Kiki).</p>
@@ -478,7 +479,7 @@ dialog.note::backdrop { background: rgba(6, 6, 22, .72); backdrop-filter: blur(3
   </div>
   <div class="note-actions">
     <a href="https://www.linkedin.com/in/colbyangusblack/" target="_blank" rel="noopener">Find me on LinkedIn</a>
-    <button class="note-close" type="button" id="noteClose" autofocus>Let's see who gets paid</button>
+    <button class="note-close" type="button" id="noteClose">Let's see who gets paid</button>
   </div>
 </dialog>
 
@@ -1615,7 +1616,12 @@ renderTabs(); renderControls(); update(true);
 
 // note from Colby: opens on first visit, reopens from the masthead button
 const note = $('note');
-const openNote = () => { try { note.showModal(); } catch (e) { note.setAttribute('open', ''); } };
+const openNote = () => {
+  try { note.showModal(); } catch (e) { note.setAttribute('open', ''); }
+  note.scrollTop = 0;
+  try { $('noteHello').focus({ preventScroll: true }); } catch (e) {}
+  requestAnimationFrame(() => { note.scrollTop = 0; });
+};
 const closeNote = () => { note.close ? note.close() : note.removeAttribute('open'); try { localStorage.setItem('sp-note-seen', '1'); } catch (e) {} };
 $('noteOpen').addEventListener('click', openNote);
 $('artSheet').addEventListener('click', () => goTo('setlist'));
