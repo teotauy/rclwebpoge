@@ -4,38 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Where in the Weather</title>
-<style>
-  :root { --bg:#f2f2f1; --fg:#1b1b1a; --muted:#6a6a67; --line:#d6d6d2; --accent:#1b1b1a; --bad:#a33; --good:#2a7a3b; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --fg:#ececea; --muted:#9a9a95; --line:#3a3a37; --accent:#ececea; --bad:#e07a7a; --good:#6fcf88; } }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.5 Georgia, serif; }
-  main { max-width: 640px; margin: 0 auto; padding: 24px 16px 64px; }
-  h1 { font-weight: 400; font-size: 2rem; margin: 0 0 4px; }
-  .sub { color: var(--muted); margin: 0 0 20px; font: 14px/1.4 system-ui, sans-serif; }
-  .sub a { color: inherit; }
-  #edition { color: var(--fg); font-weight: 600; }
-  .banner { background:#fff3cd; color:#5a4500; padding:8px 12px; border-radius:6px; font:14px system-ui; margin-bottom:16px; }
-  .score { font: 600 1.6rem system-ui; margin: 8px 0 16px; }
-  ol { padding: 0; list-style: none; margin: 0 0 16px; }
-  li.clue { border-top: 1px solid var(--line); padding: 10px 0; }
-  li.clue .t { font: 12px system-ui; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  button { font: 15px system-ui; padding: 10px 16px; border: 1px solid var(--accent); background: transparent; color: var(--fg); border-radius: 999px; cursor: pointer; }
-  button:disabled { opacity: .4; cursor: default; }
-  button.primary { background: var(--accent); color: var(--bg); }
-  .row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0; position: relative; }
-  input { flex:1 1 220px; font: 16px system-ui; padding: 10px 14px; border:1px solid var(--line); border-radius: 8px; background: transparent; color: var(--fg); }
-  #opts { position:absolute; top:46px; left:0; right:0; background:var(--bg); border:1px solid var(--line); border-radius:8px; max-height:220px; overflow:auto; z-index:5; font:15px system-ui; }
-  #opts div { padding: 8px 14px; cursor:pointer; } #opts div:hover { background: var(--line); }
-  .wrong { color: var(--bad); font: 15px system-ui; margin: 4px 0; }
-  .result { border-top: 2px solid var(--fg); padding-top: 16px; margin-top: 16px; }
-  pre { background: var(--line); padding: 12px; border-radius: 8px; white-space: pre-wrap; font: 15px system-ui; }
-  .attr { color: var(--muted); font: 12px system-ui; margin-top: 32px; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var path = location.pathname;
+  var dir = path.replace(/\/(archive\.html|index\.html|archive)\/?$/, "");
+  if (dir.endsWith("/")) dir = dir.slice(0, -1);
+  document.write('<link rel="stylesheet" href="' + (dir || "") + '/wx.css">');
+})();
+</script>
 </head>
 <body>
 <main>
-  <h1>Where in the Weather</h1>
-  <p class="sub"><span id="edition"></span>Guess the US city from its weather. Three guesses. Each extra clue costs points. <a id="archive-link" href="archive">Archive</a></p>
+  <header class="mast">
+    <div>
+      <p class="kicker">Surface bulletin</p>
+      <h1>Where in the Weather</h1>
+      <p class="meta"><span id="edition"></span><a id="archive-link" href="archive">Archive</a></p>
+      <p class="sub">Guess the US city from its weather. Three guesses. Each extra clue costs points.</p>
+    </div>
+    <svg class="rose" viewBox="0 0 80 86" aria-hidden="true">
+      <text x="40" y="9" text-anchor="middle" font-size="8" font-family="IBM Plex Mono, ui-monospace, monospace" fill="currentColor">N</text>
+      <circle cx="40" cy="46" r="28" fill="none" stroke="currentColor" stroke-width="1.25"/>
+      <path d="M40 20 L44.2 46 L40 42.2 L35.8 46 Z" fill="currentColor"/>
+      <path d="M40 72 L35.8 46 L40 49.8 L44.2 46 Z" fill="currentColor" opacity="0.35"/>
+      <path d="M14 46 L40 41.8 L36.2 46 L40 50.2 Z" fill="currentColor" opacity="0.35"/>
+      <path d="M66 46 L40 50.2 L43.8 46 L40 41.8 Z" fill="currentColor" opacity="0.35"/>
+      <circle cx="40" cy="46" r="1.8" fill="var(--paper)"/>
+      <circle cx="40" cy="46" r="1.8" fill="none" stroke="currentColor"/>
+    </svg>
+  </header>
   <div id="banner"></div>
   <div id="app">Loading…</div>
   <p class="attr" id="attr"></p>

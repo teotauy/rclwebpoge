@@ -48,7 +48,7 @@ async function main() {
   for (const date of dates) {
     const n = puzzleNumber(date, epoch);
     const href = gameHref(date);
-    const row = el("li", {},
+    const row = el("li", { className: "entry" },
       el("a", { href, className: "num", textContent: `#${n}` }),
       el("a", { href, className: "when", textContent: date === today ? `${longDate(date)} · Today` : longDate(date) }),
       el("a", { href, className: "stat", textContent: statusLabel(saved(date)) }),

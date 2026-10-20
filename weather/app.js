@@ -50,7 +50,7 @@ async function main() {
   const editionDate = puzzle.date || puzzleName;
   const number = /^\d{4}-\d{2}-\d{2}$/.test(editionDate) ? puzzleNumber(editionDate, catalog.epoch) : null;
   if (number) {
-    $("edition").textContent = `#${number} · ${longDate(editionDate)} · `;
+    $("edition").textContent = `No. ${number}  ·  ${longDate(editionDate)}`;
     document.title = `Where in the Weather #${number}`;
   }
 
@@ -103,11 +103,21 @@ async function main() {
   function render() {
     const root = $("app");
     root.replaceChildren();
-    root.append(el("div", { className: "score", textContent: `${s.done ? "Final" : "Now"}: ${s.points.toLocaleString()} pts` }));
+    root.append(el("div", { className: "score" },
+      el("span", { className: "score-k", textContent: s.done ? "Final" : "Now" }),
+      el("span", { className: "score-n", textContent: s.points.toLocaleString() }),
+      el("span", { className: "score-u", textContent: "pts" }),
+    ));
 
-    const list = el("ol");
+    const list = el("ol", { className: "obs-log" });
     puzzle.clues.slice(0, s.revealed).forEach((c) =>
-      list.append(el("li", { className: "clue" }, el("div", { className: "t", textContent: `Clue ${c.n} · ${c.title}` }), el("div", { textContent: c.text })))
+      list.append(el("li", { className: "clue" },
+        el("div", { className: "t" },
+          el("span", { className: "obs", textContent: String(c.n).padStart(2, "0") }),
+          el("span", { textContent: c.title }),
+        ),
+        el("div", { className: "obs-text", textContent: c.text }),
+      ))
     );
     root.append(list);
 
@@ -117,7 +127,7 @@ async function main() {
 
     if (!s.done) {
       const row = el("div", { className: "row" });
-      const input = el("input", { placeholder: "Type a city…", autocomplete: "off" });
+      const input = el("input", { placeholder: "Name the city…", autocomplete: "off", ariaLabel: "City" });
       const opts = el("div", { id: "opts", hidden: true });
       input.addEventListener("input", () => {
         const hits = search(input.value);
@@ -139,14 +149,18 @@ async function main() {
       const quit = el("button", { textContent: "Give up" });
       quit.addEventListener("click", () => { giveUp(); save(); render(); });
       root.append(el("div", { className: "row" }, rev, quit));
-      root.append(el("div", { className: "sub", textContent: `Guesses left: ${cfg.maxGuesses - s.guesses.length}` }));
+      root.append(el("div", { className: "remain", textContent: `Guesses left  ${cfg.maxGuesses - s.guesses.length}` }));
     } else {
       const res = el("div", { className: "result" });
       res.append(el("h2", { textContent: s.won ? `Correct: ${puzzle.answer_label}` : `It was ${puzzle.answer_label}` }));
       const wrong = s.guesses.filter((g) => !g.ok);
-      wrong.forEach((g) => res.append(el("div", { className: "sub", textContent: `${byId[g.id].name}: ${Math.round(g.km).toLocaleString()} km away` })));
-      res.append(el("div", { className: "sub", textContent: `Weather was from ${puzzle.weather_date}.` }));
-      res.append(el("div", { className: "score", textContent: `Score: ${s.score.toLocaleString()}` }));
+      wrong.forEach((g) => res.append(el("div", { className: "note", textContent: `${byId[g.id].name}: ${Math.round(g.km).toLocaleString()} km away` })));
+      res.append(el("div", { className: "note", textContent: `Weather was from ${puzzle.weather_date}.` }));
+      res.append(el("div", { className: "score" },
+        el("span", { className: "score-k", textContent: "Score" }),
+        el("span", { className: "score-n", textContent: s.score.toLocaleString() }),
+        el("span", { className: "score-u", textContent: "pts" }),
+      ));
       const share = el("pre", { textContent: shareText() });
       const copy = el("button", { className: "primary", textContent: "Copy result" });
       copy.addEventListener("click", () => navigator.clipboard?.writeText(share.textContent));
