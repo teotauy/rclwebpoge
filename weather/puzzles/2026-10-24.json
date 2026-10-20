@@ -1,0 +1,49 @@
+{
+ "date": "2026-10-24",
+ "answer_id": "bangor-me",
+ "answer_label": "Bangor, ME",
+ "weather_date": "2022-10-24",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Sky",
+   "text": "At noon: Drizzle, 100% cloud cover."
+  },
+  {
+   "n": 2,
+   "title": "Temperature and wind",
+   "text": "At noon: 58\u00b0F with wind at 6 mph."
+  },
+  {
+   "n": 3,
+   "title": "Air",
+   "text": "At noon: 100% relative humidity, sea-level pressure 30.29 inHg."
+  },
+  {
+   "n": 4,
+   "title": "The day's weather",
+   "text": "Overall: Rain; 0.55 in precipitation."
+  },
+  {
+   "n": 5,
+   "title": "High and low",
+   "text": "The day ran from a low of 51\u00b0F to a high of 59\u00b0F."
+  },
+  {
+   "n": 6,
+   "title": "Record range",
+   "text": "For this calendar date since 1940 (reanalysis, not official station records): highest 74\u00b0F, lowest 26\u00b0F."
+  },
+  {
+   "n": 7,
+   "title": "Sun",
+   "text": "Sunrise 11:02 UTC, sunset 21:35 UTC; 10.6 hours of daylight."
+  },
+  {
+   "n": 8,
+   "title": "Region",
+   "text": "US Census region: Northeast."
+  }
+ ],
+ "attribution": "Weather data by Open-Meteo.com (CC BY 4.0), from ERA5 reanalysis"
+}

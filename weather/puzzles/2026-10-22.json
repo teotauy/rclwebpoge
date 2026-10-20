@@ -1,0 +1,49 @@
+{
+ "date": "2026-10-22",
+ "answer_id": "amarillo-tx",
+ "answer_label": "Amarillo, TX",
+ "weather_date": "2006-10-22",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Sky",
+   "text": "At noon: Clear sky, 12% cloud cover."
+  },
+  {
+   "n": 2,
+   "title": "Temperature and wind",
+   "text": "At noon: 48\u00b0F with wind at 2 mph."
+  },
+  {
+   "n": 3,
+   "title": "Air",
+   "text": "At noon: 44% relative humidity, sea-level pressure 30.36 inHg."
+  },
+  {
+   "n": 4,
+   "title": "The day's weather",
+   "text": "Overall: Overcast; 0.00 in precipitation."
+  },
+  {
+   "n": 5,
+   "title": "High and low",
+   "text": "The day ran from a low of 39\u00b0F to a high of 54\u00b0F."
+  },
+  {
+   "n": 6,
+   "title": "Record range",
+   "text": "For this calendar date since 1940 (reanalysis, not official station records): highest 88\u00b0F, lowest 33\u00b0F."
+  },
+  {
+   "n": 7,
+   "title": "Sun",
+   "text": "Sunrise 12:59 UTC, sunset 00:03 (+1 day) UTC; 11.1 hours of daylight."
+  },
+  {
+   "n": 8,
+   "title": "Region",
+   "text": "US Census region: South."
+  }
+ ],
+ "attribution": "Weather data by Open-Meteo.com (CC BY 4.0), from ERA5 reanalysis"
+}

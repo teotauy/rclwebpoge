@@ -1,0 +1,49 @@
+{
+ "date": "2026-10-27",
+ "answer_id": "chicago-il",
+ "answer_label": "Chicago, IL",
+ "weather_date": "2011-10-27",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Sky",
+   "text": "At noon: Mainly clear, 37% cloud cover."
+  },
+  {
+   "n": 2,
+   "title": "Temperature and wind",
+   "text": "At noon: 47\u00b0F with wind at 8 mph."
+  },
+  {
+   "n": 3,
+   "title": "Air",
+   "text": "At noon: 68% relative humidity, sea-level pressure 30.05 inHg."
+  },
+  {
+   "n": 4,
+   "title": "The day's weather",
+   "text": "Overall: Drizzle; 0.14 in precipitation."
+  },
+  {
+   "n": 5,
+   "title": "High and low",
+   "text": "The day ran from a low of 41\u00b0F to a high of 48\u00b0F."
+  },
+  {
+   "n": 6,
+   "title": "Record range",
+   "text": "For this calendar date since 1940 (reanalysis, not official station records): highest 71\u00b0F, lowest 29\u00b0F."
+  },
+  {
+   "n": 7,
+   "title": "Sun",
+   "text": "Sunrise 12:16 UTC, sunset 22:51 UTC; 10.6 hours of daylight."
+  },
+  {
+   "n": 8,
+   "title": "Region",
+   "text": "US Census region: Midwest."
+  }
+ ],
+ "attribution": "Weather data by Open-Meteo.com (CC BY 4.0), from ERA5 reanalysis"
+}

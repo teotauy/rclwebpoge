@@ -1,0 +1,49 @@
+{
+ "date": "2026-10-21",
+ "answer_id": "fairbanks-ak",
+ "answer_label": "Fairbanks, AK",
+ "weather_date": "2013-10-21",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Sky",
+   "text": "At noon: Mainly clear, 22% cloud cover."
+  },
+  {
+   "n": 2,
+   "title": "Temperature and wind",
+   "text": "At noon: 34\u00b0F with wind at 2 mph."
+  },
+  {
+   "n": 3,
+   "title": "Air",
+   "text": "At noon: 84% relative humidity, sea-level pressure 30.00 inHg."
+  },
+  {
+   "n": 4,
+   "title": "The day's weather",
+   "text": "Overall: Overcast; 0.00 in precipitation."
+  },
+  {
+   "n": 5,
+   "title": "High and low",
+   "text": "The day ran from a low of 28\u00b0F to a high of 38\u00b0F."
+  },
+  {
+   "n": 6,
+   "title": "Record range",
+   "text": "For this calendar date since 1940 (reanalysis, not official station records): highest 47\u00b0F, lowest -18\u00b0F."
+  },
+  {
+   "n": 7,
+   "title": "Sun",
+   "text": "Sunrise 17:03 UTC, sunset 02:05 (+1 day) UTC; 9.0 hours of daylight."
+  },
+  {
+   "n": 8,
+   "title": "Region",
+   "text": "A non-contiguous state (Alaska or Hawaii)."
+  }
+ ],
+ "attribution": "Weather data by Open-Meteo.com (CC BY 4.0), from ERA5 reanalysis"
+}

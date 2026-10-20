@@ -1,0 +1,13 @@
+{
+  "_note": "All numbers are PLACEHOLDERS to be tuned in playtesting. Tier radii are US-scale; keep them here, never hardcoded, so a global version can swap them.",
+  "startPoints": 10000,
+  "maxGuesses": 3,
+  "clueCosts": [0, 250, 500, 750, 1000, 1250, 1500, 1750],
+  "tiers": [
+    { "name": "Very close", "maxKm": 200, "penalty": 0.10 },
+    { "name": "Same region", "maxKm": 800, "penalty": 0.20 },
+    { "name": "Far", "maxKm": null, "penalty": 0.30 }
+  ],
+  "failScore": { "max": 1500, "scaleKm": 1000 },
+  "winDisplayKm": 0
+}
