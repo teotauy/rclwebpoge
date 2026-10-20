@@ -79,7 +79,8 @@ async function main() {
 
   function shareText() {
     const grid = "🟦".repeat(s.revealed) + s.guesses.map((g) => (g.ok ? "✅" : "🟥")).join("");
-    return `Where in the Weather ${puzzleName}\n${s.won ? s.score : "✗ " + s.score} pts\n${grid}`;
+    const score = `${s.won ? s.score : "✗ " + s.score} pts`;
+    return `Where in the Weather ${puzzleName}\n${score}\n${grid}\n\nTry your hand at it\nhttps://redcrowlabs.com/weather`;
   }
 
   function search(q) {
