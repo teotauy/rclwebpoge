@@ -103,9 +103,10 @@ async function main() {
   function render() {
     const root = $("app");
     root.replaceChildren();
+    const shown = s.done ? s.score : s.points;
     root.append(el("div", { className: "score" },
       el("span", { className: "score-k", textContent: s.done ? "Final" : "Now" }),
-      el("span", { className: "score-n", textContent: s.points.toLocaleString() }),
+      el("span", { className: "score-n", textContent: shown.toLocaleString() }),
       el("span", { className: "score-u", textContent: "pts" }),
     ));
 
