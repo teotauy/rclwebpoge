@@ -1,4 +1,5 @@
 import { haversineKm, tierFor, clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
+import { easternDate, longDate, puzzleNumber } from "./edition.js";
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => {
@@ -7,9 +8,6 @@ const el = (tag, props = {}, ...kids) => {
   return n;
 };
 
-function easternDate() {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(new Date());
-}
 function asset(path) {
   return new URL(path, import.meta.url).href;
 }
@@ -26,15 +24,18 @@ const store = {
 async function main() {
   const params = new URLSearchParams(location.search);
   const puzzleName = params.get("puzzle") || easternDate();
-  const [cfg, cities] = await Promise.all([getJSON(asset("config.json")), getJSON(asset("data/cities.json"))]);
+  const archiveLink = $("archive-link");
+  if (archiveLink) archiveLink.href = new URL("archive", import.meta.url).href;
+  const [cfg, cities, catalog] = await Promise.all([
+    getJSON(asset("config.json")),
+    getJSON(asset("data/cities.json")),
+    getJSON(asset("puzzles/index.json")).catch(() => ({ epoch: "2026-10-20" })),
+  ]);
   let puzzle;
   try {
     puzzle = await getJSON(asset(`puzzles/${puzzleName}.json`));
   } catch {
-    const note = puzzleName === easternDate() && puzzleName < "2026-10-21"
-      ? `No puzzle for ${puzzleName} yet. The daily puzzle starts October 21, 2026, and this page loads it on its own.`
-      : `No puzzle published for ${puzzleName}.`;
-    $("app").textContent = note;
+    $("app").textContent = `No puzzle published for ${puzzleName}.`;
     return;
   }
   if (puzzle.dev_fixture) {
@@ -45,6 +46,13 @@ async function main() {
   const byId = Object.fromEntries(cities.map((c) => [c.id, c]));
   const answer = byId[puzzle.answer_id];
   if (!answer) { $("app").textContent = `Puzzle references unknown city ${puzzle.answer_id}.`; return; }
+
+  const editionDate = puzzle.date || puzzleName;
+  const number = /^\d{4}-\d{2}-\d{2}$/.test(editionDate) ? puzzleNumber(editionDate, catalog.epoch) : null;
+  if (number) {
+    $("edition").textContent = `#${number} · ${longDate(editionDate)} · `;
+    document.title = `Where in the Weather #${number}`;
+  }
 
   const key = `wxg:${puzzleName}`;
   const s = store.get(key) || { revealed: 1, points: cfg.startPoints, guesses: [], done: false, score: null, won: false };
@@ -80,7 +88,8 @@ async function main() {
   function shareText() {
     const grid = "🟦".repeat(s.revealed) + s.guesses.map((g) => (g.ok ? "✅" : "🟥")).join("");
     const score = `${s.won ? s.score : "✗ " + s.score} pts`;
-    return `Where in the Weather ${puzzleName}\n${score}\n${grid}\n\nTry your hand at it\nhttps://redcrowlabs.com/weather`;
+    const title = number ? `Where in the Weather #${number}` : `Where in the Weather ${puzzleName}`;
+    return `${title}\n${score}\n${grid}\n\nTry your hand at it\nhttps://redcrowlabs.com/weather`;
   }
 
   function search(q) {

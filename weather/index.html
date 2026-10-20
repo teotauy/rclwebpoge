@@ -12,6 +12,8 @@
   main { max-width: 640px; margin: 0 auto; padding: 24px 16px 64px; }
   h1 { font-weight: 400; font-size: 2rem; margin: 0 0 4px; }
   .sub { color: var(--muted); margin: 0 0 20px; font: 14px/1.4 system-ui, sans-serif; }
+  .sub a { color: inherit; }
+  #edition { color: var(--fg); font-weight: 600; }
   .banner { background:#fff3cd; color:#5a4500; padding:8px 12px; border-radius:6px; font:14px system-ui; margin-bottom:16px; }
   .score { font: 600 1.6rem system-ui; margin: 8px 0 16px; }
   ol { padding: 0; list-style: none; margin: 0 0 16px; }
@@ -33,7 +35,7 @@
 <body>
 <main>
   <h1>Where in the Weather</h1>
-  <p class="sub">Guess the US city from its weather. Three guesses. Each extra clue costs points.</p>
+  <p class="sub"><span id="edition"></span>Guess the US city from its weather. Three guesses. Each extra clue costs points. <a id="archive-link" href="archive">Archive</a></p>
   <div id="banner"></div>
   <div id="app">Loading…</div>
   <p class="attr" id="attr"></p>
