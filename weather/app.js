@@ -1,4 +1,4 @@
-import { drawResultCard, copyImage } from "./sharecard.js";
+import { drawResultCard, shareResult } from "./sharecard.js?v=share";
 import { haversineKm, tierFor, clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
 import { easternDate, longDate, puzzleNumber, playStreak } from "./edition.js";
 
@@ -168,11 +168,8 @@ async function main() {
         el("span", { className: "score-n", textContent: s.score.toLocaleString() }),
         el("span", { className: "score-u", textContent: "pts" }),
       ));
-      const share = el("pre", { textContent: shareText() });
-      const copy = el("button", { className: "primary", textContent: "Copy result" });
-      copy.addEventListener("click", () => navigator.clipboard?.writeText(share.textContent));
       const preview = el("img", { className: "share-card", alt: "Result card" });
-      const copyImg = el("button", { textContent: "Copy card" });
+      const shareBtn = el("button", { className: "primary", textContent: "Share", disabled: true });
       const squares = [
         ...Array(s.revealed).fill("clue"),
         ...s.guesses.map((g) => (g.ok ? "solved" : "miss")),
@@ -187,20 +184,18 @@ async function main() {
         footer: "redcrowlabs.com/weather",
       }).then((card) => {
         preview.src = card.url;
-        copyImg.addEventListener("click", async () => {
-          const result = await copyImage(card.blob);
-          if (result === "copied") {
-            copyImg.textContent = "Card copied";
-            return;
-          }
-          const a = document.createElement("a");
-          a.href = card.url;
-          a.download = `where-in-the-weather-${number || puzzleName}.png`;
-          a.click();
-          copyImg.textContent = "Card saved";
+        shareBtn.disabled = false;
+        shareBtn.addEventListener("click", async () => {
+          const result = await shareResult({
+            text: shareText(),
+            blob: card.blob,
+            filename: `where-in-the-weather-${number || puzzleName}.png`,
+          });
+          if (result === "cancelled") return;
+          shareBtn.textContent = result === "shared" || result === "copied" ? "Shared" : "Saved";
         });
       });
-      res.append(share, preview, el("div", { className: "row" }, copy, copyImg));
+      res.append(preview, shareBtn);
       root.append(res);
     }
   }

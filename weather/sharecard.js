@@ -103,11 +103,44 @@ export async function drawResultCard({ kicker, number, status, scoreLine, square
   return { blob, url: URL.createObjectURL(blob) };
 }
 
-export async function copyImage(blob) {
-  try {
-    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-    return "copied";
-  } catch {
-    return "failed";
+function downloadBlob(blob, filename) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+/** One share: the text result and the card image together. */
+export async function shareResult({ text, blob, filename }) {
+  const file = new File([blob], filename, { type: "image/png" });
+  if (navigator.share) {
+    const payload = { text, files: [file] };
+    const canBoth = typeof navigator.canShare !== "function" || navigator.canShare(payload);
+    if (canBoth) {
+      try {
+        await navigator.share(payload);
+        return "shared";
+      } catch (e) {
+        if (e?.name === "AbortError") return "cancelled";
+      }
+    }
   }
+  if (navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "text/plain": new Blob([text], { type: "text/plain" }),
+          "image/png": blob,
+        }),
+      ]);
+      return "copied";
+    } catch { /* this browser won't hold text and an image together */ }
+  }
+  let textCopied = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    textCopied = true;
+  } catch { /* text stays on the card download */ }
+  downloadBlob(blob, filename);
+  return textCopied ? "saved" : "saved-image";
 }
