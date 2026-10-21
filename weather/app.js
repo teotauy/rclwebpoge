@@ -1,4 +1,4 @@
-import { drawResultCard, shareResult } from "./sharecard.js?v=share2";
+import { drawResultCard, shareResult } from "./sharecard.js?v=copy";
 import { haversineKm, tierFor, clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
 import { easternDate, longDate, puzzleNumber, playStreak } from "./edition.js";
 
@@ -188,7 +188,7 @@ async function main() {
         el("span", { className: "score-u", textContent: "pts" }),
       ));
       const preview = el("img", { className: "share-card", alt: "Result card" });
-      const shareBtn = el("button", { className: "primary", textContent: "Share", disabled: true });
+      const shareBtn = el("button", { className: "primary", textContent: "Copy result", disabled: true });
       const squares = [
         ...Array(s.revealed).fill("clue"),
         ...s.guesses.map((g) => (g.ok ? "solved" : "miss")),
@@ -205,13 +205,9 @@ async function main() {
         preview.src = card.url;
         shareBtn.disabled = false;
         shareBtn.addEventListener("click", async () => {
-          const result = await shareResult({
-            text: shareText(),
-            blob: card.blob,
-            filename: `where-in-the-weather-${number || puzzleName}.png`,
-          });
+          const result = await shareResult({ text: shareText() });
           if (result === "cancelled") return;
-          shareBtn.textContent = result === "shared" || result === "copied" ? "Shared" : "Saved";
+          shareBtn.textContent = result === "copied" ? "Copied" : result === "shared" ? "Shared" : "Copy failed";
         });
       });
       res.append(preview, shareBtn);

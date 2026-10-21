@@ -103,27 +103,13 @@ export async function drawResultCard({ kicker, number, status, scoreLine, square
   return { blob, url: URL.createObjectURL(blob) };
 }
 
-function downloadBlob(blob, filename) {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-}
-
-/** Share the card as a picture. Text rides along only when a picture cannot. */
-export async function shareResult({ text, blob, filename }) {
-  const file = new File([blob], filename, { type: "image/png" });
+/** Copy the result text, including the game link. A PNG file in the iOS share sheet arrives as a document and drops the link. */
+export async function shareResult({ text }) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return "copied";
+  } catch { /* fall through to a text-only share sheet */ }
   if (navigator.share) {
-    const image = { files: [file] };
-    const canImage = typeof navigator.canShare !== "function" || navigator.canShare(image);
-    if (canImage) {
-      try {
-        await navigator.share(image);
-        return "shared";
-      } catch (e) {
-        if (e?.name === "AbortError") return "cancelled";
-      }
-    }
     try {
       await navigator.share({ text });
       return "shared";
@@ -131,22 +117,5 @@ export async function shareResult({ text, blob, filename }) {
       if (e?.name === "AbortError") return "cancelled";
     }
   }
-  if (navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
-    try {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          "text/plain": new Blob([text], { type: "text/plain" }),
-          "image/png": blob,
-        }),
-      ]);
-      return "copied";
-    } catch { /* this browser won't hold text and an image together */ }
-  }
-  let textCopied = false;
-  try {
-    await navigator.clipboard.writeText(text);
-    textCopied = true;
-  } catch { /* text stays on the card download */ }
-  downloadBlob(blob, filename);
-  return textCopied ? "saved" : "saved-image";
+  return "failed";
 }
