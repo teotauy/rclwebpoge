@@ -1,3 +1,4 @@
+import { drawResultCard, copyImage } from "./sharecard.js";
 import { haversineKm, tierFor, clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
 import { easternDate, longDate, puzzleNumber, playStreak } from "./edition.js";
 
@@ -170,7 +171,36 @@ async function main() {
       const share = el("pre", { textContent: shareText() });
       const copy = el("button", { className: "primary", textContent: "Copy result" });
       copy.addEventListener("click", () => navigator.clipboard?.writeText(share.textContent));
-      res.append(share, copy);
+      const preview = el("img", { className: "share-card", alt: "Result card" });
+      const copyImg = el("button", { textContent: "Copy card" });
+      const squares = [
+        ...Array(s.revealed).fill("clue"),
+        ...s.guesses.map((g) => (g.ok ? "solved" : "miss")),
+      ];
+      drawResultCard({
+        kicker: "Where in the Weather",
+        number: number || puzzleName,
+        status: s.won ? "Solved" : "Missed",
+        scoreLine: `${s.score.toLocaleString()} pts`,
+        squares,
+        streak: playStreak(easternDate(), (d) => store.get(`wxg:${d}`)),
+        footer: "redcrowlabs.com/weather",
+      }).then((card) => {
+        preview.src = card.url;
+        copyImg.addEventListener("click", async () => {
+          const result = await copyImage(card.blob);
+          if (result === "copied") {
+            copyImg.textContent = "Card copied";
+            return;
+          }
+          const a = document.createElement("a");
+          a.href = card.url;
+          a.download = `where-in-the-weather-${number || puzzleName}.png`;
+          a.click();
+          copyImg.textContent = "Card saved";
+        });
+      });
+      res.append(share, preview, el("div", { className: "row" }, copy, copyImg));
       root.append(res);
     }
   }

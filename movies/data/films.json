@@ -1,718 +1,137 @@
 [
  {
-  "id": "jaws-1975",
-  "title": "Jaws",
-  "year": 1975,
-  "label": "Jaws (1975)",
-  "director": "Steven Spielberg",
-  "genres": [
-   "thriller",
-   "horror",
-   "adventure"
-  ],
-  "aliases": [
-   "Jaws"
-  ]
- },
- {
-  "id": "star-wars-1977",
-  "title": "Star Wars",
-  "year": 1977,
-  "label": "Star Wars (1977)",
-  "director": "George Lucas",
-  "genres": [
-   "space opera",
-   "science fiction",
-   "action"
-  ],
-  "aliases": [
-   "Star Wars"
-  ]
- },
- {
-  "id": "the-godfather-1972",
-  "title": "The Godfather",
-  "year": 1972,
-  "label": "The Godfather (1972)",
-  "director": "Francis Ford Coppola",
-  "genres": [
-   "epic",
-   "gangster",
-   "crime"
-  ],
-  "aliases": [
-   "The Godfather"
-  ]
- },
- {
-  "id": "jurassic-park-1993",
-  "title": "Jurassic Park",
-  "year": 1993,
-  "label": "Jurassic Park (1993)",
-  "director": "Steven Spielberg",
-  "genres": [
-   "science fiction",
-   "adventure",
-   "action"
-  ],
-  "aliases": [
-   "Jurassic Park"
-  ]
- },
- {
-  "id": "titanic-1997",
-  "title": "Titanic",
-  "year": 1997,
-  "label": "Titanic (1997)",
-  "director": "James Cameron",
-  "genres": [
-   "disaster",
-   "drama",
-   "romance"
-  ],
-  "aliases": [
-   "Titanic"
-  ]
- },
- {
-  "id": "the-matrix-1999",
-  "title": "The Matrix",
+  "id": "10-things-i-hate-about-you-1999",
+  "title": "10 Things I Hate About You",
   "year": 1999,
-  "label": "The Matrix (1999)",
-  "director": "Lana Wachowski",
-  "genres": [
-   "thriller",
-   "dystopian",
-   "cyberpunk"
-  ],
+  "label": "10 Things I Hate About You (1999)",
+  "director": "Gil Junger",
+  "genres": [],
   "aliases": [
-   "The Matrix"
+   "10 Things I Hate About You"
   ]
  },
  {
-  "id": "get-out-2017",
-  "title": "Get Out",
-  "year": 2017,
-  "label": "Get Out (2017)",
-  "director": "Jordan Peele",
-  "genres": [
-   "horror",
-   "mystery",
-   "comedy horror"
-  ],
+  "id": "12-years-a-slave-2013",
+  "title": "12 Years a Slave",
+  "year": 2013,
+  "label": "12 Years a Slave (2013)",
+  "director": "Steve McQueen",
+  "genres": [],
   "aliases": [
-   "Get Out"
+   "12 Years a Slave"
   ]
  },
  {
-  "id": "parasite-2019",
-  "title": "Parasite",
-  "year": 2019,
-  "label": "Parasite (2019)",
-  "director": "Bong Joon-ho",
-  "genres": [
-   "comedy drama",
-   "black comedy",
-   "thriller"
-  ],
+  "id": "2001-a-space-odyssey-1968",
+  "title": "2001: A Space Odyssey",
+  "year": 1968,
+  "label": "2001: A Space Odyssey (1968)",
+  "director": "Stanley Kubrick",
+  "genres": [],
   "aliases": [
-   "Parasite"
+   "2001: A Space Odyssey",
+   "2001"
   ]
  },
  {
-  "id": "the-dark-knight-2008",
-  "title": "The Dark Knight",
-  "year": 2008,
-  "label": "The Dark Knight (2008)",
-  "director": "Christopher Nolan",
-  "genres": [
-   "action",
-   "neo-noir",
-   "crime thriller"
-  ],
-  "aliases": [
-   "The Dark Knight"
-  ]
- },
- {
-  "id": "pulp-fiction-1994",
-  "title": "Pulp Fiction",
-  "year": 1994,
-  "label": "Pulp Fiction (1994)",
-  "director": "Quentin Tarantino",
-  "genres": [
-   "independent",
-   "crime",
-   "crime drama"
-  ],
-  "aliases": [
-   "Pulp Fiction"
-  ]
- },
- {
-  "id": "spirited-away-2001",
-  "title": "Spirited Away",
+  "id": "a-beautiful-mind-2001",
+  "title": "A Beautiful Mind",
   "year": 2001,
-  "label": "Spirited Away (2001)",
-  "director": "Hayao Miyazaki",
-  "genres": [
-   "fantasy",
-   "fantasy anime and manga",
-   "children's"
-  ],
+  "label": "A Beautiful Mind (2001)",
+  "director": "Ron Howard",
+  "genres": [],
   "aliases": [
-   "Spirited Away"
+   "A Beautiful Mind"
   ]
  },
  {
-  "id": "mean-girls-2004",
-  "title": "Mean Girls",
+  "id": "a-quiet-place-2018",
+  "title": "A Quiet Place",
+  "year": 2018,
+  "label": "A Quiet Place (2018)",
+  "director": "John Krasinski",
+  "genres": [],
+  "aliases": [
+   "A Quiet Place"
+  ]
+ },
+ {
+  "id": "a-star-is-born-2018",
+  "title": "A Star Is Born",
+  "year": 2018,
+  "label": "A Star Is Born (2018)",
+  "director": "Bradley Cooper",
+  "genres": [],
+  "aliases": [
+   "A Star Is Born"
+  ]
+ },
+ {
+  "id": "alien-1979",
+  "title": "Alien",
+  "year": 1979,
+  "label": "Alien (1979)",
+  "director": "Ridley Scott",
+  "genres": [],
+  "aliases": [
+   "Alien"
+  ]
+ },
+ {
+  "id": "aliens-1986",
+  "title": "Aliens",
+  "year": 1986,
+  "label": "Aliens (1986)",
+  "director": "James Cameron",
+  "genres": [],
+  "aliases": [
+   "Aliens"
+  ]
+ },
+ {
+  "id": "am-lie-2001",
+  "title": "Am\u00e9lie",
+  "year": 2001,
+  "label": "Am\u00e9lie (2001)",
+  "director": "Jean-Pierre Jeunet",
+  "genres": [],
+  "aliases": [
+   "Am\u00e9lie",
+   "Amelie"
+  ]
+ },
+ {
+  "id": "anchorman-the-legend-of-ron-burgundy-2004",
+  "title": "Anchorman: The Legend of Ron Burgundy",
   "year": 2004,
-  "label": "Mean Girls (2004)",
-  "director": "Mark Waters",
-  "genres": [
-   "teen",
-   "romantic comedy",
-   "LGBTQ-related"
-  ],
+  "label": "Anchorman: The Legend of Ron Burgundy (2004)",
+  "director": "Adam McKay",
+  "genres": [],
   "aliases": [
-   "Mean Girls"
+   "Anchorman: The Legend of Ron Burgundy",
+   "Anchorman"
   ]
  },
  {
-  "id": "the-silence-of-the-lambs-1991",
-  "title": "The Silence of the Lambs",
-  "year": 1991,
-  "label": "The Silence of the Lambs (1991)",
-  "director": "Jonathan Demme",
-  "genres": [
-   "thriller",
-   "horror",
-   "psychological horror"
-  ],
+  "id": "annie-hall-1977",
+  "title": "Annie Hall",
+  "year": 1977,
+  "label": "Annie Hall (1977)",
+  "director": "Woody Allen",
+  "genres": [],
   "aliases": [
-   "The Silence of the Lambs"
+   "Annie Hall"
   ]
  },
  {
-  "id": "forrest-gump-1994",
-  "title": "Forrest Gump",
-  "year": 1994,
-  "label": "Forrest Gump (1994)",
-  "director": "Robert Zemeckis",
-  "genres": [
-   "coming-of-age",
-   "flashback",
-   "comedy"
-  ],
-  "aliases": [
-   "Forrest Gump"
-  ]
- },
- {
-  "id": "toy-story-1995",
-  "title": "Toy Story",
+  "id": "apollo-13-1995",
+  "title": "Apollo 13",
   "year": 1995,
-  "label": "Toy Story (1995)",
-  "director": "John Lasseter",
-  "genres": [
-   "buddy",
-   "fantasy",
-   "adventure"
-  ],
+  "label": "Apollo 13 (1995)",
+  "director": "Ron Howard",
+  "genres": [],
   "aliases": [
-   "Toy Story"
-  ]
- },
- {
-  "id": "black-panther-2018",
-  "title": "Black Panther",
-  "year": 2018,
-  "label": "Black Panther (2018)",
-  "director": "Ryan Coogler",
-  "genres": [
-   "superhero",
-   "action",
-   "adventure"
-  ],
-  "aliases": [
-   "Black Panther"
-  ]
- },
- {
-  "id": "everything-everywhere-all-at-once-2022",
-  "title": "Everything Everywhere All at Once",
-  "year": 2022,
-  "label": "Everything Everywhere All at Once (2022)",
-  "director": "Dan Kwan",
-  "genres": [
-   "science fiction",
-   "action",
-   "comedy drama"
-  ],
-  "aliases": [
-   "Everything Everywhere All at Once"
-  ]
- },
- {
-  "id": "lady-bird-2017",
-  "title": "Lady Bird",
-  "year": 2017,
-  "label": "Lady Bird (2017)",
-  "director": "Greta Gerwig",
-  "genres": [
-   "comedy drama",
-   "tragicomedy",
-   "drama"
-  ],
-  "aliases": [
-   "Lady Bird"
-  ]
- },
- {
-  "id": "whiplash-2014",
-  "title": "Whiplash",
-  "year": 2014,
-  "label": "Whiplash (2014)",
-  "director": "Damien Chazelle",
-  "genres": [
-   "musical",
-   "drama"
-  ],
-  "aliases": [
-   "Whiplash"
-  ]
- },
- {
-  "id": "moonlight-2016",
-  "title": "Moonlight",
-  "year": 2016,
-  "label": "Moonlight (2016)",
-  "director": "Barry Jenkins",
-  "genres": [
-   "drama",
-   "LGBTQ-related",
-   "coming-of-age"
-  ],
-  "aliases": [
-   "Moonlight"
-  ]
- },
- {
-  "id": "la-la-land-2016",
-  "title": "La La Land",
-  "year": 2016,
-  "label": "La La Land (2016)",
-  "director": "Damien Chazelle",
-  "genres": [
-   "romance",
-   "comedy drama",
-   "comedy"
-  ],
-  "aliases": [
-   "La La Land"
-  ]
- },
- {
-  "id": "the-sixth-sense-1999",
-  "title": "The Sixth Sense",
-  "year": 1999,
-  "label": "The Sixth Sense (1999)",
-  "director": "M. Night Shyamalan",
-  "genres": [
-   "horror",
-   "thriller",
-   "drama"
-  ],
-  "aliases": [
-   "The Sixth Sense"
-  ]
- },
- {
-  "id": "die-hard-1988",
-  "title": "Die Hard",
-  "year": 1988,
-  "label": "Die Hard (1988)",
-  "director": "John McTiernan",
-  "genres": [
-   "action",
-   "action thriller",
-   "Christmas"
-  ],
-  "aliases": [
-   "Die Hard"
-  ]
- },
- {
-  "id": "back-to-the-future-1985",
-  "title": "Back to the Future",
-  "year": 1985,
-  "label": "Back to the Future (1985)",
-  "director": "Robert Zemeckis",
-  "genres": [
-   "science fiction",
-   "adventure",
-   "comedy"
-  ],
-  "aliases": [
-   "Back to the Future"
-  ]
- },
- {
-  "id": "e-t-the-extra-terrestrial-1982",
-  "title": "E.T. the Extra-Terrestrial",
-  "year": 1982,
-  "label": "E.T. the Extra-Terrestrial (1982)",
-  "director": "Steven Spielberg",
-  "genres": [
-   "science fiction",
-   "drama",
-   "children's"
-  ],
-  "aliases": [
-   "E.T. the Extra-Terrestrial"
-  ]
- },
- {
-  "id": "raiders-of-the-lost-ark-1981",
-  "title": "Raiders of the Lost Ark",
-  "year": 1981,
-  "label": "Raiders of the Lost Ark (1981)",
-  "director": "Steven Spielberg",
-  "genres": [
-   "action",
-   "treasure hunt"
-  ],
-  "aliases": [
-   "Raiders of the Lost Ark"
-  ]
- },
- {
-  "id": "goodfellas-1990",
-  "title": "Goodfellas",
-  "year": 1990,
-  "label": "Goodfellas (1990)",
-  "director": "Martin Scorsese",
-  "genres": [
-   "biographical",
-   "gangster",
-   "crime thriller"
-  ],
-  "aliases": [
-   "Goodfellas"
-  ]
- },
- {
-  "id": "the-social-network-2010",
-  "title": "The Social Network",
-  "year": 2010,
-  "label": "The Social Network (2010)",
-  "director": "David Fincher",
-  "genres": [
-   "biographical",
-   "trial",
-   "drama"
-  ],
-  "aliases": [
-   "The Social Network"
-  ]
- },
- {
-  "id": "superbad-2007",
-  "title": "Superbad",
-  "year": 2007,
-  "label": "Superbad (2007)",
-  "director": "Greg Mottola",
-  "genres": [
-   "comedy",
-   "sex comedy",
-   "coming-of-age"
-  ],
-  "aliases": [
-   "Superbad"
-  ]
- },
- {
-  "id": "bridesmaids-2011",
-  "title": "Bridesmaids",
-  "year": 2011,
-  "label": "Bridesmaids (2011)",
-  "director": "Paul Feig",
-  "genres": [
-   "female buddy",
-   "romantic comedy"
-  ],
-  "aliases": [
-   "Bridesmaids"
-  ]
- },
- {
-  "id": "crazy-rich-asians-2018",
-  "title": "Crazy Rich Asians",
-  "year": 2018,
-  "label": "Crazy Rich Asians (2018)",
-  "director": "Jon M. Chu",
-  "genres": [
-   "drama",
-   "romantic comedy"
-  ],
-  "aliases": [
-   "Crazy Rich Asians"
-  ]
- },
- {
-  "id": "the-grand-budapest-hotel-2014",
-  "title": "The Grand Budapest Hotel",
-  "year": 2014,
-  "label": "The Grand Budapest Hotel (2014)",
-  "director": "Wes Anderson",
-  "genres": [
-   "comedy",
-   "drama",
-   "adventure"
-  ],
-  "aliases": [
-   "The Grand Budapest Hotel"
-  ]
- },
- {
-  "id": "knives-out-2019",
-  "title": "Knives Out",
-  "year": 2019,
-  "label": "Knives Out (2019)",
-  "director": "Rian Johnson",
-  "genres": [
-   "thriller",
-   "crime",
-   "mystery"
-  ],
-  "aliases": [
-   "Knives Out"
-  ]
- },
- {
-  "id": "gone-girl-2014",
-  "title": "Gone Girl",
-  "year": 2014,
-  "label": "Gone Girl (2014)",
-  "director": "David Fincher",
-  "genres": [
-   "crime thriller",
-   "crime",
-   "drama"
-  ],
-  "aliases": [
-   "Gone Girl"
-  ]
- },
- {
-  "id": "ex-machina-2014",
-  "title": "Ex Machina",
-  "year": 2014,
-  "label": "Ex Machina (2014)",
-  "director": "Alex Garland",
-  "genres": [
-   "science fiction",
-   "psychological thriller",
-   "drama"
-  ],
-  "aliases": [
-   "Ex Machina"
-  ]
- },
- {
-  "id": "inception-2010",
-  "title": "Inception",
-  "year": 2010,
-  "label": "Inception (2010)",
-  "director": "Christopher Nolan",
-  "genres": [
-   "heist",
-   "science fiction",
-   "thriller"
-  ],
-  "aliases": [
-   "Inception"
-  ]
- },
- {
-  "id": "interstellar-2014",
-  "title": "Interstellar",
-  "year": 2014,
-  "label": "Interstellar (2014)",
-  "director": "Christopher Nolan",
-  "genres": [
-   "science fiction",
-   "adventure",
-   "dystopian"
-  ],
-  "aliases": [
-   "Interstellar"
-  ]
- },
- {
-  "id": "mad-max-fury-road-2015",
-  "title": "Mad Max: Fury Road",
-  "year": 2015,
-  "label": "Mad Max: Fury Road (2015)",
-  "director": "George Miller",
-  "genres": [
-   "action",
-   "adventure",
-   "science fiction"
-  ],
-  "aliases": [
-   "Mad Max: Fury Road"
-  ]
- },
- {
-  "id": "little-miss-sunshine-2006",
-  "title": "Little Miss Sunshine",
-  "year": 2006,
-  "label": "Little Miss Sunshine (2006)",
-  "director": "Valerie Faris",
-  "genres": [
-   "comedy",
-   "drama",
-   "road movie"
-  ],
-  "aliases": [
-   "Little Miss Sunshine"
-  ]
- },
- {
-  "id": "when-harry-met-sally-1989",
-  "title": "When Harry Met Sally...",
-  "year": 1989,
-  "label": "When Harry Met Sally... (1989)",
-  "director": "Rob Reiner",
-  "genres": [
-   "romantic comedy",
-   "Christmas",
-   "comedy"
-  ],
-  "aliases": [
-   "When Harry Met Sally..."
-  ]
- },
- {
-  "id": "the-thing-1982",
-  "title": "The Thing",
-  "year": 1982,
-  "label": "The Thing (1982)",
-  "director": "John Carpenter",
-  "genres": [
-   "horror",
-   "science fiction",
-   "mystery"
-  ],
-  "aliases": [
-   "The Thing"
-  ]
- },
- {
-  "id": "finding-nemo-2003",
-  "title": "Finding Nemo",
-  "year": 2003,
-  "label": "Finding Nemo (2003)",
-  "director": "Andrew Stanton",
-  "genres": [
-   "adventure",
-   "family",
-   "comedy"
-  ],
-  "aliases": [
-   "Finding Nemo"
-  ]
- },
- {
-  "id": "the-shawshank-redemption-1994",
-  "title": "The Shawshank Redemption",
-  "year": 1994,
-  "label": "The Shawshank Redemption (1994)",
-  "director": "Frank Darabont",
-  "genres": [
-   "drama",
-   "buddy",
-   "prison"
-  ],
-  "aliases": [
-   "The Shawshank Redemption"
-  ]
- },
- {
-  "id": "schindler-s-list-1993",
-  "title": "Schindler's List",
-  "year": 1993,
-  "label": "Schindler's List (1993)",
-  "director": "Steven Spielberg",
-  "genres": [
-   "anti-war",
-   "biographical",
-   "drama"
-  ],
-  "aliases": [
-   "Schindler's List"
-  ]
- },
- {
-  "id": "casablanca-1942",
-  "title": "Casablanca",
-  "year": 1942,
-  "label": "Casablanca (1942)",
-  "director": "Michael Curtiz",
-  "genres": [
-   "romance",
-   "war",
-   "drama"
-  ],
-  "aliases": [
-   "Casablanca"
-  ]
- },
- {
-  "id": "do-the-right-thing-1989",
-  "title": "Do the Right Thing",
-  "year": 1989,
-  "label": "Do the Right Thing (1989)",
-  "director": "Spike Lee",
-  "genres": [
-   "hood",
-   "comedy",
-   "independent"
-  ],
-  "aliases": [
-   "Do the Right Thing"
-  ]
- },
- {
-  "id": "clueless-1995",
-  "title": "Clueless",
-  "year": 1995,
-  "label": "Clueless (1995)",
-  "director": "Amy Heckerling",
-  "genres": [
-   "romantic comedy",
-   "teen",
-   "coming-of-age"
-  ],
-  "aliases": [
-   "Clueless"
-  ]
- },
- {
-  "id": "the-big-lebowski-1998",
-  "title": "The Big Lebowski",
-  "year": 1998,
-  "label": "The Big Lebowski (1998)",
-  "director": "Joel Coen",
-  "genres": [
-   "comedy",
-   "crime",
-   "comedy of error"
-  ],
-  "aliases": [
-   "The Big Lebowski"
+   "Apollo 13"
   ]
  },
  {
@@ -731,6 +150,1397 @@
   ]
  },
  {
+  "id": "avatar-2009",
+  "title": "Avatar",
+  "year": 2009,
+  "label": "Avatar (2009)",
+  "director": "James Cameron",
+  "genres": [],
+  "aliases": [
+   "Avatar"
+  ]
+ },
+ {
+  "id": "avatar-the-way-of-water-2022",
+  "title": "Avatar: The Way of Water",
+  "year": 2022,
+  "label": "Avatar: The Way of Water (2022)",
+  "director": "James Cameron",
+  "genres": [],
+  "aliases": [
+   "Avatar: The Way of Water"
+  ]
+ },
+ {
+  "id": "avengers-age-of-ultron-2015",
+  "title": "Avengers: Age of Ultron",
+  "year": 2015,
+  "label": "Avengers: Age of Ultron (2015)",
+  "director": "Joss Whedon",
+  "genres": [],
+  "aliases": [
+   "Avengers: Age of Ultron"
+  ]
+ },
+ {
+  "id": "avengers-endgame-2019",
+  "title": "Avengers: Endgame",
+  "year": 2019,
+  "label": "Avengers: Endgame (2019)",
+  "director": "Anthony Russo",
+  "genres": [],
+  "aliases": [
+   "Avengers: Endgame"
+  ]
+ },
+ {
+  "id": "avengers-infinity-war-2018",
+  "title": "Avengers: Infinity War",
+  "year": 2018,
+  "label": "Avengers: Infinity War (2018)",
+  "director": "Anthony Russo",
+  "genres": [],
+  "aliases": [
+   "Avengers: Infinity War"
+  ]
+ },
+ {
+  "id": "back-to-the-future-1985",
+  "title": "Back to the Future",
+  "year": 1985,
+  "label": "Back to the Future (1985)",
+  "director": "Robert Zemeckis",
+  "genres": [
+   "science fiction",
+   "adventure",
+   "comedy"
+  ],
+  "aliases": [
+   "Back to the Future"
+  ]
+ },
+ {
+  "id": "barbie-2023",
+  "title": "Barbie",
+  "year": 2023,
+  "label": "Barbie (2023)",
+  "director": "Greta Gerwig",
+  "genres": [],
+  "aliases": [
+   "Barbie"
+  ]
+ },
+ {
+  "id": "batman-1989",
+  "title": "Batman",
+  "year": 1989,
+  "label": "Batman (1989)",
+  "director": "Tim Burton",
+  "genres": [],
+  "aliases": [
+   "Batman"
+  ]
+ },
+ {
+  "id": "batman-begins-2005",
+  "title": "Batman Begins",
+  "year": 2005,
+  "label": "Batman Begins (2005)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "Batman Begins"
+  ]
+ },
+ {
+  "id": "beverly-hills-cop-1984",
+  "title": "Beverly Hills Cop",
+  "year": 1984,
+  "label": "Beverly Hills Cop (1984)",
+  "director": "Martin Brest",
+  "genres": [],
+  "aliases": [
+   "Beverly Hills Cop"
+  ]
+ },
+ {
+  "id": "black-panther-2018",
+  "title": "Black Panther",
+  "year": 2018,
+  "label": "Black Panther (2018)",
+  "director": "Ryan Coogler",
+  "genres": [
+   "superhero",
+   "action",
+   "adventure"
+  ],
+  "aliases": [
+   "Black Panther"
+  ]
+ },
+ {
+  "id": "black-swan-2010",
+  "title": "Black Swan",
+  "year": 2010,
+  "label": "Black Swan (2010)",
+  "director": "Darren Aronofsky",
+  "genres": [],
+  "aliases": [
+   "Black Swan"
+  ]
+ },
+ {
+  "id": "blade-runner-1982",
+  "title": "Blade Runner",
+  "year": 1982,
+  "label": "Blade Runner (1982)",
+  "director": "Ridley Scott",
+  "genres": [],
+  "aliases": [
+   "Blade Runner"
+  ]
+ },
+ {
+  "id": "blade-runner-2049-2017",
+  "title": "Blade Runner 2049",
+  "year": 2017,
+  "label": "Blade Runner 2049 (2017)",
+  "director": "Denis Villeneuve",
+  "genres": [],
+  "aliases": [
+   "Blade Runner 2049"
+  ]
+ },
+ {
+  "id": "boyz-n-the-hood-1991",
+  "title": "Boyz n the Hood",
+  "year": 1991,
+  "label": "Boyz n the Hood (1991)",
+  "director": "John Singleton",
+  "genres": [],
+  "aliases": [
+   "Boyz n the Hood"
+  ]
+ },
+ {
+  "id": "bridesmaids-2011",
+  "title": "Bridesmaids",
+  "year": 2011,
+  "label": "Bridesmaids (2011)",
+  "director": "Paul Feig",
+  "genres": [
+   "female buddy",
+   "romantic comedy"
+  ],
+  "aliases": [
+   "Bridesmaids"
+  ]
+ },
+ {
+  "id": "captain-america-brave-new-world-2025",
+  "title": "Captain America: Brave New World",
+  "year": 2025,
+  "label": "Captain America: Brave New World (2025)",
+  "director": "Julius Onah",
+  "genres": [],
+  "aliases": [
+   "Captain America: Brave New World",
+   "Captain America"
+  ]
+ },
+ {
+  "id": "captain-america-civil-war-2016",
+  "title": "Captain America: Civil War",
+  "year": 2016,
+  "label": "Captain America: Civil War (2016)",
+  "director": "Anthony Russo",
+  "genres": [],
+  "aliases": [
+   "Captain America: Civil War",
+   "Captain America"
+  ]
+ },
+ {
+  "id": "captain-america-the-first-avenger-2011",
+  "title": "Captain America: The First Avenger",
+  "year": 2011,
+  "label": "Captain America: The First Avenger (2011)",
+  "director": "Joe Johnston",
+  "genres": [],
+  "aliases": [
+   "Captain America: The First Avenger",
+   "Captain America"
+  ]
+ },
+ {
+  "id": "captain-america-the-winter-soldier-2014",
+  "title": "Captain America: The Winter Soldier",
+  "year": 2014,
+  "label": "Captain America: The Winter Soldier (2014)",
+  "director": "Anthony Russo",
+  "genres": [],
+  "aliases": [
+   "Captain America: The Winter Soldier",
+   "Captain America"
+  ]
+ },
+ {
+  "id": "casablanca-1942",
+  "title": "Casablanca",
+  "year": 1942,
+  "label": "Casablanca (1942)",
+  "director": "Michael Curtiz",
+  "genres": [
+   "romance",
+   "war",
+   "drama"
+  ],
+  "aliases": [
+   "Casablanca"
+  ]
+ },
+ {
+  "id": "casino-royale-2006",
+  "title": "Casino Royale",
+  "year": 2006,
+  "label": "Casino Royale (2006)",
+  "director": "Martin Campbell",
+  "genres": [],
+  "aliases": [
+   "Casino Royale"
+  ]
+ },
+ {
+  "id": "cast-away-2000",
+  "title": "Cast Away",
+  "year": 2000,
+  "label": "Cast Away (2000)",
+  "director": "Robert Zemeckis",
+  "genres": [],
+  "aliases": [
+   "Cast Away"
+  ]
+ },
+ {
+  "id": "catch-me-if-you-can-2002",
+  "title": "Catch Me If You Can",
+  "year": 2002,
+  "label": "Catch Me If You Can (2002)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Catch Me If You Can"
+  ]
+ },
+ {
+  "id": "chinatown-1974",
+  "title": "Chinatown",
+  "year": 1974,
+  "label": "Chinatown (1974)",
+  "director": "Roman Polanski",
+  "genres": [],
+  "aliases": [
+   "Chinatown"
+  ]
+ },
+ {
+  "id": "citizen-kane-1941",
+  "title": "Citizen Kane",
+  "year": 1941,
+  "label": "Citizen Kane (1941)",
+  "director": "Orson Welles",
+  "genres": [],
+  "aliases": [
+   "Citizen Kane"
+  ]
+ },
+ {
+  "id": "close-encounters-of-the-third-kind-1977",
+  "title": "Close Encounters of the Third Kind",
+  "year": 1977,
+  "label": "Close Encounters of the Third Kind (1977)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Close Encounters of the Third Kind",
+   "Close Encounters"
+  ]
+ },
+ {
+  "id": "clueless-1995",
+  "title": "Clueless",
+  "year": 1995,
+  "label": "Clueless (1995)",
+  "director": "Amy Heckerling",
+  "genres": [
+   "romantic comedy",
+   "teen",
+   "coming-of-age"
+  ],
+  "aliases": [
+   "Clueless"
+  ]
+ },
+ {
+  "id": "coco-2017",
+  "title": "Coco",
+  "year": 2017,
+  "label": "Coco (2017)",
+  "director": "Lee Unkrich",
+  "genres": [],
+  "aliases": [
+   "Coco"
+  ]
+ },
+ {
+  "id": "coming-to-america-1988",
+  "title": "Coming to America",
+  "year": 1988,
+  "label": "Coming to America (1988)",
+  "director": "John Landis",
+  "genres": [],
+  "aliases": [
+   "Coming to America"
+  ]
+ },
+ {
+  "id": "crazy-rich-asians-2018",
+  "title": "Crazy Rich Asians",
+  "year": 2018,
+  "label": "Crazy Rich Asians (2018)",
+  "director": "Jon M. Chu",
+  "genres": [
+   "drama",
+   "romantic comedy"
+  ],
+  "aliases": [
+   "Crazy Rich Asians"
+  ]
+ },
+ {
+  "id": "creed-2015",
+  "title": "Creed",
+  "year": 2015,
+  "label": "Creed (2015)",
+  "director": "Ryan Coogler",
+  "genres": [],
+  "aliases": [
+   "Creed"
+  ]
+ },
+ {
+  "id": "crouching-tiger-hidden-dragon-2000",
+  "title": "Crouching Tiger, Hidden Dragon",
+  "year": 2000,
+  "label": "Crouching Tiger, Hidden Dragon (2000)",
+  "director": "Ang Lee",
+  "genres": [],
+  "aliases": [
+   "Crouching Tiger, Hidden Dragon"
+  ]
+ },
+ {
+  "id": "die-hard-1988",
+  "title": "Die Hard",
+  "year": 1988,
+  "label": "Die Hard (1988)",
+  "director": "John McTiernan",
+  "genres": [
+   "action",
+   "action thriller",
+   "Christmas"
+  ],
+  "aliases": [
+   "Die Hard"
+  ]
+ },
+ {
+  "id": "dirty-dancing-1987",
+  "title": "Dirty Dancing",
+  "year": 1987,
+  "label": "Dirty Dancing (1987)",
+  "director": "Emile Ardolino",
+  "genres": [],
+  "aliases": [
+   "Dirty Dancing"
+  ]
+ },
+ {
+  "id": "django-unchained-2012",
+  "title": "Django Unchained",
+  "year": 2012,
+  "label": "Django Unchained (2012)",
+  "director": "Quentin Tarantino",
+  "genres": [],
+  "aliases": [
+   "Django Unchained"
+  ]
+ },
+ {
+  "id": "do-the-right-thing-1989",
+  "title": "Do the Right Thing",
+  "year": 1989,
+  "label": "Do the Right Thing (1989)",
+  "director": "Spike Lee",
+  "genres": [
+   "hood",
+   "comedy",
+   "independent"
+  ],
+  "aliases": [
+   "Do the Right Thing"
+  ]
+ },
+ {
+  "id": "doctor-strange-2016",
+  "title": "Doctor Strange",
+  "year": 2016,
+  "label": "Doctor Strange (2016)",
+  "director": "Scott Derrickson",
+  "genres": [],
+  "aliases": [
+   "Doctor Strange"
+  ]
+ },
+ {
+  "id": "dr-strangelove-1964",
+  "title": "Dr. Strangelove",
+  "year": 1964,
+  "label": "Dr. Strangelove (1964)",
+  "director": "Stanley Kubrick",
+  "genres": [],
+  "aliases": [
+   "Dr. Strangelove"
+  ]
+ },
+ {
+  "id": "dune-2021",
+  "title": "Dune",
+  "year": 2021,
+  "label": "Dune (2021)",
+  "director": "Denis Villeneuve",
+  "genres": [],
+  "aliases": [
+   "Dune"
+  ]
+ },
+ {
+  "id": "dune-part-two-2024",
+  "title": "Dune: Part Two",
+  "year": 2024,
+  "label": "Dune: Part Two (2024)",
+  "director": "Denis Villeneuve",
+  "genres": [],
+  "aliases": [
+   "Dune: Part Two"
+  ]
+ },
+ {
+  "id": "dunkirk-2017",
+  "title": "Dunkirk",
+  "year": 2017,
+  "label": "Dunkirk (2017)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "Dunkirk"
+  ]
+ },
+ {
+  "id": "e-t-the-extra-terrestrial-1982",
+  "title": "E.T. the Extra-Terrestrial",
+  "year": 1982,
+  "label": "E.T. the Extra-Terrestrial (1982)",
+  "director": "Steven Spielberg",
+  "genres": [
+   "science fiction",
+   "drama",
+   "children's"
+  ],
+  "aliases": [
+   "E.T. the Extra-Terrestrial",
+   "E.T.",
+   "ET"
+  ]
+ },
+ {
+  "id": "elf-2003",
+  "title": "Elf",
+  "year": 2003,
+  "label": "Elf (2003)",
+  "director": "Jon Favreau",
+  "genres": [],
+  "aliases": [
+   "Elf"
+  ]
+ },
+ {
+  "id": "everything-everywhere-all-at-once-2022",
+  "title": "Everything Everywhere All at Once",
+  "year": 2022,
+  "label": "Everything Everywhere All at Once (2022)",
+  "director": "Dan Kwan",
+  "genres": [
+   "science fiction",
+   "action",
+   "comedy drama"
+  ],
+  "aliases": [
+   "Everything Everywhere All at Once"
+  ]
+ },
+ {
+  "id": "ex-machina-2014",
+  "title": "Ex Machina",
+  "year": 2014,
+  "label": "Ex Machina (2014)",
+  "director": "Alex Garland",
+  "genres": [
+   "science fiction",
+   "psychological thriller",
+   "drama"
+  ],
+  "aliases": [
+   "Ex Machina"
+  ]
+ },
+ {
+  "id": "fantastic-mr-fox-2009",
+  "title": "Fantastic Mr. Fox",
+  "year": 2009,
+  "label": "Fantastic Mr. Fox (2009)",
+  "director": "Wes Anderson",
+  "genres": [],
+  "aliases": [
+   "Fantastic Mr. Fox"
+  ]
+ },
+ {
+  "id": "fargo-1996",
+  "title": "Fargo",
+  "year": 1996,
+  "label": "Fargo (1996)",
+  "director": "Joel Coen",
+  "genres": [],
+  "aliases": [
+   "Fargo"
+  ]
+ },
+ {
+  "id": "ferris-bueller-s-day-off-1986",
+  "title": "Ferris Bueller's Day Off",
+  "year": 1986,
+  "label": "Ferris Bueller's Day Off (1986)",
+  "director": "John Hughes",
+  "genres": [],
+  "aliases": [
+   "Ferris Bueller's Day Off",
+   "Ferris Bueller"
+  ]
+ },
+ {
+  "id": "fight-club-1999",
+  "title": "Fight Club",
+  "year": 1999,
+  "label": "Fight Club (1999)",
+  "director": "David Fincher",
+  "genres": [],
+  "aliases": [
+   "Fight Club"
+  ]
+ },
+ {
+  "id": "finding-nemo-2003",
+  "title": "Finding Nemo",
+  "year": 2003,
+  "label": "Finding Nemo (2003)",
+  "director": "Andrew Stanton",
+  "genres": [
+   "adventure",
+   "family",
+   "comedy"
+  ],
+  "aliases": [
+   "Finding Nemo"
+  ]
+ },
+ {
+  "id": "forrest-gump-1994",
+  "title": "Forrest Gump",
+  "year": 1994,
+  "label": "Forrest Gump (1994)",
+  "director": "Robert Zemeckis",
+  "genres": [
+   "coming-of-age",
+   "flashback",
+   "comedy"
+  ],
+  "aliases": [
+   "Forrest Gump"
+  ]
+ },
+ {
+  "id": "frozen-2013",
+  "title": "Frozen",
+  "year": 2013,
+  "label": "Frozen (2013)",
+  "director": "Chris Buck",
+  "genres": [],
+  "aliases": [
+   "Frozen"
+  ]
+ },
+ {
+  "id": "get-out-2017",
+  "title": "Get Out",
+  "year": 2017,
+  "label": "Get Out (2017)",
+  "director": "Jordan Peele",
+  "genres": [
+   "horror",
+   "mystery",
+   "comedy horror"
+  ],
+  "aliases": [
+   "Get Out"
+  ]
+ },
+ {
+  "id": "ghostbusters-1984",
+  "title": "Ghostbusters",
+  "year": 1984,
+  "label": "Ghostbusters (1984)",
+  "director": "Ivan Reitman",
+  "genres": [],
+  "aliases": [
+   "Ghostbusters"
+  ]
+ },
+ {
+  "id": "gladiator-2000",
+  "title": "Gladiator",
+  "year": 2000,
+  "label": "Gladiator (2000)",
+  "director": "Ridley Scott",
+  "genres": [],
+  "aliases": [
+   "Gladiator"
+  ]
+ },
+ {
+  "id": "glass-onion-2022",
+  "title": "Glass Onion",
+  "year": 2022,
+  "label": "Glass Onion (2022)",
+  "director": "Rian Johnson",
+  "genres": [],
+  "aliases": [
+   "Glass Onion"
+  ]
+ },
+ {
+  "id": "gone-girl-2014",
+  "title": "Gone Girl",
+  "year": 2014,
+  "label": "Gone Girl (2014)",
+  "director": "David Fincher",
+  "genres": [
+   "crime thriller",
+   "crime",
+   "drama"
+  ],
+  "aliases": [
+   "Gone Girl"
+  ]
+ },
+ {
+  "id": "gone-with-the-wind-1939",
+  "title": "Gone with the Wind",
+  "year": 1939,
+  "label": "Gone with the Wind (1939)",
+  "director": "Victor Fleming",
+  "genres": [],
+  "aliases": [
+   "Gone with the Wind"
+  ]
+ },
+ {
+  "id": "good-will-hunting-1997",
+  "title": "Good Will Hunting",
+  "year": 1997,
+  "label": "Good Will Hunting (1997)",
+  "director": "Gus Van Sant",
+  "genres": [],
+  "aliases": [
+   "Good Will Hunting"
+  ]
+ },
+ {
+  "id": "goodfellas-1990",
+  "title": "Goodfellas",
+  "year": 1990,
+  "label": "Goodfellas (1990)",
+  "director": "Martin Scorsese",
+  "genres": [
+   "biographical",
+   "gangster",
+   "crime thriller"
+  ],
+  "aliases": [
+   "Goodfellas"
+  ]
+ },
+ {
+  "id": "gravity-2013",
+  "title": "Gravity",
+  "year": 2013,
+  "label": "Gravity (2013)",
+  "director": "Alfonso Cuar\u00f3n",
+  "genres": [],
+  "aliases": [
+   "Gravity"
+  ]
+ },
+ {
+  "id": "grease-1978",
+  "title": "Grease",
+  "year": 1978,
+  "label": "Grease (1978)",
+  "director": "Randal Kleiser",
+  "genres": [],
+  "aliases": [
+   "Grease"
+  ]
+ },
+ {
+  "id": "groundhog-day-1993",
+  "title": "Groundhog Day",
+  "year": 1993,
+  "label": "Groundhog Day (1993)",
+  "director": "Harold Ramis",
+  "genres": [],
+  "aliases": [
+   "Groundhog Day"
+  ]
+ },
+ {
+  "id": "guardians-of-the-galaxy-2014",
+  "title": "Guardians of the Galaxy",
+  "year": 2014,
+  "label": "Guardians of the Galaxy (2014)",
+  "director": "James Gunn",
+  "genres": [],
+  "aliases": [
+   "Guardians of the Galaxy"
+  ]
+ },
+ {
+  "id": "halloween-1978",
+  "title": "Halloween",
+  "year": 1978,
+  "label": "Halloween (1978)",
+  "director": "John Carpenter",
+  "genres": [],
+  "aliases": [
+   "Halloween"
+  ]
+ },
+ {
+  "id": "harry-potter-and-the-chamber-of-secrets-2002",
+  "title": "Harry Potter and the Chamber of Secrets",
+  "year": 2002,
+  "label": "Harry Potter and the Chamber of Secrets (2002)",
+  "director": "Chris Columbus",
+  "genres": [],
+  "aliases": [
+   "Harry Potter and the Chamber of Secrets",
+   "Harry Potter"
+  ]
+ },
+ {
+  "id": "harry-potter-and-the-deathly-hallows-part-2-2011",
+  "title": "Harry Potter and the Deathly Hallows: Part 2",
+  "year": 2011,
+  "label": "Harry Potter and the Deathly Hallows: Part 2 (2011)",
+  "director": "David Yates",
+  "genres": [],
+  "aliases": [
+   "Harry Potter and the Deathly Hallows: Part 2",
+   "Harry Potter"
+  ]
+ },
+ {
+  "id": "harry-potter-and-the-goblet-of-fire-2005",
+  "title": "Harry Potter and the Goblet of Fire",
+  "year": 2005,
+  "label": "Harry Potter and the Goblet of Fire (2005)",
+  "director": "Mike Newell",
+  "genres": [],
+  "aliases": [
+   "Harry Potter and the Goblet of Fire",
+   "Harry Potter"
+  ]
+ },
+ {
+  "id": "harry-potter-and-the-prisoner-of-azkaban-2004",
+  "title": "Harry Potter and the Prisoner of Azkaban",
+  "year": 2004,
+  "label": "Harry Potter and the Prisoner of Azkaban (2004)",
+  "director": "Alfonso Cuar\u00f3n",
+  "genres": [],
+  "aliases": [
+   "Harry Potter and the Prisoner of Azkaban",
+   "Harry Potter"
+  ]
+ },
+ {
+  "id": "harry-potter-and-the-sorcerer-s-stone-2001",
+  "title": "Harry Potter and the Sorcerer's Stone",
+  "year": 2001,
+  "label": "Harry Potter and the Sorcerer's Stone (2001)",
+  "director": "Chris Columbus",
+  "genres": [],
+  "aliases": [
+   "Harry Potter and the Sorcerer's Stone",
+   "Harry Potter and the Philosopher's Stone",
+   "Harry Potter"
+  ]
+ },
+ {
+  "id": "heat-1995",
+  "title": "Heat",
+  "year": 1995,
+  "label": "Heat (1995)",
+  "director": "Michael Mann",
+  "genres": [],
+  "aliases": [
+   "Heat"
+  ]
+ },
+ {
+  "id": "hereditary-2018",
+  "title": "Hereditary",
+  "year": 2018,
+  "label": "Hereditary (2018)",
+  "director": "Ari Aster",
+  "genres": [],
+  "aliases": [
+   "Hereditary"
+  ]
+ },
+ {
+  "id": "hidden-figures-2016",
+  "title": "Hidden Figures",
+  "year": 2016,
+  "label": "Hidden Figures (2016)",
+  "director": "Theodore Melfi",
+  "genres": [],
+  "aliases": [
+   "Hidden Figures"
+  ]
+ },
+ {
+  "id": "home-alone-1990",
+  "title": "Home Alone",
+  "year": 1990,
+  "label": "Home Alone (1990)",
+  "director": "Chris Columbus",
+  "genres": [],
+  "aliases": [
+   "Home Alone"
+  ]
+ },
+ {
+  "id": "how-to-train-your-dragon-2010",
+  "title": "How to Train Your Dragon",
+  "year": 2010,
+  "label": "How to Train Your Dragon (2010)",
+  "director": "Chris Sanders",
+  "genres": [],
+  "aliases": [
+   "How to Train Your Dragon"
+  ]
+ },
+ {
+  "id": "howl-s-moving-castle-2004",
+  "title": "Howl's Moving Castle",
+  "year": 2004,
+  "label": "Howl's Moving Castle (2004)",
+  "director": "Hayao Miyazaki",
+  "genres": [],
+  "aliases": [
+   "Howl's Moving Castle"
+  ]
+ },
+ {
+  "id": "inception-2010",
+  "title": "Inception",
+  "year": 2010,
+  "label": "Inception (2010)",
+  "director": "Christopher Nolan",
+  "genres": [
+   "heist",
+   "science fiction",
+   "thriller"
+  ],
+  "aliases": [
+   "Inception"
+  ]
+ },
+ {
+  "id": "indiana-jones-and-the-last-crusade-1989",
+  "title": "Indiana Jones and the Last Crusade",
+  "year": 1989,
+  "label": "Indiana Jones and the Last Crusade (1989)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Indiana Jones and the Last Crusade",
+   "Last Crusade"
+  ]
+ },
+ {
+  "id": "indiana-jones-and-the-temple-of-doom-1984",
+  "title": "Indiana Jones and the Temple of Doom",
+  "year": 1984,
+  "label": "Indiana Jones and the Temple of Doom (1984)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Indiana Jones and the Temple of Doom",
+   "Temple of Doom"
+  ]
+ },
+ {
+  "id": "inglourious-basterds-2009",
+  "title": "Inglourious Basterds",
+  "year": 2009,
+  "label": "Inglourious Basterds (2009)",
+  "director": "Quentin Tarantino",
+  "genres": [],
+  "aliases": [
+   "Inglourious Basterds"
+  ]
+ },
+ {
+  "id": "inside-out-2015",
+  "title": "Inside Out",
+  "year": 2015,
+  "label": "Inside Out (2015)",
+  "director": "Pete Docter",
+  "genres": [],
+  "aliases": [
+   "Inside Out"
+  ]
+ },
+ {
+  "id": "interstellar-2014",
+  "title": "Interstellar",
+  "year": 2014,
+  "label": "Interstellar (2014)",
+  "director": "Christopher Nolan",
+  "genres": [
+   "science fiction",
+   "adventure",
+   "dystopian"
+  ],
+  "aliases": [
+   "Interstellar"
+  ]
+ },
+ {
+  "id": "iron-man-2-2010",
+  "title": "Iron Man 2",
+  "year": 2010,
+  "label": "Iron Man 2 (2010)",
+  "director": "Jon Favreau",
+  "genres": [],
+  "aliases": [
+   "Iron Man 2"
+  ]
+ },
+ {
+  "id": "iron-man-2008",
+  "title": "Iron Man",
+  "year": 2008,
+  "label": "Iron Man (2008)",
+  "director": "Jon Favreau",
+  "genres": [],
+  "aliases": [
+   "Iron Man"
+  ]
+ },
+ {
+  "id": "iron-man-3-2013",
+  "title": "Iron Man 3",
+  "year": 2013,
+  "label": "Iron Man 3 (2013)",
+  "director": "Shane Black",
+  "genres": [],
+  "aliases": [
+   "Iron Man 3"
+  ]
+ },
+ {
+  "id": "it-2017",
+  "title": "It",
+  "year": 2017,
+  "label": "It (2017)",
+  "director": "Andy Muschietti",
+  "genres": [],
+  "aliases": [
+   "It"
+  ]
+ },
+ {
+  "id": "it-s-a-wonderful-life-1946",
+  "title": "It's a Wonderful Life",
+  "year": 1946,
+  "label": "It's a Wonderful Life (1946)",
+  "director": "Frank Capra",
+  "genres": [],
+  "aliases": [
+   "It's a Wonderful Life"
+  ]
+ },
+ {
+  "id": "jaws-1975",
+  "title": "Jaws",
+  "year": 1975,
+  "label": "Jaws (1975)",
+  "director": "Steven Spielberg",
+  "genres": [
+   "thriller",
+   "horror",
+   "adventure"
+  ],
+  "aliases": [
+   "Jaws"
+  ]
+ },
+ {
+  "id": "john-wick-2014",
+  "title": "John Wick",
+  "year": 2014,
+  "label": "John Wick (2014)",
+  "director": "Chad Stahelski",
+  "genres": [],
+  "aliases": [
+   "John Wick"
+  ]
+ },
+ {
+  "id": "joker-2019",
+  "title": "Joker",
+  "year": 2019,
+  "label": "Joker (2019)",
+  "director": "Todd Phillips",
+  "genres": [],
+  "aliases": [
+   "Joker"
+  ]
+ },
+ {
+  "id": "jurassic-park-1993",
+  "title": "Jurassic Park",
+  "year": 1993,
+  "label": "Jurassic Park (1993)",
+  "director": "Steven Spielberg",
+  "genres": [
+   "science fiction",
+   "adventure",
+   "action"
+  ],
+  "aliases": [
+   "Jurassic Park"
+  ]
+ },
+ {
+  "id": "jurassic-world-2015",
+  "title": "Jurassic World",
+  "year": 2015,
+  "label": "Jurassic World (2015)",
+  "director": "Colin Trevorrow",
+  "genres": [],
+  "aliases": [
+   "Jurassic World"
+  ]
+ },
+ {
+  "id": "kill-bill-vol-1-2003",
+  "title": "Kill Bill: Vol. 1",
+  "year": 2003,
+  "label": "Kill Bill: Vol. 1 (2003)",
+  "director": "Quentin Tarantino",
+  "genres": [],
+  "aliases": [
+   "Kill Bill: Vol. 1",
+   "Kill Bill"
+  ]
+ },
+ {
+  "id": "knives-out-2019",
+  "title": "Knives Out",
+  "year": 2019,
+  "label": "Knives Out (2019)",
+  "director": "Rian Johnson",
+  "genres": [
+   "thriller",
+   "crime",
+   "mystery"
+  ],
+  "aliases": [
+   "Knives Out"
+  ]
+ },
+ {
+  "id": "la-la-land-2016",
+  "title": "La La Land",
+  "year": 2016,
+  "label": "La La Land (2016)",
+  "director": "Damien Chazelle",
+  "genres": [
+   "romance",
+   "comedy drama",
+   "comedy"
+  ],
+  "aliases": [
+   "La La Land"
+  ]
+ },
+ {
+  "id": "lady-bird-2017",
+  "title": "Lady Bird",
+  "year": 2017,
+  "label": "Lady Bird (2017)",
+  "director": "Greta Gerwig",
+  "genres": [
+   "comedy drama",
+   "tragicomedy",
+   "drama"
+  ],
+  "aliases": [
+   "Lady Bird"
+  ]
+ },
+ {
+  "id": "legally-blonde-2001",
+  "title": "Legally Blonde",
+  "year": 2001,
+  "label": "Legally Blonde (2001)",
+  "director": "Robert Luketic",
+  "genres": [],
+  "aliases": [
+   "Legally Blonde"
+  ]
+ },
+ {
+  "id": "life-is-beautiful-1997",
+  "title": "Life Is Beautiful",
+  "year": 1997,
+  "label": "Life Is Beautiful (1997)",
+  "director": "Roberto Benigni",
+  "genres": [],
+  "aliases": [
+   "Life Is Beautiful"
+  ]
+ },
+ {
+  "id": "little-miss-sunshine-2006",
+  "title": "Little Miss Sunshine",
+  "year": 2006,
+  "label": "Little Miss Sunshine (2006)",
+  "director": "Valerie Faris",
+  "genres": [
+   "comedy",
+   "drama",
+   "road movie"
+  ],
+  "aliases": [
+   "Little Miss Sunshine"
+  ]
+ },
+ {
+  "id": "little-women-2019",
+  "title": "Little Women",
+  "year": 2019,
+  "label": "Little Women (2019)",
+  "director": "Greta Gerwig",
+  "genres": [],
+  "aliases": [
+   "Little Women"
+  ]
+ },
+ {
+  "id": "love-actually-2003",
+  "title": "Love Actually",
+  "year": 2003,
+  "label": "Love Actually (2003)",
+  "director": "Richard Curtis",
+  "genres": [],
+  "aliases": [
+   "Love Actually"
+  ]
+ },
+ {
+  "id": "mad-max-1979",
+  "title": "Mad Max",
+  "year": 1979,
+  "label": "Mad Max (1979)",
+  "director": "George Miller",
+  "genres": [],
+  "aliases": [
+   "Mad Max"
+  ]
+ },
+ {
+  "id": "mad-max-fury-road-2015",
+  "title": "Mad Max: Fury Road",
+  "year": 2015,
+  "label": "Mad Max: Fury Road (2015)",
+  "director": "George Miller",
+  "genres": [
+   "action",
+   "adventure",
+   "science fiction"
+  ],
+  "aliases": [
+   "Mad Max: Fury Road"
+  ]
+ },
+ {
+  "id": "mean-girls-2004",
+  "title": "Mean Girls",
+  "year": 2004,
+  "label": "Mean Girls (2004)",
+  "director": "Mark Waters",
+  "genres": [
+   "teen",
+   "romantic comedy",
+   "LGBTQ-related"
+  ],
+  "aliases": [
+   "Mean Girls"
+  ]
+ },
+ {
+  "id": "memento-2000",
+  "title": "Memento",
+  "year": 2000,
+  "label": "Memento (2000)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "Memento"
+  ]
+ },
+ {
+  "id": "minari-2020",
+  "title": "Minari",
+  "year": 2020,
+  "label": "Minari (2020)",
+  "director": "Lee Isaac Chung",
+  "genres": [],
+  "aliases": [
+   "Minari"
+  ]
+ },
+ {
+  "id": "minority-report-2002",
+  "title": "Minority Report",
+  "year": 2002,
+  "label": "Minority Report (2002)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Minority Report"
+  ]
+ },
+ {
+  "id": "mission-impossible-1996",
+  "title": "Mission: Impossible",
+  "year": 1996,
+  "label": "Mission: Impossible (1996)",
+  "director": "Brian De Palma",
+  "genres": [],
+  "aliases": [
+   "Mission: Impossible"
+  ]
+ },
+ {
+  "id": "mission-impossible-fallout-2018",
+  "title": "Mission: Impossible - Fallout",
+  "year": 2018,
+  "label": "Mission: Impossible - Fallout (2018)",
+  "director": "Christopher McQuarrie",
+  "genres": [],
+  "aliases": [
+   "Mission: Impossible - Fallout",
+   "Fallout"
+  ]
+ },
+ {
+  "id": "moana-2016",
+  "title": "Moana",
+  "year": 2016,
+  "label": "Moana (2016)",
+  "director": "Ron Clements",
+  "genres": [],
+  "aliases": [
+   "Moana"
+  ]
+ },
+ {
+  "id": "monsters-inc-2001",
+  "title": "Monsters, Inc.",
+  "year": 2001,
+  "label": "Monsters, Inc. (2001)",
+  "director": "Pete Docter",
+  "genres": [],
+  "aliases": [
+   "Monsters, Inc.",
+   "Monsters Inc"
+  ]
+ },
+ {
+  "id": "moonlight-2016",
+  "title": "Moonlight",
+  "year": 2016,
+  "label": "Moonlight (2016)",
+  "director": "Barry Jenkins",
+  "genres": [
+   "drama",
+   "LGBTQ-related",
+   "coming-of-age"
+  ],
+  "aliases": [
+   "Moonlight"
+  ]
+ },
+ {
+  "id": "moonrise-kingdom-2012",
+  "title": "Moonrise Kingdom",
+  "year": 2012,
+  "label": "Moonrise Kingdom (2012)",
+  "director": "Wes Anderson",
+  "genres": [],
+  "aliases": [
+   "Moonrise Kingdom"
+  ]
+ },
+ {
+  "id": "my-neighbor-totoro-1988",
+  "title": "My Neighbor Totoro",
+  "year": 1988,
+  "label": "My Neighbor Totoro (1988)",
+  "director": "Hayao Miyazaki",
+  "genres": [],
+  "aliases": [
+   "My Neighbor Totoro",
+   "Totoro"
+  ]
+ },
+ {
   "id": "nightcrawler-2014",
   "title": "Nightcrawler",
   "year": 2014,
@@ -743,6 +1553,1307 @@
   ],
   "aliases": [
    "Nightcrawler"
+  ]
+ },
+ {
+  "id": "no-country-for-old-men-2007",
+  "title": "No Country for Old Men",
+  "year": 2007,
+  "label": "No Country for Old Men (2007)",
+  "director": "Joel Coen",
+  "genres": [],
+  "aliases": [
+   "No Country for Old Men"
+  ]
+ },
+ {
+  "id": "nope-2022",
+  "title": "Nope",
+  "year": 2022,
+  "label": "Nope (2022)",
+  "director": "Jordan Peele",
+  "genres": [],
+  "aliases": [
+   "Nope"
+  ]
+ },
+ {
+  "id": "notting-hill-1999",
+  "title": "Notting Hill",
+  "year": 1999,
+  "label": "Notting Hill (1999)",
+  "director": "Roger Michell",
+  "genres": [],
+  "aliases": [
+   "Notting Hill"
+  ]
+ },
+ {
+  "id": "oldboy-2003",
+  "title": "Oldboy",
+  "year": 2003,
+  "label": "Oldboy (2003)",
+  "director": "Park Chan-wook",
+  "genres": [],
+  "aliases": [
+   "Oldboy"
+  ]
+ },
+ {
+  "id": "once-upon-a-time-in-hollywood-2019",
+  "title": "Once Upon a Time in Hollywood",
+  "year": 2019,
+  "label": "Once Upon a Time in Hollywood (2019)",
+  "director": "Quentin Tarantino",
+  "genres": [],
+  "aliases": [
+   "Once Upon a Time in Hollywood"
+  ]
+ },
+ {
+  "id": "oppenheimer-2023",
+  "title": "Oppenheimer",
+  "year": 2023,
+  "label": "Oppenheimer (2023)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "Oppenheimer"
+  ]
+ },
+ {
+  "id": "pan-s-labyrinth-2006",
+  "title": "Pan's Labyrinth",
+  "year": 2006,
+  "label": "Pan's Labyrinth (2006)",
+  "director": "Guillermo del Toro",
+  "genres": [],
+  "aliases": [
+   "Pan's Labyrinth"
+  ]
+ },
+ {
+  "id": "parasite-2019",
+  "title": "Parasite",
+  "year": 2019,
+  "label": "Parasite (2019)",
+  "director": "Bong Joon-ho",
+  "genres": [
+   "comedy drama",
+   "black comedy",
+   "thriller"
+  ],
+  "aliases": [
+   "Parasite"
+  ]
+ },
+ {
+  "id": "past-lives-2023",
+  "title": "Past Lives",
+  "year": 2023,
+  "label": "Past Lives (2023)",
+  "director": "Celine Song",
+  "genres": [],
+  "aliases": [
+   "Past Lives"
+  ]
+ },
+ {
+  "id": "pitch-perfect-2012",
+  "title": "Pitch Perfect",
+  "year": 2012,
+  "label": "Pitch Perfect (2012)",
+  "director": "Jason Moore",
+  "genres": [],
+  "aliases": [
+   "Pitch Perfect"
+  ]
+ },
+ {
+  "id": "point-break-1991",
+  "title": "Point Break",
+  "year": 1991,
+  "label": "Point Break (1991)",
+  "director": "Kathryn Bigelow",
+  "genres": [],
+  "aliases": [
+   "Point Break"
+  ]
+ },
+ {
+  "id": "predator-1987",
+  "title": "Predator",
+  "year": 1987,
+  "label": "Predator (1987)",
+  "director": "John McTiernan",
+  "genres": [],
+  "aliases": [
+   "Predator"
+  ]
+ },
+ {
+  "id": "pretty-woman-1990",
+  "title": "Pretty Woman",
+  "year": 1990,
+  "label": "Pretty Woman (1990)",
+  "director": "Garry Marshall",
+  "genres": [],
+  "aliases": [
+   "Pretty Woman"
+  ]
+ },
+ {
+  "id": "princess-mononoke-1997",
+  "title": "Princess Mononoke",
+  "year": 1997,
+  "label": "Princess Mononoke (1997)",
+  "director": "Hayao Miyazaki",
+  "genres": [],
+  "aliases": [
+   "Princess Mononoke"
+  ]
+ },
+ {
+  "id": "psycho-1960",
+  "title": "Psycho",
+  "year": 1960,
+  "label": "Psycho (1960)",
+  "director": "Alfred Hitchcock",
+  "genres": [],
+  "aliases": [
+   "Psycho"
+  ]
+ },
+ {
+  "id": "pulp-fiction-1994",
+  "title": "Pulp Fiction",
+  "year": 1994,
+  "label": "Pulp Fiction (1994)",
+  "director": "Quentin Tarantino",
+  "genres": [
+   "independent",
+   "crime",
+   "crime drama"
+  ],
+  "aliases": [
+   "Pulp Fiction"
+  ]
+ },
+ {
+  "id": "raiders-of-the-lost-ark-1981",
+  "title": "Raiders of the Lost Ark",
+  "year": 1981,
+  "label": "Raiders of the Lost Ark (1981)",
+  "director": "Steven Spielberg",
+  "genres": [
+   "action",
+   "treasure hunt"
+  ],
+  "aliases": [
+   "Raiders of the Lost Ark",
+   "Indiana Jones"
+  ]
+ },
+ {
+  "id": "ratatouille-2007",
+  "title": "Ratatouille",
+  "year": 2007,
+  "label": "Ratatouille (2007)",
+  "director": "Brad Bird",
+  "genres": [],
+  "aliases": [
+   "Ratatouille"
+  ]
+ },
+ {
+  "id": "rear-window-1954",
+  "title": "Rear Window",
+  "year": 1954,
+  "label": "Rear Window (1954)",
+  "director": "Alfred Hitchcock",
+  "genres": [],
+  "aliases": [
+   "Rear Window"
+  ]
+ },
+ {
+  "id": "reservoir-dogs-1992",
+  "title": "Reservoir Dogs",
+  "year": 1992,
+  "label": "Reservoir Dogs (1992)",
+  "director": "Quentin Tarantino",
+  "genres": [],
+  "aliases": [
+   "Reservoir Dogs"
+  ]
+ },
+ {
+  "id": "return-of-the-jedi-1983",
+  "title": "Return of the Jedi",
+  "year": 1983,
+  "label": "Return of the Jedi (1983)",
+  "director": "Richard Marquand",
+  "genres": [],
+  "aliases": [
+   "Return of the Jedi",
+   "Star Wars"
+  ]
+ },
+ {
+  "id": "rocky-1976",
+  "title": "Rocky",
+  "year": 1976,
+  "label": "Rocky (1976)",
+  "director": "John G. Avildsen",
+  "genres": [],
+  "aliases": [
+   "Rocky"
+  ]
+ },
+ {
+  "id": "rogue-one-a-star-wars-story-2016",
+  "title": "Rogue One: A Star Wars Story",
+  "year": 2016,
+  "label": "Rogue One: A Star Wars Story (2016)",
+  "director": "Gareth Edwards",
+  "genres": [],
+  "aliases": [
+   "Rogue One: A Star Wars Story",
+   "Rogue One"
+  ]
+ },
+ {
+  "id": "saving-private-ryan-1998",
+  "title": "Saving Private Ryan",
+  "year": 1998,
+  "label": "Saving Private Ryan (1998)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "Saving Private Ryan"
+  ]
+ },
+ {
+  "id": "schindler-s-list-1993",
+  "title": "Schindler's List",
+  "year": 1993,
+  "label": "Schindler's List (1993)",
+  "director": "Steven Spielberg",
+  "genres": [
+   "anti-war",
+   "biographical",
+   "drama"
+  ],
+  "aliases": [
+   "Schindler's List"
+  ]
+ },
+ {
+  "id": "scream-1996",
+  "title": "Scream",
+  "year": 1996,
+  "label": "Scream (1996)",
+  "director": "Wes Craven",
+  "genres": [],
+  "aliases": [
+   "Scream"
+  ]
+ },
+ {
+  "id": "se7en-1995",
+  "title": "Se7en",
+  "year": 1995,
+  "label": "Se7en (1995)",
+  "director": "David Fincher",
+  "genres": [],
+  "aliases": [
+   "Se7en",
+   "Seven"
+  ]
+ },
+ {
+  "id": "seven-samurai-1954",
+  "title": "Seven Samurai",
+  "year": 1954,
+  "label": "Seven Samurai (1954)",
+  "director": "Akira Kurosawa",
+  "genres": [],
+  "aliases": [
+   "Seven Samurai"
+  ]
+ },
+ {
+  "id": "shrek-2001",
+  "title": "Shrek",
+  "year": 2001,
+  "label": "Shrek (2001)",
+  "director": "Andrew Adamson",
+  "genres": [],
+  "aliases": [
+   "Shrek"
+  ]
+ },
+ {
+  "id": "shutter-island-2010",
+  "title": "Shutter Island",
+  "year": 2010,
+  "label": "Shutter Island (2010)",
+  "director": "Martin Scorsese",
+  "genres": [],
+  "aliases": [
+   "Shutter Island"
+  ]
+ },
+ {
+  "id": "singin-in-the-rain-1952",
+  "title": "Singin' in the Rain",
+  "year": 1952,
+  "label": "Singin' in the Rain (1952)",
+  "director": "Stanley Donen",
+  "genres": [],
+  "aliases": [
+   "Singin' in the Rain"
+  ]
+ },
+ {
+  "id": "skyfall-2012",
+  "title": "Skyfall",
+  "year": 2012,
+  "label": "Skyfall (2012)",
+  "director": "Sam Mendes",
+  "genres": [],
+  "aliases": [
+   "Skyfall"
+  ]
+ },
+ {
+  "id": "some-like-it-hot-1959",
+  "title": "Some Like It Hot",
+  "year": 1959,
+  "label": "Some Like It Hot (1959)",
+  "director": "Billy Wilder",
+  "genres": [],
+  "aliases": [
+   "Some Like It Hot"
+  ]
+ },
+ {
+  "id": "speed-1994",
+  "title": "Speed",
+  "year": 1994,
+  "label": "Speed (1994)",
+  "director": "Jan de Bont",
+  "genres": [],
+  "aliases": [
+   "Speed"
+  ]
+ },
+ {
+  "id": "spider-man-2-2004",
+  "title": "Spider-Man 2",
+  "year": 2004,
+  "label": "Spider-Man 2 (2004)",
+  "director": "Sam Raimi",
+  "genres": [],
+  "aliases": [
+   "Spider-Man 2"
+  ]
+ },
+ {
+  "id": "spider-man-2002",
+  "title": "Spider-Man",
+  "year": 2002,
+  "label": "Spider-Man (2002)",
+  "director": "Sam Raimi",
+  "genres": [],
+  "aliases": [
+   "Spider-Man"
+  ]
+ },
+ {
+  "id": "spider-man-homecoming-2017",
+  "title": "Spider-Man: Homecoming",
+  "year": 2017,
+  "label": "Spider-Man: Homecoming (2017)",
+  "director": "Jon Watts",
+  "genres": [],
+  "aliases": [
+   "Spider-Man: Homecoming"
+  ]
+ },
+ {
+  "id": "spider-man-into-the-spider-verse-2018",
+  "title": "Spider-Man: Into the Spider-Verse",
+  "year": 2018,
+  "label": "Spider-Man: Into the Spider-Verse (2018)",
+  "director": "Bob Persichetti",
+  "genres": [],
+  "aliases": [
+   "Spider-Man: Into the Spider-Verse",
+   "Into the Spider-Verse"
+  ]
+ },
+ {
+  "id": "spider-man-no-way-home-2021",
+  "title": "Spider-Man: No Way Home",
+  "year": 2021,
+  "label": "Spider-Man: No Way Home (2021)",
+  "director": "Jon Watts",
+  "genres": [],
+  "aliases": [
+   "Spider-Man: No Way Home"
+  ]
+ },
+ {
+  "id": "spirited-away-2001",
+  "title": "Spirited Away",
+  "year": 2001,
+  "label": "Spirited Away (2001)",
+  "director": "Hayao Miyazaki",
+  "genres": [
+   "fantasy",
+   "fantasy anime and manga",
+   "children's"
+  ],
+  "aliases": [
+   "Spirited Away"
+  ]
+ },
+ {
+  "id": "star-wars-1977",
+  "title": "Star Wars",
+  "year": 1977,
+  "label": "Star Wars (1977)",
+  "director": "George Lucas",
+  "genres": [
+   "space opera",
+   "science fiction",
+   "action"
+  ],
+  "aliases": [
+   "Star Wars",
+   "A New Hope",
+   "Star Wars: A New Hope"
+  ]
+ },
+ {
+  "id": "star-wars-the-force-awakens-2015",
+  "title": "Star Wars: The Force Awakens",
+  "year": 2015,
+  "label": "Star Wars: The Force Awakens (2015)",
+  "director": "J. J. Abrams",
+  "genres": [],
+  "aliases": [
+   "Star Wars: The Force Awakens",
+   "The Force Awakens"
+  ]
+ },
+ {
+  "id": "step-brothers-2008",
+  "title": "Step Brothers",
+  "year": 2008,
+  "label": "Step Brothers (2008)",
+  "director": "Adam McKay",
+  "genres": [],
+  "aliases": [
+   "Step Brothers"
+  ]
+ },
+ {
+  "id": "straight-outta-compton-2015",
+  "title": "Straight Outta Compton",
+  "year": 2015,
+  "label": "Straight Outta Compton (2015)",
+  "director": "F. Gary Gray",
+  "genres": [],
+  "aliases": [
+   "Straight Outta Compton"
+  ]
+ },
+ {
+  "id": "superbad-2007",
+  "title": "Superbad",
+  "year": 2007,
+  "label": "Superbad (2007)",
+  "director": "Greg Mottola",
+  "genres": [
+   "comedy",
+   "sex comedy",
+   "coming-of-age"
+  ],
+  "aliases": [
+   "Superbad"
+  ]
+ },
+ {
+  "id": "superman-1978",
+  "title": "Superman",
+  "year": 1978,
+  "label": "Superman (1978)",
+  "director": "Richard Donner",
+  "genres": [],
+  "aliases": [
+   "Superman"
+  ]
+ },
+ {
+  "id": "tenet-2020",
+  "title": "Tenet",
+  "year": 2020,
+  "label": "Tenet (2020)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "Tenet"
+  ]
+ },
+ {
+  "id": "terminator-2-judgment-day-1991",
+  "title": "Terminator 2: Judgment Day",
+  "year": 1991,
+  "label": "Terminator 2: Judgment Day (1991)",
+  "director": "James Cameron",
+  "genres": [],
+  "aliases": [
+   "Terminator 2: Judgment Day",
+   "Terminator 2",
+   "T2"
+  ]
+ },
+ {
+  "id": "the-avengers-2012",
+  "title": "The Avengers",
+  "year": 2012,
+  "label": "The Avengers (2012)",
+  "director": "Joss Whedon",
+  "genres": [],
+  "aliases": [
+   "The Avengers",
+   "Avengers"
+  ]
+ },
+ {
+  "id": "the-batman-2022",
+  "title": "The Batman",
+  "year": 2022,
+  "label": "The Batman (2022)",
+  "director": "Matt Reeves",
+  "genres": [],
+  "aliases": [
+   "The Batman"
+  ]
+ },
+ {
+  "id": "the-big-lebowski-1998",
+  "title": "The Big Lebowski",
+  "year": 1998,
+  "label": "The Big Lebowski (1998)",
+  "director": "Joel Coen",
+  "genres": [
+   "comedy",
+   "crime",
+   "comedy of error"
+  ],
+  "aliases": [
+   "The Big Lebowski"
+  ]
+ },
+ {
+  "id": "the-bourne-identity-2002",
+  "title": "The Bourne Identity",
+  "year": 2002,
+  "label": "The Bourne Identity (2002)",
+  "director": "Doug Liman",
+  "genres": [],
+  "aliases": [
+   "The Bourne Identity"
+  ]
+ },
+ {
+  "id": "the-breakfast-club-1985",
+  "title": "The Breakfast Club",
+  "year": 1985,
+  "label": "The Breakfast Club (1985)",
+  "director": "John Hughes",
+  "genres": [],
+  "aliases": [
+   "The Breakfast Club"
+  ]
+ },
+ {
+  "id": "the-conjuring-2013",
+  "title": "The Conjuring",
+  "year": 2013,
+  "label": "The Conjuring (2013)",
+  "director": "James Wan",
+  "genres": [],
+  "aliases": [
+   "The Conjuring"
+  ]
+ },
+ {
+  "id": "the-dark-knight-2008",
+  "title": "The Dark Knight",
+  "year": 2008,
+  "label": "The Dark Knight (2008)",
+  "director": "Christopher Nolan",
+  "genres": [
+   "action",
+   "neo-noir",
+   "crime thriller"
+  ],
+  "aliases": [
+   "The Dark Knight"
+  ]
+ },
+ {
+  "id": "the-dark-knight-rises-2012",
+  "title": "The Dark Knight Rises",
+  "year": 2012,
+  "label": "The Dark Knight Rises (2012)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "The Dark Knight Rises"
+  ]
+ },
+ {
+  "id": "the-departed-2006",
+  "title": "The Departed",
+  "year": 2006,
+  "label": "The Departed (2006)",
+  "director": "Martin Scorsese",
+  "genres": [],
+  "aliases": [
+   "The Departed"
+  ]
+ },
+ {
+  "id": "the-empire-strikes-back-1980",
+  "title": "The Empire Strikes Back",
+  "year": 1980,
+  "label": "The Empire Strikes Back (1980)",
+  "director": "Irvin Kershner",
+  "genres": [],
+  "aliases": [
+   "The Empire Strikes Back",
+   "Star Wars"
+  ]
+ },
+ {
+  "id": "the-exorcist-1973",
+  "title": "The Exorcist",
+  "year": 1973,
+  "label": "The Exorcist (1973)",
+  "director": "William Friedkin",
+  "genres": [],
+  "aliases": [
+   "The Exorcist"
+  ]
+ },
+ {
+  "id": "the-girl-with-the-dragon-tattoo-2011",
+  "title": "The Girl with the Dragon Tattoo",
+  "year": 2011,
+  "label": "The Girl with the Dragon Tattoo (2011)",
+  "director": "David Fincher",
+  "genres": [],
+  "aliases": [
+   "The Girl with the Dragon Tattoo"
+  ]
+ },
+ {
+  "id": "the-godfather-1972",
+  "title": "The Godfather",
+  "year": 1972,
+  "label": "The Godfather (1972)",
+  "director": "Francis Ford Coppola",
+  "genres": [
+   "epic",
+   "gangster",
+   "crime"
+  ],
+  "aliases": [
+   "The Godfather"
+  ]
+ },
+ {
+  "id": "the-godfather-part-ii-1974",
+  "title": "The Godfather Part II",
+  "year": 1974,
+  "label": "The Godfather Part II (1974)",
+  "director": "Francis Ford Coppola",
+  "genres": [],
+  "aliases": [
+   "The Godfather Part II",
+   "Godfather Part II"
+  ]
+ },
+ {
+  "id": "the-graduate-1967",
+  "title": "The Graduate",
+  "year": 1967,
+  "label": "The Graduate (1967)",
+  "director": "Mike Nichols",
+  "genres": [],
+  "aliases": [
+   "The Graduate"
+  ]
+ },
+ {
+  "id": "the-grand-budapest-hotel-2014",
+  "title": "The Grand Budapest Hotel",
+  "year": 2014,
+  "label": "The Grand Budapest Hotel (2014)",
+  "director": "Wes Anderson",
+  "genres": [
+   "comedy",
+   "drama",
+   "adventure"
+  ],
+  "aliases": [
+   "The Grand Budapest Hotel"
+  ]
+ },
+ {
+  "id": "the-green-mile-1999",
+  "title": "The Green Mile",
+  "year": 1999,
+  "label": "The Green Mile (1999)",
+  "director": "Frank Darabont",
+  "genres": [],
+  "aliases": [
+   "The Green Mile"
+  ]
+ },
+ {
+  "id": "the-hangover-2009",
+  "title": "The Hangover",
+  "year": 2009,
+  "label": "The Hangover (2009)",
+  "director": "Todd Phillips",
+  "genres": [],
+  "aliases": [
+   "The Hangover"
+  ]
+ },
+ {
+  "id": "the-hobbit-an-unexpected-journey-2012",
+  "title": "The Hobbit: An Unexpected Journey",
+  "year": 2012,
+  "label": "The Hobbit: An Unexpected Journey (2012)",
+  "director": "Peter Jackson",
+  "genres": [],
+  "aliases": [
+   "The Hobbit: An Unexpected Journey",
+   "The Hobbit"
+  ]
+ },
+ {
+  "id": "the-hurt-locker-2008",
+  "title": "The Hurt Locker",
+  "year": 2008,
+  "label": "The Hurt Locker (2008)",
+  "director": "Kathryn Bigelow",
+  "genres": [],
+  "aliases": [
+   "The Hurt Locker"
+  ]
+ },
+ {
+  "id": "the-incredibles-2004",
+  "title": "The Incredibles",
+  "year": 2004,
+  "label": "The Incredibles (2004)",
+  "director": "Brad Bird",
+  "genres": [],
+  "aliases": [
+   "The Incredibles"
+  ]
+ },
+ {
+  "id": "the-irishman-2019",
+  "title": "The Irishman",
+  "year": 2019,
+  "label": "The Irishman (2019)",
+  "director": "Martin Scorsese",
+  "genres": [],
+  "aliases": [
+   "The Irishman"
+  ]
+ },
+ {
+  "id": "the-lion-king-1994",
+  "title": "The Lion King",
+  "year": 1994,
+  "label": "The Lion King (1994)",
+  "director": "Roger Allers",
+  "genres": [],
+  "aliases": [
+   "The Lion King"
+  ]
+ },
+ {
+  "id": "the-lord-of-the-rings-the-fellowship-of-the-ring-2001",
+  "title": "The Lord of the Rings: The Fellowship of the Ring",
+  "year": 2001,
+  "label": "The Lord of the Rings: The Fellowship of the Ring (2001)",
+  "director": "Peter Jackson",
+  "genres": [],
+  "aliases": [
+   "The Lord of the Rings: The Fellowship of the Ring",
+   "Fellowship of the Ring",
+   "Lord of the Rings"
+  ]
+ },
+ {
+  "id": "the-lord-of-the-rings-the-return-of-the-king-2003",
+  "title": "The Lord of the Rings: The Return of the King",
+  "year": 2003,
+  "label": "The Lord of the Rings: The Return of the King (2003)",
+  "director": "Peter Jackson",
+  "genres": [],
+  "aliases": [
+   "The Lord of the Rings: The Return of the King",
+   "Return of the King",
+   "Lord of the Rings"
+  ]
+ },
+ {
+  "id": "the-lord-of-the-rings-the-two-towers-2002",
+  "title": "The Lord of the Rings: The Two Towers",
+  "year": 2002,
+  "label": "The Lord of the Rings: The Two Towers (2002)",
+  "director": "Peter Jackson",
+  "genres": [],
+  "aliases": [
+   "The Lord of the Rings: The Two Towers",
+   "Lord of the Rings"
+  ]
+ },
+ {
+  "id": "the-lost-world-jurassic-park-1997",
+  "title": "The Lost World: Jurassic Park",
+  "year": 1997,
+  "label": "The Lost World: Jurassic Park (1997)",
+  "director": "Steven Spielberg",
+  "genres": [],
+  "aliases": [
+   "The Lost World: Jurassic Park"
+  ]
+ },
+ {
+  "id": "the-martian-2015",
+  "title": "The Martian",
+  "year": 2015,
+  "label": "The Martian (2015)",
+  "director": "Ridley Scott",
+  "genres": [],
+  "aliases": [
+   "The Martian"
+  ]
+ },
+ {
+  "id": "the-matrix-1999",
+  "title": "The Matrix",
+  "year": 1999,
+  "label": "The Matrix (1999)",
+  "director": "Lana Wachowski",
+  "genres": [
+   "thriller",
+   "dystopian",
+   "cyberpunk"
+  ],
+  "aliases": [
+   "The Matrix"
+  ]
+ },
+ {
+  "id": "the-matrix-reloaded-2003",
+  "title": "The Matrix Reloaded",
+  "year": 2003,
+  "label": "The Matrix Reloaded (2003)",
+  "director": "Lana Wachowski",
+  "genres": [],
+  "aliases": [
+   "The Matrix Reloaded"
+  ]
+ },
+ {
+  "id": "the-prestige-2006",
+  "title": "The Prestige",
+  "year": 2006,
+  "label": "The Prestige (2006)",
+  "director": "Christopher Nolan",
+  "genres": [],
+  "aliases": [
+   "The Prestige"
+  ]
+ },
+ {
+  "id": "the-princess-bride-1987",
+  "title": "The Princess Bride",
+  "year": 1987,
+  "label": "The Princess Bride (1987)",
+  "director": "Rob Reiner",
+  "genres": [],
+  "aliases": [
+   "The Princess Bride"
+  ]
+ },
+ {
+  "id": "the-royal-tenenbaums-2001",
+  "title": "The Royal Tenenbaums",
+  "year": 2001,
+  "label": "The Royal Tenenbaums (2001)",
+  "director": "Wes Anderson",
+  "genres": [],
+  "aliases": [
+   "The Royal Tenenbaums"
+  ]
+ },
+ {
+  "id": "the-shape-of-water-2017",
+  "title": "The Shape of Water",
+  "year": 2017,
+  "label": "The Shape of Water (2017)",
+  "director": "Guillermo del Toro",
+  "genres": [],
+  "aliases": [
+   "The Shape of Water"
+  ]
+ },
+ {
+  "id": "the-shawshank-redemption-1994",
+  "title": "The Shawshank Redemption",
+  "year": 1994,
+  "label": "The Shawshank Redemption (1994)",
+  "director": "Frank Darabont",
+  "genres": [
+   "drama",
+   "buddy",
+   "prison"
+  ],
+  "aliases": [
+   "The Shawshank Redemption"
+  ]
+ },
+ {
+  "id": "the-shining-1980",
+  "title": "The Shining",
+  "year": 1980,
+  "label": "The Shining (1980)",
+  "director": "Stanley Kubrick",
+  "genres": [],
+  "aliases": [
+   "The Shining"
+  ]
+ },
+ {
+  "id": "the-silence-of-the-lambs-1991",
+  "title": "The Silence of the Lambs",
+  "year": 1991,
+  "label": "The Silence of the Lambs (1991)",
+  "director": "Jonathan Demme",
+  "genres": [
+   "thriller",
+   "horror",
+   "psychological horror"
+  ],
+  "aliases": [
+   "The Silence of the Lambs"
+  ]
+ },
+ {
+  "id": "the-sixth-sense-1999",
+  "title": "The Sixth Sense",
+  "year": 1999,
+  "label": "The Sixth Sense (1999)",
+  "director": "M. Night Shyamalan",
+  "genres": [
+   "horror",
+   "thriller",
+   "drama"
+  ],
+  "aliases": [
+   "The Sixth Sense"
+  ]
+ },
+ {
+  "id": "the-social-network-2010",
+  "title": "The Social Network",
+  "year": 2010,
+  "label": "The Social Network (2010)",
+  "director": "David Fincher",
+  "genres": [
+   "biographical",
+   "trial",
+   "drama"
+  ],
+  "aliases": [
+   "The Social Network"
+  ]
+ },
+ {
+  "id": "the-sound-of-music-1965",
+  "title": "The Sound of Music",
+  "year": 1965,
+  "label": "The Sound of Music (1965)",
+  "director": "Robert Wise",
+  "genres": [],
+  "aliases": [
+   "The Sound of Music"
+  ]
+ },
+ {
+  "id": "the-terminator-1984",
+  "title": "The Terminator",
+  "year": 1984,
+  "label": "The Terminator (1984)",
+  "director": "James Cameron",
+  "genres": [],
+  "aliases": [
+   "The Terminator"
+  ]
+ },
+ {
+  "id": "the-thing-1982",
+  "title": "The Thing",
+  "year": 1982,
+  "label": "The Thing (1982)",
+  "director": "John Carpenter",
+  "genres": [
+   "horror",
+   "science fiction",
+   "mystery"
+  ],
+  "aliases": [
+   "The Thing"
+  ]
+ },
+ {
+  "id": "the-wizard-of-oz-1939",
+  "title": "The Wizard of Oz",
+  "year": 1939,
+  "label": "The Wizard of Oz (1939)",
+  "director": "Victor Fleming",
+  "genres": [],
+  "aliases": [
+   "The Wizard of Oz",
+   "Wizard of Oz"
+  ]
+ },
+ {
+  "id": "the-wolf-of-wall-street-2013",
+  "title": "The Wolf of Wall Street",
+  "year": 2013,
+  "label": "The Wolf of Wall Street (2013)",
+  "director": "Martin Scorsese",
+  "genres": [],
+  "aliases": [
+   "The Wolf of Wall Street"
+  ]
+ },
+ {
+  "id": "there-will-be-blood-2007",
+  "title": "There Will Be Blood",
+  "year": 2007,
+  "label": "There Will Be Blood (2007)",
+  "director": "Paul Thomas Anderson",
+  "genres": [],
+  "aliases": [
+   "There Will Be Blood"
+  ]
+ },
+ {
+  "id": "thor-2011",
+  "title": "Thor",
+  "year": 2011,
+  "label": "Thor (2011)",
+  "director": "Kenneth Branagh",
+  "genres": [],
+  "aliases": [
+   "Thor"
+  ]
+ },
+ {
+  "id": "thor-ragnarok-2017",
+  "title": "Thor: Ragnarok",
+  "year": 2017,
+  "label": "Thor: Ragnarok (2017)",
+  "director": "Taika Waititi",
+  "genres": [],
+  "aliases": [
+   "Thor: Ragnarok"
+  ]
+ },
+ {
+  "id": "titanic-1997",
+  "title": "Titanic",
+  "year": 1997,
+  "label": "Titanic (1997)",
+  "director": "James Cameron",
+  "genres": [
+   "disaster",
+   "drama",
+   "romance"
+  ],
+  "aliases": [
+   "Titanic"
+  ]
+ },
+ {
+  "id": "top-gun-1986",
+  "title": "Top Gun",
+  "year": 1986,
+  "label": "Top Gun (1986)",
+  "director": "Tony Scott",
+  "genres": [],
+  "aliases": [
+   "Top Gun"
+  ]
+ },
+ {
+  "id": "top-gun-maverick-2022",
+  "title": "Top Gun: Maverick",
+  "year": 2022,
+  "label": "Top Gun: Maverick (2022)",
+  "director": "Joseph Kosinski",
+  "genres": [],
+  "aliases": [
+   "Top Gun: Maverick"
+  ]
+ },
+ {
+  "id": "toy-story-1995",
+  "title": "Toy Story",
+  "year": 1995,
+  "label": "Toy Story (1995)",
+  "director": "John Lasseter",
+  "genres": [
+   "buddy",
+   "fantasy",
+   "adventure"
+  ],
+  "aliases": [
+   "Toy Story"
+  ]
+ },
+ {
+  "id": "up-2009",
+  "title": "Up",
+  "year": 2009,
+  "label": "Up (2009)",
+  "director": "Pete Docter",
+  "genres": [],
+  "aliases": [
+   "Up"
+  ]
+ },
+ {
+  "id": "us-2019",
+  "title": "Us",
+  "year": 2019,
+  "label": "Us (2019)",
+  "director": "Jordan Peele",
+  "genres": [],
+  "aliases": [
+   "Us"
+  ]
+ },
+ {
+  "id": "vertigo-1958",
+  "title": "Vertigo",
+  "year": 1958,
+  "label": "Vertigo (1958)",
+  "director": "Alfred Hitchcock",
+  "genres": [],
+  "aliases": [
+   "Vertigo"
+  ]
+ },
+ {
+  "id": "wall-e-2008",
+  "title": "WALL-E",
+  "year": 2008,
+  "label": "WALL-E (2008)",
+  "director": "Andrew Stanton",
+  "genres": [],
+  "aliases": [
+   "WALL-E"
+  ]
+ },
+ {
+  "id": "when-harry-met-sally-1989",
+  "title": "When Harry Met Sally...",
+  "year": 1989,
+  "label": "When Harry Met Sally... (1989)",
+  "director": "Rob Reiner",
+  "genres": [
+   "romantic comedy",
+   "Christmas",
+   "comedy"
+  ],
+  "aliases": [
+   "When Harry Met Sally..."
+  ]
+ },
+ {
+  "id": "whiplash-2014",
+  "title": "Whiplash",
+  "year": 2014,
+  "label": "Whiplash (2014)",
+  "director": "Damien Chazelle",
+  "genres": [
+   "musical",
+   "drama"
+  ],
+  "aliases": [
+   "Whiplash"
+  ]
+ },
+ {
+  "id": "wicked-2024",
+  "title": "Wicked",
+  "year": 2024,
+  "label": "Wicked (2024)",
+  "director": "Jon M. Chu",
+  "genres": [],
+  "aliases": [
+   "Wicked"
+  ]
+ },
+ {
+  "id": "wonder-woman-2017",
+  "title": "Wonder Woman",
+  "year": 2017,
+  "label": "Wonder Woman (2017)",
+  "director": "Patty Jenkins",
+  "genres": [],
+  "aliases": [
+   "Wonder Woman"
+  ]
+ },
+ {
+  "id": "your-name-2016",
+  "title": "Your Name",
+  "year": 2016,
+  "label": "Your Name (2016)",
+  "director": "Makoto Shinkai",
+  "genres": [],
+  "aliases": [
+   "Your Name"
+  ]
+ },
+ {
+  "id": "zodiac-2007",
+  "title": "Zodiac",
+  "year": 2007,
+  "label": "Zodiac (2007)",
+  "director": "David Fincher",
+  "genres": [],
+  "aliases": [
+   "Zodiac"
   ]
  }
 ]

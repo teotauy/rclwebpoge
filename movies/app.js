@@ -1,4 +1,4 @@
-import { clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
+import { drawResultCard, copyImage } from "./sharecard.js";
 import { easternDate, longDate, puzzleNumber } from "./edition.js";
 
 const $ = (id) => document.getElementById(id);
@@ -91,12 +91,21 @@ async function main() {
 
   function search(q) {
     q = q.trim().toLowerCase();
-    if (!q) return [];
+    if (q.length < 2) return [];
+    const rank = (f) => {
+      const title = f.title.toLowerCase();
+      const aliases = (f.aliases || []).map((a) => a.toLowerCase());
+      if (title === q || aliases.includes(q)) return 0;
+      if (title.startsWith(q) || aliases.some((a) => a.startsWith(q))) return 1;
+      if (title.includes(q)) return 2;
+      return 3;
+    };
     return films.filter((f) =>
       f.label.toLowerCase().includes(q) ||
+      f.title.toLowerCase().includes(q) ||
       String(f.year).includes(q) ||
       (f.aliases || []).some((a) => a.toLowerCase().includes(q))
-    ).slice(0, 8);
+    ).sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title)).slice(0, 8);
   }
 
   function render() {
@@ -164,7 +173,35 @@ async function main() {
       const share = el("pre", { textContent: shareText() });
       const copy = el("button", { className: "primary", textContent: "Copy result" });
       copy.addEventListener("click", () => navigator.clipboard?.writeText(share.textContent));
-      res.append(share, copy);
+      const preview = el("img", { className: "share-card", alt: "Result card" });
+      const copyImg = el("button", { textContent: "Copy card" });
+      const squares = [
+        ...Array(s.revealed).fill("clue"),
+        ...s.guesses.map((g) => (g.ok ? "solved" : "miss")),
+      ];
+      drawResultCard({
+        kicker: "Name the Picture",
+        number: number || puzzleName,
+        status: s.won ? "Solved" : "Missed",
+        scoreLine: `${s.score.toLocaleString()} pts`,
+        squares,
+        footer: "redcrowlabs.com/movies",
+      }).then((card) => {
+        preview.src = card.url;
+        copyImg.addEventListener("click", async () => {
+          const result = await copyImage(card.blob);
+          if (result === "copied") {
+            copyImg.textContent = "Card copied";
+            return;
+          }
+          const a = document.createElement("a");
+          a.href = card.url;
+          a.download = `name-the-picture-${number || puzzleName}.png`;
+          a.click();
+          copyImg.textContent = "Card saved";
+        });
+      });
+      res.append(share, preview, el("div", { className: "row" }, copy, copyImg));
       root.append(res);
     }
   }

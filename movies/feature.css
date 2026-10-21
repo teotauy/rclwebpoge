@@ -140,6 +140,7 @@ li.clue:last-child { box-shadow: inset 3px 0 0 var(--signal); }
 }
 
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 14px 0; position: relative; }
+.share-card { display: block; width: min(100%, 420px); margin: 8px 0 12px; border: 1px solid var(--rule); }
 input {
   flex: 1 1 220px;
   width: 100%;
