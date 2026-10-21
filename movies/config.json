@@ -1,0 +1,13 @@
+{
+  "_note": "Clue costs and miss penalties are placeholders for playtesting.",
+  "startPoints": 10000,
+  "maxGuesses": 3,
+  "clueCosts": [0, 300, 500, 700, 900, 1100, 1300, 1500, 1700],
+  "tiers": [
+    { "name": "Same director", "penalty": 0.10 },
+    { "name": "Very close", "maxYears": 2, "penalty": 0.10 },
+    { "name": "Same era", "maxYears": 10, "penalty": 0.20 },
+    { "name": "Way off", "maxYears": null, "penalty": 0.30 }
+  ],
+  "failScore": { "max": 1500, "scaleYears": 12 }
+}

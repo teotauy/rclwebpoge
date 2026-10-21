@@ -73,6 +73,7 @@ h2 { font-size: 1.85rem; line-height: 1.05; margin: 0 0 10px; }
 }
 .meta { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin: 0 0 8px; font-size: 13px; letter-spacing: 0.04em; }
 .meta a { letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; text-underline-offset: 3px; }
+.meta-links { display: flex; gap: 14px; }
 .sub { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
 .sub a { text-underline-offset: 3px; }
 .rose { width: 84px; height: 84px; color: var(--muted); }

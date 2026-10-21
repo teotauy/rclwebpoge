@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-23",
+ "answer_id": "mad-max-fury-road-2015",
+ "answer_label": "Mad Max: Fury Road (2015)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "120 minutes. Rated R. action, adventure, science fiction."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: May 15, 2015."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $150 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend: $45.4 million."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $375.7 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 97% from 441 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 10 nominations, 6 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by George Miller. Cast includes Tom Hardy, Charlize Theron, and Nicholas Hoult."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-22",
+ "answer_id": "the-shawshank-redemption-1994",
+ "answer_label": "The Shawshank Redemption (1994)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "142 minutes. Rated R. drama, buddy, prison."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: September 23, 1994."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $25 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $28.8 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 89% from 146 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 7 nominations, 0 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Frank Darabont. Cast includes Tim Robbins, Morgan Freeman, and Bob Gunton."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

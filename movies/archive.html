@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive · Name the Picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var path = location.pathname;
+  var dir = path.replace(/\/(archive\.html|index\.html|archive)\/?$/, "");
+  if (dir.endsWith("/")) dir = dir.slice(0, -1);
+  document.write('<link rel="stylesheet" href="' + (dir || "") + '/feature.css">');
+})();
+</script>
+</head>
+<body>
+<main>
+  <header class="mast">
+    <div>
+      <p class="kicker">Booking log</p>
+      <h1><a id="today-link" href="./">Name the Picture</a></h1>
+      <p class="sub">Past features. Titles stay off this page. <a id="today-link-2" href="./">Today's feature</a></p>
+    </div>
+  </header>
+  <div class="log-head"><span>No.</span><span>Date</span><span>Result</span></div>
+  <ol class="log" id="list"><li>Loading…</li></ol>
+</main>
+<script type="module" src="/movies/archive.js"></script>
+</body>
+</html>

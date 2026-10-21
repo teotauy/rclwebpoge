@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-25",
+ "answer_id": "interstellar-2014",
+ "answer_label": "Interstellar (2014)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "169 minutes. Rated PG-13. science fiction, adventure, dystopian."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: November 5, 2014."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $165 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $701.7 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 73% from 375 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 5 nominations, 1 win."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Christopher Nolan. Cast includes Matthew McConaughey, Jessica Chastain, and Michael Caine."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

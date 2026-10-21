@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-28",
+ "answer_id": "black-panther-2018",
+ "answer_label": "Black Panther (2018)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "134 minutes. Rated PG-13. superhero, action, adventure."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: February 15, 2018."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $200 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $1.35 billion."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 96% from 526 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 1 nomination, 0 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Ryan Coogler. Cast includes Chadwick Boseman, Michael B. Jordan, and Lupita Nyong'o."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

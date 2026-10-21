@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-24",
+ "answer_id": "forrest-gump-1994",
+ "answer_label": "Forrest Gump (1994)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "142 minutes. Rated PG-13. coming-of-age, flashback, comedy."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: July 6, 1994."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $55 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $678.2 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 75% from 157 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 13 nominations, 6 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Robert Zemeckis. Cast includes Tom Hanks, Gary Sinise, and Sally Field."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

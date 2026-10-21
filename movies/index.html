@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Name the Picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var path = location.pathname;
+  var dir = path.replace(/\/(archive\.html|index\.html|archive)\/?$/, "");
+  if (dir.endsWith("/")) dir = dir.slice(0, -1);
+  document.write('<link rel="stylesheet" href="' + (dir || "") + '/feature.css">');
+})();
+</script>
+</head>
+<body>
+<main>
+  <header class="mast">
+    <div>
+      <p class="kicker">Daily feature</p>
+      <h1>Name the Picture</h1>
+      <p class="meta"><span id="edition"></span><a id="archive-link" href="archive">Archive</a></p>
+      <p class="sub">Guess the movie from the booking sheet. Three guesses. Each extra line costs points. <a href="/weather">Weather edition</a></p>
+    </div>
+  </header>
+  <div id="banner"></div>
+  <div id="app">Loading…</div>
+  <p class="attr" id="attr"></p>
+</main>
+<script type="module" src="/movies/app.js"></script>
+</body>
+</html>

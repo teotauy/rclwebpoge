@@ -1,0 +1,53 @@
+{
+ "date": "2026-11-02",
+ "answer_id": "everything-everywhere-all-at-once-2022",
+ "answer_label": "Everything Everywhere All at Once (2022)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "140 minutes. Rated R. science fiction, action, comedy drama."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: April 8, 2022."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $25 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $97.7 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 93% from 407 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 1 nomination, 2 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Dan Kwan. Cast includes Michelle Yeoh, Stephanie Hsu, and James Hong."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

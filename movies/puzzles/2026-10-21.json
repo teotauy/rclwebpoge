@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-21",
+ "answer_id": "the-dark-knight-2008",
+ "answer_label": "The Dark Knight (2008)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "153 minutes. Rated PG-13. action, neo-noir, crime thriller."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: July 18, 2008."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $185 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $1.01 billion."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 94% from 341 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 8 nominations, 2 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Christopher Nolan. Cast includes Christian Bale, Michael Caine, and Heath Ledger."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}

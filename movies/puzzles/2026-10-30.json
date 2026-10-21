@@ -1,0 +1,53 @@
+{
+ "date": "2026-10-30",
+ "answer_id": "the-grand-budapest-hotel-2014",
+ "answer_label": "The Grand Budapest Hotel (2014)",
+ "clues": [
+  {
+   "n": 1,
+   "title": "Package",
+   "text": "99 minutes. Rated R. comedy, drama, adventure."
+  },
+  {
+   "n": 2,
+   "title": "Release",
+   "text": "U.S. release date: March 7, 2014."
+  },
+  {
+   "n": 3,
+   "title": "Budget",
+   "text": "Production budget: $23 million."
+  },
+  {
+   "n": 4,
+   "title": "Opening weekend",
+   "text": "Domestic opening weekend was not reported in the usual trade writeup."
+  },
+  {
+   "n": 5,
+   "title": "Worldwide",
+   "text": "Worldwide box office: $173.1 million."
+  },
+  {
+   "n": 6,
+   "title": "Tomatometer",
+   "text": "Tomatometer 92% from 313 reviews."
+  },
+  {
+   "n": 7,
+   "title": "Awards",
+   "text": "Academy Awards: 9 nominations, 4 wins."
+  },
+  {
+   "n": 8,
+   "title": "That weekend",
+   "text": "No other wide release was listed alongside it."
+  },
+  {
+   "n": 9,
+   "title": "Credits",
+   "text": "Directed by Wes Anderson. Cast includes Ralph Fiennes, Tony Revolori, and Saoirse Ronan."
+  }
+ ],
+ "attribution": "Release, money, credits, and awards from Wikidata and Wikipedia (CC BY-SA). Tomatometer as recorded on Wikidata."
+}
