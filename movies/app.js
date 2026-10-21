@@ -1,4 +1,4 @@
-import { drawResultCard, shareResult } from "./sharecard.js?v=share";
+import { drawResultCard, shareResult } from "./sharecard.js?v=share2";
 import { easternDate, longDate, puzzleNumber } from "./edition.js";
 import { afterClue, afterWrongGuess, clueCost, failScore } from "./scoring.js";
 

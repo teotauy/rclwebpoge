@@ -110,19 +110,25 @@ function downloadBlob(blob, filename) {
   a.click();
 }
 
-/** One share: the text result and the card image together. */
+/** Share the card as a picture. Text rides along only when a picture cannot. */
 export async function shareResult({ text, blob, filename }) {
   const file = new File([blob], filename, { type: "image/png" });
   if (navigator.share) {
-    const payload = { text, files: [file] };
-    const canBoth = typeof navigator.canShare !== "function" || navigator.canShare(payload);
-    if (canBoth) {
+    const image = { files: [file] };
+    const canImage = typeof navigator.canShare !== "function" || navigator.canShare(image);
+    if (canImage) {
       try {
-        await navigator.share(payload);
+        await navigator.share(image);
         return "shared";
       } catch (e) {
         if (e?.name === "AbortError") return "cancelled";
       }
+    }
+    try {
+      await navigator.share({ text });
+      return "shared";
+    } catch (e) {
+      if (e?.name === "AbortError") return "cancelled";
     }
   }
   if (navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
