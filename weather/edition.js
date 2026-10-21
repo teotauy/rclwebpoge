@@ -18,3 +18,19 @@ function utcDay(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   return Date.UTC(y, m - 1, d);
 }
+
+export function shiftIso(iso, days) {
+  return new Date(utcDay(iso) + days * 86400000).toISOString().slice(0, 10);
+}
+
+/** Consecutive finished days, ending today, or yesterday if today is still open. */
+export function playStreak(today, load) {
+  let cursor = load(today)?.done ? today : shiftIso(today, -1);
+  let n = 0;
+  while (load(cursor)?.done) {
+    n += 1;
+    cursor = shiftIso(cursor, -1);
+    if (n > 4000) break;
+  }
+  return n;
+}

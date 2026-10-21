@@ -32,12 +32,12 @@
   {
    "n": 6,
    "title": "Record range",
-   "text": "For this calendar date since 1940 (reanalysis, not official station records): highest 88\u00b0F, lowest 33\u00b0F."
+   "text": "Since 1940, the warmest this calendar date got in the dataset was 88\u00b0F, and the coldest was 33\u00b0F. The dataset reconstructs weather on a grid, so these are not official airport records."
   },
   {
    "n": 7,
    "title": "Sun",
-   "text": "Sunrise 12:59 UTC, sunset 00:03 (+1 day) UTC; 11.1 hours of daylight."
+   "text": "Sunrise 12:59 Greenwich (UTC), sunset 00:03 Greenwich (UTC) the next day; 11.1 hours of daylight."
   },
   {
    "n": 8,

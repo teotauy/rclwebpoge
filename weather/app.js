@@ -1,5 +1,5 @@
 import { haversineKm, tierFor, clueCost, afterClue, afterWrongGuess, failScore } from "./scoring.js";
-import { easternDate, longDate, puzzleNumber } from "./edition.js";
+import { easternDate, longDate, puzzleNumber, playStreak } from "./edition.js";
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => {
@@ -49,10 +49,13 @@ async function main() {
 
   const editionDate = puzzle.date || puzzleName;
   const number = /^\d{4}-\d{2}-\d{2}$/.test(editionDate) ? puzzleNumber(editionDate, catalog.epoch) : null;
-  if (number) {
-    $("edition").textContent = `No. ${number}  ·  ${longDate(editionDate)}`;
+  function showEdition() {
+    if (!number) return;
+    const streak = playStreak(easternDate(), (d) => store.get(`wxg:${d}`));
+    $("edition").textContent = `No. ${number}  ·  ${longDate(editionDate)}  ·  Streak ${streak}`;
     document.title = `Where in the Weather #${number}`;
   }
+  showEdition();
 
   const key = `wxg:${puzzleName}`;
   const s = store.get(key) || { revealed: 1, points: cfg.startPoints, guesses: [], done: false, score: null, won: false };
@@ -88,8 +91,9 @@ async function main() {
   function shareText() {
     const grid = "🟦".repeat(s.revealed) + s.guesses.map((g) => (g.ok ? "✅" : "🟥")).join("");
     const score = `${s.won ? s.score : "✗ " + s.score} pts`;
+    const streak = playStreak(easternDate(), (d) => store.get(`wxg:${d}`));
     const title = number ? `Where in the Weather #${number}` : `Where in the Weather ${puzzleName}`;
-    return `${title}\n${score}\n${grid}\n\nTry your hand at it\nhttps://redcrowlabs.com/weather`;
+    return `${title}\n${score}\nStreak ${streak}\n${grid}\n🟦 clue   🟥 miss   ✅ solved\n\nTry your hand at it\nhttps://redcrowlabs.com/weather`;
   }
 
   function search(q) {
@@ -121,6 +125,7 @@ async function main() {
       ))
     );
     root.append(list);
+    showEdition();
 
     s.guesses.filter((g) => !g.ok).forEach((g) =>
       root.append(el("div", { className: "wrong", textContent: `✗ ${byId[g.id].name}, ${byId[g.id].state}: ${g.tier}` }))

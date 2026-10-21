@@ -1,4 +1,4 @@
-import { easternDate, longDate, puzzleNumber } from "./edition.js";
+import { easternDate, longDate, puzzleNumber, playStreak } from "./edition.js";
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => {
@@ -34,6 +34,9 @@ async function main() {
     return r.json();
   });
   const today = easternDate();
+  const streak = playStreak(today, saved);
+  const note = $("streak");
+  if (note) note.textContent = `Your streak: ${streak} day${streak === 1 ? "" : "s"} finished in a row.`;
   const epoch = catalog.epoch;
   const dates = (catalog.dates || [])
     .filter((d) => d <= today)
