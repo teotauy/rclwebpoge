@@ -9,6 +9,23 @@ const el = (tag, props = {}, ...kids) => {
   return n;
 };
 
+function clueMeter(shown, total, noun) {
+  const label = `${noun} ${shown} of ${total}`;
+  const track = el("div", { className: "meter-track" });
+  for (let i = 1; i <= total; i++) {
+    const cls = i < shown ? "meter-seg on" : i === shown ? "meter-seg now" : "meter-seg";
+    track.append(el("span", { className: cls }));
+  }
+  return el("div", {
+    className: "meter",
+    role: "meter",
+    ariaValueNow: String(shown),
+    ariaValueMin: "1",
+    ariaValueMax: String(total),
+    ariaLabel: label,
+  }, el("div", { className: "meter-label", textContent: label }), track);
+}
+
 function asset(path) {
   return new URL(path, import.meta.url).href;
 }
@@ -157,10 +174,12 @@ async function main() {
       rev.addEventListener("click", reveal);
       const quit = el("button", { textContent: "Give up" });
       quit.addEventListener("click", () => { giveUp(); save(); render(); });
+      root.append(clueMeter(s.revealed, puzzle.clues.length, "Line"));
       root.append(el("div", { className: "row" }, rev, quit));
       root.append(el("div", { className: "remain", textContent: `Guesses left  ${cfg.maxGuesses - s.guesses.length}` }));
     } else {
       const res = el("div", { className: "result" });
+      res.append(clueMeter(s.revealed, puzzle.clues.length, "Line"));
       res.append(el("h2", { textContent: s.won ? `Correct: ${puzzle.answer_label}` : `It was ${puzzle.answer_label}` }));
       s.guesses.filter((g) => !g.ok).forEach((g) => {
         const years = Math.abs(byId[g.id].year - answer.year);
