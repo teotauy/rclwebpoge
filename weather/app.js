@@ -151,7 +151,7 @@ async function main() {
 
       const nextN = s.revealed + 1;
       const more = nextN <= puzzle.clues.length;
-      const rev = el("button", { textContent: more ? `Reveal next clue (−${clueCost(nextN, cfg)})` : "No more clues", disabled: !more });
+      const rev = el("button", { className: "go", textContent: more ? `Reveal next clue (−${clueCost(nextN, cfg)})` : "No more clues", disabled: !more });
       rev.addEventListener("click", reveal);
       const quit = el("button", { textContent: "Give up" });
       quit.addEventListener("click", () => { giveUp(); save(); render(); });

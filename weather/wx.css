@@ -186,6 +186,14 @@ button:disabled { opacity: 0.4; cursor: default; }
 button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 button.primary { background: var(--ink); color: var(--paper); }
 button.primary:hover { background: var(--signal); border-color: var(--signal); color: white; }
+button.go {
+  background: #b42318;
+  border-color: #b42318;
+  color: #fff;
+  font-weight: 700;
+}
+button.go:hover { background: #8e1b12; border-color: #8e1b12; color: #fff; }
+button.go:disabled { color: #fff; }
 
 .result { margin-top: 18px; padding-top: 16px; border-top: 2px solid var(--ink); }
 .note { margin: 2px 0; color: var(--muted); font-size: 13px; }
