@@ -185,7 +185,8 @@ async function main() {
       res.append(el("h2", { textContent: s.won ? `Correct: ${puzzle.answer_label}` : `It was ${puzzle.answer_label}` }));
       const wrong = s.guesses.filter((g) => !g.ok);
       wrong.forEach((g) => res.append(el("div", { className: "note", textContent: `${byId[g.id].name}: ${Math.round(g.km).toLocaleString()} km away` })));
-      res.append(el("div", { className: "note", textContent: `Weather was from ${puzzle.weather_date}.` }));
+      const prior = puzzle.date && puzzle.weather_date === new Date(Date.parse(`${puzzle.date}T00:00:00Z`) - 86400000).toISOString().slice(0, 10);
+      res.append(el("div", { className: "note", textContent: prior ? "Weather is from the day before." : `Weather was from ${puzzle.weather_date}.` }));
       res.append(el("div", { className: "score" },
         el("span", { className: "score-k", textContent: "Score" }),
         el("span", { className: "score-n", textContent: s.score.toLocaleString() }),
