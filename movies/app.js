@@ -1,6 +1,6 @@
 import { drawResultCard, shareResult } from "./sharecard.js?v=copy";
 import { easternDate, longDate, puzzleNumber } from "./edition.js";
-import { afterClue, afterWrongGuess, clueCost, failScore } from "./scoring.js";
+import { afterClue, afterWrongGuess, clueCost, failScore, winScore } from "./scoring.js";
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => {
@@ -72,13 +72,17 @@ async function main() {
   const key = `pic:${puzzleName}`;
   const s = store.get(key) || { revealed: 1, points: cfg.startPoints, guesses: [], done: false, score: null, won: false };
   const save = () => store.set(key, s);
+  if (s.won && s.score != null && s.score < winScore(s.score, cfg)) {
+    s.score = winScore(s.score, cfg);
+    save();
+  }
 
   function addPick(id) {
     if (s.done || s.guesses.some((g) => g.id === id)) return;
     const film = byId[id];
     if (id === answer.id) {
       s.guesses.push({ id, ok: true });
-      s.done = true; s.won = true; s.score = s.points;
+      s.done = true; s.won = true; s.score = winScore(s.points, cfg);
     } else {
       const r = afterWrongGuess(s.points, film, answer, cfg);
       s.points = r.points;

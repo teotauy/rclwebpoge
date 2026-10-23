@@ -35,3 +35,7 @@ export function failScore(guess, answer, cfg) {
   const { max, scaleYears } = cfg.failScore;
   return Math.round(max * Math.exp(-years / scaleYears));
 }
+
+export function winScore(points, cfg) {
+  return Math.max(points, cfg.failScore.max);
+}

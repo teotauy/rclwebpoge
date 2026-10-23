@@ -39,3 +39,9 @@ export function failScore(bestKm, cfg) {
   const { max, scaleKm } = cfg.failScore;
   return Math.round(max * Math.exp(-bestKm / scaleKm));
 }
+
+// Naming the city keeps the points left on the board, and never scores
+// below the best a missed round can earn.
+export function winScore(points, cfg) {
+  return Math.max(points, cfg.failScore.max);
+}
