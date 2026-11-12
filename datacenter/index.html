@@ -203,6 +203,16 @@ input[type=range]::-moz-range-thumb{width:1.8rem; height:1.8rem; border-radius:5
 .growlab{display:flex; gap:1.2rem; padding-inline:.4rem}
 .growlab div{flex:1; text-align:center; font-size:.9rem; color:var(--muted); min-width:0}
 
+/* cloud scene */
+#csvg text{fill:var(--ink); font-family:var(--body); font-weight:700; font-size:21px}
+#csvg text.sm{font-size:19px; fill:var(--muted)}
+.flow{stroke-dasharray:10 12; animation:dash 1.1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-22}}
+.cloud-tools{margin-top:2.4rem}
+.cloud-tools > h3{font-size:1.7rem; margin-bottom:.4rem}
+.ctl label.lbl{font-weight:700}
+.ctl .plab{color:var(--muted); font-weight:400}
+
 /* neighbors */
 .nb-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(18rem,100%),1fr)); gap:1.1rem}
 .nb{background:var(--surface); border:2px solid var(--line); border-radius:1rem; overflow:hidden; min-width:0}
@@ -220,6 +230,11 @@ input[type=range]::-moz-range-thumb{width:1.8rem; height:1.8rem; border-radius:5
 .plan{margin:.6rem 0 0; padding-left:1.2rem; max-width:40rem}
 .plan li{margin-bottom:.4rem}
 .fill.r{background:var(--warn)}
+.nb.dim{opacity:.5}
+.badge{display:inline-block; margin:1rem 1.2rem 0; font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.25rem .65rem; border-radius:99px; border:2px solid var(--line); color:var(--muted)}
+.badge.h{border-color:var(--money); color:var(--money)}
+.badge.w{border-color:var(--warn); color:var(--warn)}
+.nb .badge + h3{padding-top:.5rem}
 
 /* questions */
 .q{list-style:none; padding:0; margin:0 0 1.2rem; display:grid; gap:.7rem}
@@ -233,11 +248,12 @@ footer ul{padding-left:1.1rem; margin:.4rem 0 1rem}
 footer p{max-width:46rem}
 
 @media (max-width:560px){
+  #csvg text{font-size:26px} #csvg text.sm{font-size:23px}
   h2{font-size:1.9rem}
   section{padding-block:2.4rem}
   .hero::after{background:linear-gradient(180deg, rgba(11,21,32,.93) 0%, rgba(11,21,32,.82) 100%)}
 }
-@media (prefers-reduced-motion: reduce){ .fill{transition:none} .led{animation:none} .steam{animation:none; opacity:.3} }
+@media (prefers-reduced-motion: reduce){ .fill{transition:none} .flow{animation:none} .led{animation:none} .steam{animation:none; opacity:.3} }
 </style>
 </head>
 <body>
@@ -260,15 +276,62 @@ footer p{max-width:46rem}
       <h1>The Data Center Next Door</h1>
       <p>Something very large is going up outside town. Here is what it is, what it eats, who gets paid, and what to ask before anyone signs.</p>
       <nav class="jump" aria-label="Sections">
+        <a href="#cloud">What is “the cloud”?</a>
         <a href="#diagram">Inside the fence</a>
         <a href="#what">What it is</a>
         <a href="#numbers">Build one</a>
         <a href="#money">The money</a>
         <a href="#neighbor">Good neighbor?</a>
+        <a href="#other">Other ways</a>
         <a href="#ask">Questions to ask</a>
       </nav>
     </div>
   </header>
+
+  <!-- 00. THE CLOUD -->
+  <section id="cloud" style="padding-bottom:1rem">
+    <div class="sec-head">
+      <p class="eyebrow">Start here</p>
+      <h2>First: what is “the cloud”?</h2>
+      <p class="lede">You have heard the word a hundred times. Here is what it really means, using something you already do: taking a picture on your phone. Tap through the five steps.</p>
+    </div>
+    <div class="diagram">
+      <svg id="csvg" viewBox="0 0 640 270" role="img" aria-label=""></svg>
+    </div>
+    <div class="dgrid" id="cloudSteps" role="group" aria-label="Steps from one photo to the whole town"></div>
+    <div class="detail" id="cloudDetail" aria-live="polite"></div>
+
+    <div class="cloud-tools">
+      <h3>Now turn it up</h3>
+      <p>Same photo, more people. Slide to see how much room it takes, and why a phone stops being enough.</p>
+      <div class="ctl">
+        <div class="row"><label class="lbl" for="cpeople">People sharing photos</label><span id="cpeopleLabel"></span></div>
+        <input id="cpeople" type="range" min="0" max="5" step="1" value="0">
+        <div class="ticks"><span>Just you</span><span>A huge app</span></div>
+      </div>
+      <fieldset style="margin-top:1.1rem">
+        <legend>Photos each person shares in a day</legend>
+        <div class="chips" id="cperChips">
+          <label class="chip"><input type="radio" name="cper" value="1"><span>1</span></label>
+          <label class="chip"><input type="radio" name="cper" value="5" checked><span>5</span></label>
+          <label class="chip"><input type="radio" name="cper" value="20"><span>20</span></label>
+        </div>
+      </fieldset>
+      <div class="cards">
+        <div class="card"><div class="k">Photos a day</div><div class="v" id="cPhotos">—</div><p class="d">Each one about 3 megabytes.</p></div>
+        <div class="card"><div class="k">Room needed in a year</div><div class="v wat" id="cStore">—</div><p class="d">A gigabyte holds about 330 photos.</p></div>
+        <div class="card"><div class="k">Phones it would fill</div><div class="v" id="cPhones">—</div><p class="d">Counting a phone with 128 gigabytes of room.</p></div>
+        <div class="card"><div class="k">Hard drives, with backups</div><div class="v warn" id="cDrives">—</div><p class="d">Big 20-terabyte drives, three copies of everything.</p></div>
+      </div>
+      <div class="verdict" id="cVerdict"></div>
+      <p class="note">Round numbers, to show the idea. Real services shrink photos and skip duplicates. And photos are the small part: video and AI take far more room and far more electricity. Photos are just the easiest way to see why a computer in the middle is needed.</p>
+    </div>
+
+    <div class="fair">
+      <p><strong>So that is “the cloud.”</strong> It is not in the sky. It is a computer in a building, one that never sleeps and is always online, so your phone does not have to be. When millions of people do this all day, with photos, video, banking and chatbots, you need a great many of those computers in one place.</p>
+      <p style="margin:0"><a href="#diagram"><strong>Next: see what is inside that building ↓</strong></a></p>
+    </div>
+  </section>
 
   <!-- 0. DIAGRAM -->
   <section id="diagram" style="padding-bottom:1rem">
@@ -342,7 +405,7 @@ footer p{max-width:46rem}
   <!-- 1. WHAT IT IS -->
   <section id="what">
     <div class="sec-head">
-      <p class="eyebrow">Start here</p>
+      <p class="eyebrow">In plain words</p>
       <h2>It is a warehouse full of computers</h2>
     </div>
     <p>That is all it is. Every photo you have texted, every video you have watched and every bank balance you have checked sits on a computer somewhere. A data center is the building where thousands of those computers live together, so they can be kept cool, powered and connected.</p>
@@ -590,6 +653,42 @@ footer p{max-width:46rem}
   </section>
 
   <!-- 4. QUESTIONS -->
+  <!-- OTHER WAYS -->
+  <section id="other">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">What else could we do?</p>
+        <h2>Could it be done differently?</h2>
+        <p class="lede">Say we all agree we want the good stuff: faster medical scans, better weather forecasts, a video call with the grandkids. The question becomes how to get it with the least trouble. There are real ideas, and none is a magic fix. Pick what matters most to you.</p>
+      </div>
+      <fieldset>
+        <legend>What matters most?</legend>
+        <div class="chips" id="altChips">
+          <label class="chip"><input type="radio" name="alt" value="all" checked><span>Show everything</span></label>
+          <label class="chip"><input type="radio" name="alt" value="elec"><span>Cleaner electricity</span></label>
+          <label class="chip"><input type="radio" name="alt" value="water"><span>Less water</span></label>
+          <label class="chip"><input type="radio" name="alt" value="air"><span>Quiet, clean air</span></label>
+          <label class="chip"><input type="radio" name="alt" value="giant"><span>Fewer giant sites</span></label>
+        </div>
+      </fieldset>
+      <div class="nb-grid" id="altGrid" style="margin-top:1.2rem" aria-live="polite"></div>
+
+      <div class="two" style="margin-top:1.6rem">
+        <div class="panel">
+          <h3>Far-out ideas</h3>
+          <p><strong>Underwater.</strong> Microsoft sank a sealed data center off Scotland as a test, so the sea could cool it. It worked, but they did not build more.</p>
+          <p><strong>In orbit.</strong> Some companies have floated the idea of computers in space, running on sunshine. It is unproven, and shedding heat in a vacuum is hard.</p>
+          <p>Treat these as science projects, not plans for your town.</p>
+        </div>
+        <div class="panel">
+          <h3>The honest part</h3>
+          <p>Efficiency gains often get spent on doing more, so total use can keep climbing even when each task gets cheaper. And a trick that works in Finland may not fit your county.</p>
+          <p>The best deals mix several of these, and put them in writing. That is a good question for the town meeting: <em>which of these has the company actually promised?</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="ask">
     <div class="sec-head">
       <p class="eyebrow">Take this to the meeting</p>
@@ -952,6 +1051,202 @@ footer p{max-width:46rem}
       draw();
     }, 220);
   }
+})();
+/* ---------- the cloud: one photo, then more ---------- */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = $('csvg');
+  var STEPS = [
+    { n:'You take a photo', recip:0, srv:false, lab:'',
+      t:['Your phone does all of the work. It aims the camera, saves the picture and shows it to you. One photo is about 3 megabytes.','That is one small unit of computing: one job, on one machine, for one person.'],
+      idea:'So far there is no cloud. Everything stays in your pocket.' },
+    { n:'You text it to a friend', recip:1, srv:true, lab:'1 friend',
+      t:['You were just talking about it, so you send it over. But the photo does not fly straight from your phone to theirs. Their phone might be off, asleep or out of signal.','So it goes up to a computer that is always on, waits there, and is handed down the moment their phone is ready.'],
+      idea:'That middle computer is the cloud. It is just someone else’s computer that never goes to sleep.' },
+    { n:'You send it to the family', recip:8, srv:true, lab:'8 family members',
+      t:['Now eight people want it. The always-on computer holds the photo and hands a copy to each phone, whenever each one asks.','Many apps also keep a backup, so if you drop your phone in the lake, the picture is not lost.'],
+      idea:'One photo in, eight copies out. Doing that is work, and the work is done in the middle.' },
+    { n:'You post it for 500 friends', recip:24, srv:true, lab:'500 friends',
+      t:['Over the next few days, hundreds of people look at it, each at a different time, on a different phone.','Every look is a small job: find the picture, shrink it to fit that screen, send it. Your own phone can be switched off the whole time.'],
+      idea:'Your phone made the photo once. The cloud serves it hundreds of times.' },
+    { n:'The whole town does it, daily', recip:24, srv:true, lab:'Everyone in town',
+      t:['Photos, videos, texts, banking, maps, shows. Millions of small jobs every second, day and night. No phone in anyone’s pocket could hold all of it, or answer everyone at once.','So companies put the work on thousands of always-on computers, and keep them together in one building, where they can be powered, cooled and watched.'],
+      idea:'That building is a data center. “The cloud” is a warehouse of computers.' }
+  ];
+  var cur = 0;
+
+  function el(tag, attrs, parent, text){
+    var e = document.createElementNS(NS, tag);
+    for(var a in attrs) e.setAttribute(a, attrs[a]);
+    if(text != null) e.textContent = text;
+    (parent || svg).appendChild(e);
+    return e;
+  }
+  function phone(x, y, w, h, parent, big){
+    el('rect', {x:x, y:y, width:w, height:h, rx:Math.max(4, w*0.16), 'class':'fs s', style:'stroke-width:'+(big?3:2)}, parent);
+    el('rect', {x:x+w*0.1, y:y+h*0.08, width:w*0.8, height:h*0.78, rx:Math.max(2, w*0.08), 'class':'f2'}, parent);
+  }
+  function arrow(x1, y1, x2, y2, cls, w){
+    el('line', {x1:x1, y1:y1, x2:x2, y2:y2, 'class':cls || 'sa flow', style:'stroke-width:'+(w||5)}, null);
+  }
+  function drawScene(i){
+    var s = STEPS[i];
+    svg.textContent = '';
+    // your phone
+    phone(30, 66, 78, 142, null, true);
+    // little picture on its screen
+    el('rect', {x:44, y:88, width:50, height:40, rx:4, style:'fill:var(--surface); stroke:var(--ink); stroke-width:2'});
+    el('circle', {cx:80, cy:100, r:6, style:'fill:var(--amber)'});
+    el('polyline', {points:'46,126 62,106 72,118 80,110 92,126', style:'fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linejoin:round'});
+    el('text', {x:69, y:42, 'text-anchor':'middle'}, null, '1 photo');
+    el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'You');
+
+    // the always-on computer
+    var g = el('g', {style:'opacity:' + (s.srv ? 1 : 0.22)});
+    for(var k=0;k<3;k++){
+      var y = 60 + k*50;
+      el('rect', {x:262, y:y, width:116, height:42, rx:6, 'class':'f2 s'}, g);
+      for(var j=0;j<3;j++){
+        el('circle', {'class':'led', cx:280 + j*14, cy:y+21, r:3.6, style:'fill:'+((j+k)%2 ? 'var(--money)' : 'var(--amber)')+'; animation-delay:'+((k*3+j)%7/3)+'s'}, g);
+      }
+      el('line', {x1:332, y1:y+21, x2:366, y2:y+21, style:'stroke:var(--line); stroke-width:3; stroke-linecap:round'}, g);
+    }
+    el('text', {x:320, y:236, 'text-anchor':'middle'}, g, 'A computer that');
+    el('text', {x:320, y:258, 'text-anchor':'middle'}, g, 'never switches off');
+
+    if(s.srv){
+      arrow(114, 137, 252, 137);
+      el('polygon', {points:'258,137 246,129 246,145', style:'fill:var(--amber)'});
+    }
+
+    // recipients
+    var n = s.recip;
+    if(n){
+      var cols, w, h, gap, x0, y0;
+      if(n === 1){ cols=1; w=60; h=108; gap=0; x0=512; y0=84; }
+      else if(n <= 8){ cols=4; w=26; h=44; gap=12; x0=470; y0=88; }
+      else { cols=6; w=18; h=30; gap=8; x0=466; y0=62; }
+      var rows = Math.ceil(n/cols);
+      for(var q=0;q<n;q++){
+        var cx = x0 + (q%cols)*(w+gap), cy = y0 + Math.floor(q/cols)*(h+gap);
+        arrow(384, 137, cx-3, cy+h/2, n === 1 ? 'sa flow' : 'sa', n === 1 ? 5 : 1.4);
+      }
+      for(var q2=0;q2<n;q2++){
+        phone(x0 + (q2%cols)*(w+gap), y0 + Math.floor(q2/cols)*(h+gap), w, h, null, n===1);
+      }
+      el('text', {x:636, y:252, 'text-anchor':'end', 'class':'sm'}, null, s.lab);
+    }
+    svg.setAttribute('aria-label', 'Step ' + (i+1) + ' of 5. ' + s.n + '. ' + (s.srv ? 'The photo goes from your phone to an always-on computer, then out to ' + (s.recip === 1 ? 'one friend' : s.lab) + '.' : 'The photo stays on your phone.'));
+  }
+  function showStep(i){
+    cur = i;
+    var s = STEPS[i], b = $('cloudSteps').children;
+    for(var k=0;k<b.length;k++) b[k].setAttribute('aria-pressed', k===i ? 'true' : 'false');
+    drawScene(i);
+    var h = '<h3>' + (i+1) + '. ' + s.n + '</h3>';
+    s.t.forEach(function(p){ h += '<p>' + p + '</p>'; });
+    h += '<p class="nbr"><span>The idea</span>' + s.idea + '</p>';
+    $('cloudDetail').innerHTML = h;
+  }
+  STEPS.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = '<b>' + (i+1) + '</b>' + s.n;
+    b.addEventListener('click', function(){ showStep(i); });
+    $('cloudSteps').appendChild(b);
+  });
+  showStep(0);
+
+  /* turn-it-up calculator */
+  var PEOPLE = [1, 8, 500, 20000, 1000000, 100000000];
+  var PLAB = ['Just you', 'Your family', '500 friends', 'A small town', 'A big city', 'A huge app'];
+  var PNUM = ['1 person', '8 people', '500 people', '20,000 people', '1 million people', '100 million people'];
+  function big(n){
+    if(n >= 1e9) return (Math.round(n/1e8)/10).toLocaleString('en-US') + ' billion';
+    if(n >= 1e6) return (Math.round(n/1e5)/10).toLocaleString('en-US') + ' million';
+    if(n >= 1e4) return (Math.round(n/1e3)*1e3).toLocaleString('en-US');
+    if(n >= 1e3) return (Math.round(n/100)*100).toLocaleString('en-US');
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function store(gb){
+    if(gb < 10) return gb.toFixed(1) + ' gigabytes';
+    if(gb < 1000) return Math.round(gb).toLocaleString('en-US') + ' gigabytes';
+    var tb = gb/1000;
+    if(tb < 1000) return (tb < 10 ? tb.toFixed(1) : Math.round(tb).toLocaleString('en-US')) + ' terabytes';
+    var pb = tb/1000;
+    if(pb < 1000) return (pb < 10 ? pb.toFixed(1) : Math.round(pb).toLocaleString('en-US')) + ' petabytes';
+    return (pb/1000).toFixed(1) + ' exabytes';
+  }
+  function calc(){
+    var i = +$('cpeople').value, P = PEOPLE[i];
+    var k = +document.querySelector('input[name="cper"]:checked').value;
+    $('cpeopleLabel').innerHTML = '<b>' + PNUM[i] + '</b> <span class="plab">· ' + PLAB[i] + '</span>';
+    $('cpeople').setAttribute('aria-valuetext', PNUM[i] + ', ' + PLAB[i]);
+    var photos = P * k, gbYear = photos * 3 / 1000 * 365;
+    $('cPhotos').textContent = big(photos);
+    $('cStore').textContent = store(gbYear);
+    var ph = gbYear / 128;
+    $('cPhones').textContent = ph < 0.01 ? 'A sliver of one' : ph < 1 ? Math.round(ph*100) + '% of one' : big(ph);
+    var dr = gbYear / 20000 * 3;
+    $('cDrives').textContent = dr < 1 ? 'Less than one' : big(dr);
+    $('cVerdict').innerHTML = ph < 1
+      ? '<p>Your phone could hold a whole year of this by itself. The cloud is not about running out of room yet. It is about <b>getting the picture to other people</b>, even when their phone is off.</p>'
+      : ph < 10000
+      ? '<p>Now it is a lot of phones’ worth every year, and every picture must be kept safe and handed back in a blink. That takes <b>real machines that never sleep</b>.</p>'
+      : '<p>That is a <b>warehouse of hard drives</b>, plus the computers that find, shrink and send every picture, all running day and night. They use power and they get hot. This is why the building outside town exists.</p>';
+  }
+  $('cpeople').addEventListener('input', calc);
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="cper"]'), function(r){ r.addEventListener('change', calc); });
+  calc();
+})();
+
+/* ---------- other ways to build it ---------- */
+(function(){
+  var IDEAS = [
+    { h:'Make the machines more efficient', r:{elec:1, water:1, air:1, giant:0},
+      up:'Better chips, smaller AI programs and smarter cooling do the same job on less power, so less heat and less water.',
+      down:'Savings often get spent on doing more, so total use can still rise.' },
+    { h:'Ask for less, and time it better', r:{elec:1, water:1, air:1, giant:1},
+      up:'Not every task needs the biggest machine. Big jobs that can wait can run when power is plentiful, not at the evening peak.',
+      down:'Hard to enforce. It depends on companies and customers choosing to use less.' },
+    { h:'Build in better places', r:{elec:1, water:1, air:0, giant:0},
+      up:'Cool climates need less cooling. Old factory sites already have power lines, roads and no new farmland lost.',
+      down:'It can just move the burden to another town. Some tasks also want to be close to people.' },
+    { h:'Bring new clean power', r:{elec:1, water:0, air:0, giant:0},
+      up:'The company pays for new solar, wind, batteries or other clean generation, so the building does not lean on the existing grid.',
+      down:'New plants take years. On-site gas turbines, a common stopgap, add local air pollution.' },
+    { h:'Reuse the waste heat', r:{elec:1, water:0, air:0, giant:0},
+      up:'In some Nordic cities, data center heat warms homes through pipes. The heat is used, not thrown away.',
+      down:'It needs a district heating network nearby, which most American towns lack.' },
+    { h:'Use less water', r:{elec:-1, water:1, air:0, giant:0},
+      up:'Sealed loops and air cooling, or recycled water that nobody would drink, cut the draw on local supply.',
+      down:'Air cooling uses more electricity, so you trade a water problem for a power one.' },
+    { h:'Smaller buildings, spread out', r:{elec:0, water:0, air:1, giant:1},
+      up:'Many modest sites instead of a few giants spread the traffic, noise and water, and sit closer to users.',
+      down:'Costs more per computer, and means more towns face the question.' },
+    { h:'Do more on your own device', r:{elec:0, water:0, air:0, giant:1},
+      up:'Phones and laptops now run small AI programs themselves. Faster, more private, and less travels to the cloud.',
+      down:'Batteries and heat limit it. The biggest programs still need the big building.' }
+  ];
+  var LAB = { '1':['Helps with this','h'], '0':['Little effect',''], '-1':['Can make this worse','w'] };
+  var grid = document.getElementById('altGrid');
+  function render(){
+    var key = document.querySelector('input[name="alt"]:checked').value;
+    var list = IDEAS.map(function(d, i){ return {d:d, i:i}; });
+    if(key !== 'all') list.sort(function(a, b){ return (b.d.r[key] - a.d.r[key]) || (a.i - b.i); });
+    grid.innerHTML = '';
+    list.forEach(function(o){
+      var d = o.d, card = document.createElement('div'), v = key === 'all' ? null : d.r[key];
+      card.className = 'nb' + (v !== null && v < 1 ? ' dim' : '');
+      var badge = v === null ? '' : '<span class="badge ' + LAB[v][1] + '">' + LAB[v][0] + '</span>';
+      card.innerHTML = badge + '<h3>' + d.h + '</h3><div class="good"><span class="tag">The upside</span>' + d.up + '</div><div class="bad"><span class="tag">The catch</span>' + d.down + '</div>';
+      grid.appendChild(card);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="alt"]'), function(r){ r.addEventListener('change', render); });
+  render();
 })();
 </script>
 
