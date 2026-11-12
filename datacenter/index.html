@@ -1071,8 +1071,8 @@ footer p{max-width:46rem}
     { n:'You post it for 500 friends', recip:24, srv:true, lab:'500 friends',
       t:['Over the next few days, hundreds of people watch it, each at a different time, on a different phone.','The computer makes several smaller versions, one for fast wifi and one for a weak signal, and sends each viewer the one that fits. Your own phone can be off the whole time.'],
       idea:'Your phone filmed it once. The cloud plays it hundreds of times.' },
-    { n:'Millions stream the big game', recip:24, srv:true, lab:'Millions watching',
-      t:['Now it is a live football game. Nobody can wait, and nobody shares a copy: every viewer gets their own stream of the same game, at the same moment, with no more than a few seconds of delay.','No phone could do that, and no single computer either. So the game is sent from thousands of always-on computers, kept together in buildings where they can be powered, cooled and watched.'],
+    { n:'Millions stream the big game', recip:24, srv:true, stadium:true, lab:'Millions watching',
+      t:['Now it is a live football game, filmed by a TV crew at the stadium, not by you. Nobody can wait, and nobody shares a copy: every viewer gets their own stream of the same game, at the same moment, with no more than a few seconds of delay.','No phone could do that, and no single computer either. So the game is sent from thousands of always-on computers, kept together in buildings where they can be powered, cooled and watched.'],
       idea:'That building is a data center. “The cloud” is a warehouse of computers.' }
   ];
   var cur = 0;
@@ -1094,13 +1094,23 @@ footer p{max-width:46rem}
   function drawScene(i){
     var s = STEPS[i];
     svg.textContent = '';
-    // your phone
-    phone(30, 66, 78, 142, null, true);
-    // little picture on its screen
-    el('rect', {x:44, y:88, width:50, height:40, rx:4, style:'fill:var(--surface); stroke:var(--ink); stroke-width:2'});
-    el('polygon', {points:'62,98 62,118 80,108', style:'fill:var(--amber); stroke:var(--ink); stroke-width:2; stroke-linejoin:round'});
-    el('text', {x:69, y:42, 'text-anchor':'middle'}, null, '1 video');
-    el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'You');
+    if(s.stadium){
+      // the stadium, seen from above
+      el('ellipse', {cx:69, cy:138, rx:56, ry:76, 'class':'f2 s'});
+      el('rect', {x:38, y:86, width:62, height:104, rx:4, style:'fill:color-mix(in srgb, var(--money) 35%, var(--surface)); stroke:var(--ink); stroke-width:2.5'});
+      el('line', {x1:38, y1:138, x2:100, y2:138, style:'stroke:var(--ink); stroke-width:2'});
+      el('circle', {cx:69, cy:138, r:10, style:'fill:none; stroke:var(--ink); stroke-width:2'});
+      el('rect', {x:58, y:214, width:22, height:12, rx:3, style:'fill:var(--ink)'});
+      el('text', {x:69, y:42, 'text-anchor':'middle'}, null, 'Live game');
+      el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'TV cameras');
+    } else {
+      // your phone
+      phone(30, 66, 78, 142, null, true);
+      el('rect', {x:44, y:88, width:50, height:40, rx:4, style:'fill:var(--surface); stroke:var(--ink); stroke-width:2'});
+      el('polygon', {points:'62,98 62,118 80,108', style:'fill:var(--amber); stroke:var(--ink); stroke-width:2; stroke-linejoin:round'});
+      el('text', {x:69, y:42, 'text-anchor':'middle'}, null, '1 video');
+      el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'You');
+    }
 
     // the always-on computer
     var g = el('g', {style:'opacity:' + (s.srv ? 1 : 0.22)});
@@ -1137,7 +1147,7 @@ footer p{max-width:46rem}
       }
       el('text', {x:636, y:252, 'text-anchor':'end', 'class':'sm'}, null, s.lab);
     }
-    svg.setAttribute('aria-label', 'Step ' + (i+1) + ' of 5. ' + s.n + '. ' + (s.srv ? 'The video goes from your phone to an always-on computer, then out to ' + (s.recip === 1 ? 'one person' : s.lab.charAt(0).toLowerCase() + s.lab.slice(1)) + '.' : 'The video stays on your phone.'));
+    svg.setAttribute('aria-label', 'Step ' + (i+1) + ' of 5. ' + s.n + '. ' + (s.srv ? (s.stadium ? 'The live game goes from the stadium cameras to' : 'The video goes from your phone to') + ' an always-on computer, then out to ' + (s.recip === 1 ? 'one person' : s.lab.charAt(0).toLowerCase() + s.lab.slice(1)) + '.' : 'The video stays on your phone.'));
   }
   function showStep(i){
     cur = i;
