@@ -293,7 +293,7 @@ footer p{max-width:46rem}
     <div class="sec-head">
       <p class="eyebrow">Start here</p>
       <h2>First: what is “the cloud”?</h2>
-      <p class="lede">You have heard the word a hundred times. Here is what it really means, using something you already do: taking a picture on your phone. Tap through the five steps.</p>
+      <p class="lede">You have heard the word a hundred times. Here is what it really means, using something you already do: filming your grandson throwing a football. Tap through the five steps.</p>
     </div>
     <div class="diagram">
       <svg id="csvg" viewBox="0 0 640 270" role="img" aria-label=""></svg>
@@ -303,32 +303,32 @@ footer p{max-width:46rem}
 
     <div class="cloud-tools">
       <h3>Now turn it up</h3>
-      <p>Same photo, more people. Slide to see how much room it takes, and why a phone stops being enough.</p>
+      <p>Same game, more viewers. Slide to see how much has to be sent out, every second, and why one computer is never enough.</p>
       <div class="ctl">
-        <div class="row"><label class="lbl" for="cpeople">People sharing photos</label><span id="cpeopleLabel"></span></div>
-        <input id="cpeople" type="range" min="0" max="5" step="1" value="0">
-        <div class="ticks"><span>Just you</span><span>A huge app</span></div>
+        <div class="row"><label class="lbl" for="cpeople">People watching at the same moment</label><span id="cpeopleLabel"></span></div>
+        <input id="cpeople" type="range" min="0" max="6" step="1" value="0">
+        <div class="ticks"><span>Just you</span><span>Record-setting game</span></div>
       </div>
       <fieldset style="margin-top:1.1rem">
-        <legend>Photos each person shares in a day</legend>
+        <legend>Picture quality</legend>
         <div class="chips" id="cperChips">
-          <label class="chip"><input type="radio" name="cper" value="1"><span>1</span></label>
-          <label class="chip"><input type="radio" name="cper" value="5" checked><span>5</span></label>
-          <label class="chip"><input type="radio" name="cper" value="20"><span>20</span></label>
+          <label class="chip"><input type="radio" name="cper" value="1"><span>Standard</span></label>
+          <label class="chip"><input type="radio" name="cper" value="3" checked><span>HD</span></label>
+          <label class="chip"><input type="radio" name="cper" value="7"><span>4K</span></label>
         </div>
       </fieldset>
       <div class="cards">
-        <div class="card"><div class="k">Photos a day</div><div class="v" id="cPhotos">—</div><p class="d">Each one about 3 megabytes.</p></div>
-        <div class="card"><div class="k">Room needed in a year</div><div class="v wat" id="cStore">—</div><p class="d">A gigabyte holds about 330 photos.</p></div>
-        <div class="card"><div class="k">Phones it would fill</div><div class="v" id="cPhones">—</div><p class="d">Counting a phone with 128 gigabytes of room.</p></div>
-        <div class="card"><div class="k">Hard drives, with backups</div><div class="v warn" id="cDrives">—</div><p class="d">Big 20-terabyte drives, three copies of everything.</p></div>
+        <div class="card"><div class="k">Streams at once</div><div class="v" id="cPhotos">—</div><p class="d">Each viewer gets their own.</p></div>
+        <div class="card"><div class="k">Sent out every second</div><div class="v wat" id="cStore">—</div><p class="d">Counting all viewers together.</p></div>
+        <div class="card"><div class="k">Sent in a 3-hour game</div><div class="v" id="cPhones">—</div><p class="d">The same video, over and over.</p></div>
+        <div class="card"><div class="k">Phones it would fill</div><div class="v warn" id="cDrives">—</div><p class="d">Counting a phone with 128 gigabytes of room.</p></div>
       </div>
       <div class="verdict" id="cVerdict"></div>
-      <p class="note">Round numbers, to show the idea. Real services shrink photos and skip duplicates. And photos are the small part: video and AI take far more room and far more electricity. Photos are just the easiest way to see why a computer in the middle is needed.</p>
+      <p class="note">Round numbers, to show the idea. Netflix says HD uses up to about 3 gigabytes an hour, and 4K about 7. Real services vary, and send each game from many buildings, so no single one carries it all. The top setting, 65 million, is Netflix’s own count for its 2024 Paul–Tyson fight, not an independent one. Football is just the example. Any big live event works this way.</p>
     </div>
 
     <div class="fair">
-      <p><strong>So that is “the cloud.”</strong> It is not in the sky. It is a computer in a building, one that never sleeps and is always online, so your phone does not have to be. When millions of people do this all day, with photos, video, banking and chatbots, you need a great many of those computers in one place.</p>
+      <p><strong>So that is “the cloud.”</strong> It is not in the sky. It is a computer in a building, one that never sleeps and is always online, so your phone does not have to be. When millions of people do this all day, with video, banking and chatbots, you need a great many of those computers in one place.</p>
       <p style="margin:0"><a href="#diagram"><strong>Next: see what is inside that building ↓</strong></a></p>
     </div>
   </section>
@@ -707,6 +707,7 @@ footer p{max-width:46rem}
       <li>Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (share of U.S. electricity, water use).</li>
       <li>U.S. Energy Information Administration (average home electricity use), U.S. EPA eGRID (emissions per unit of power), EPA WaterSense (household water use), EPA vehicle emissions.</li>
       <li>Good Jobs First, research on state and local data center tax subsidies.</li>
+      <li>Streaming: <a href="https://about.netflix.com/news/jake-paul-vs-mike-tyson-over-108-million-live-global-viewers" target="_blank" rel="noopener">Netflix</a> (its reported 65 million peak concurrent streams for the 2024 Paul&ndash;Tyson fight, not independently audited); Netflix&rsquo;s published figure of up to about 3 GB an hour for HD video, as repeated by <a href="https://www.t-mobile.com/home-internet/the-signal/speed/streaming-tv-data-usage" target="_blank" rel="noopener">T-Mobile</a>.</li>
       <li>Traffic: <a href="https://www.wwno.org/local-regional-news/2025-11-19/construction-on-metas-largest-data-center-brings-600-crash-spike-chaos-to-rural-louisiana" target="_blank" rel="noopener">Gulf States Newsroom via WWNO</a> (Louisiana crash and traffic counts, from police and state records); <a href="https://www.kittelson.com/ideas/why-data-centers-dont-fit-standard-traffic-assumptions-and-how-to-plan-for-their-transportation-impacts/" target="_blank" rel="noopener">Kittelson &amp; Associates</a> (why standard traffic studies miss construction); a Stafford County, Virginia trip estimate of about 383 weekday trips for a 510,000 square foot campus, used to scale &ldquo;after it opens.&rdquo;</li>
     </ul>
     <p>Per-megawatt costs, jobs, generators and floor space are planning assumptions, not facts about any one project. A Red Crow Labs explainer.</p>
@@ -1058,20 +1059,20 @@ footer p{max-width:46rem}
   var NS = 'http://www.w3.org/2000/svg';
   var svg = $('csvg');
   var STEPS = [
-    { n:'You take a photo', recip:0, srv:false, lab:'',
-      t:['Your phone does all of the work. It aims the camera, saves the picture and shows it to you. One photo is about 3 megabytes.','That is one small unit of computing: one job, on one machine, for one person.'],
+    { n:'You film your grandson’s throw', recip:0, srv:false, lab:'',
+      t:['Your phone does all of the work. It aims the camera, records the video and saves it. A minute of video is about 100 megabytes, dozens of times bigger than a photo.','That is one unit of computing: one job, on one machine, for one person.'],
       idea:'So far there is no cloud. Everything stays in your pocket.' },
-    { n:'You text it to a friend', recip:1, srv:true, lab:'1 friend',
-      t:['You were just talking about it, so you send it over. But the photo does not fly straight from your phone to theirs. Their phone might be off, asleep or out of signal.','So it goes up to a computer that is always on, waits there, and is handed down the moment their phone is ready.'],
+    { n:'You send it to Grandpa', recip:1, srv:true, lab:'Grandpa',
+      t:['It is too good not to share. But the video does not fly straight from your phone to his. His phone might be off, asleep or out of signal.','So it goes up to a computer that is always on, waits there, and is handed down the moment his phone is ready.'],
       idea:'That middle computer is the cloud. It is just someone else’s computer that never goes to sleep.' },
     { n:'You send it to the family', recip:8, srv:true, lab:'8 family members',
-      t:['Now eight people want it. The always-on computer holds the photo and hands a copy to each phone, whenever each one asks.','Many apps also keep a backup, so if you drop your phone in the lake, the picture is not lost.'],
-      idea:'One photo in, eight copies out. Doing that is work, and the work is done in the middle.' },
+      t:['Now eight people want it. The always-on computer holds the video and hands a copy to each phone, whenever each one asks. Video is big, so apps usually shrink it first.','Many apps also keep a backup, so if you drop your phone in the lake, the video is not lost.'],
+      idea:'One video in, eight copies out. Doing that is work, and the work is done in the middle.' },
     { n:'You post it for 500 friends', recip:24, srv:true, lab:'500 friends',
-      t:['Over the next few days, hundreds of people look at it, each at a different time, on a different phone.','Every look is a small job: find the picture, shrink it to fit that screen, send it. Your own phone can be switched off the whole time.'],
-      idea:'Your phone made the photo once. The cloud serves it hundreds of times.' },
-    { n:'The whole town does it, daily', recip:24, srv:true, lab:'Everyone in town',
-      t:['Photos, videos, texts, banking, maps, shows. Millions of small jobs every second, day and night. No phone in anyone’s pocket could hold all of it, or answer everyone at once.','So companies put the work on thousands of always-on computers, and keep them together in one building, where they can be powered, cooled and watched.'],
+      t:['Over the next few days, hundreds of people watch it, each at a different time, on a different phone.','The computer makes several smaller versions, one for fast wifi and one for a weak signal, and sends each viewer the one that fits. Your own phone can be off the whole time.'],
+      idea:'Your phone filmed it once. The cloud plays it hundreds of times.' },
+    { n:'Millions stream the big game', recip:24, srv:true, lab:'Millions watching',
+      t:['Now it is a live football game. Nobody can wait, and nobody shares a copy: every viewer gets their own stream of the same game, at the same moment, with no more than a few seconds of delay.','No phone could do that, and no single computer either. So the game is sent from thousands of always-on computers, kept together in buildings where they can be powered, cooled and watched.'],
       idea:'That building is a data center. “The cloud” is a warehouse of computers.' }
   ];
   var cur = 0;
@@ -1097,9 +1098,8 @@ footer p{max-width:46rem}
     phone(30, 66, 78, 142, null, true);
     // little picture on its screen
     el('rect', {x:44, y:88, width:50, height:40, rx:4, style:'fill:var(--surface); stroke:var(--ink); stroke-width:2'});
-    el('circle', {cx:80, cy:100, r:6, style:'fill:var(--amber)'});
-    el('polyline', {points:'46,126 62,106 72,118 80,110 92,126', style:'fill:none; stroke:var(--ink); stroke-width:2.5; stroke-linejoin:round'});
-    el('text', {x:69, y:42, 'text-anchor':'middle'}, null, '1 photo');
+    el('polygon', {points:'62,98 62,118 80,108', style:'fill:var(--amber); stroke:var(--ink); stroke-width:2; stroke-linejoin:round'});
+    el('text', {x:69, y:42, 'text-anchor':'middle'}, null, '1 video');
     el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'You');
 
     // the always-on computer
@@ -1137,7 +1137,7 @@ footer p{max-width:46rem}
       }
       el('text', {x:636, y:252, 'text-anchor':'end', 'class':'sm'}, null, s.lab);
     }
-    svg.setAttribute('aria-label', 'Step ' + (i+1) + ' of 5. ' + s.n + '. ' + (s.srv ? 'The photo goes from your phone to an always-on computer, then out to ' + (s.recip === 1 ? 'one friend' : s.lab) + '.' : 'The photo stays on your phone.'));
+    svg.setAttribute('aria-label', 'Step ' + (i+1) + ' of 5. ' + s.n + '. ' + (s.srv ? 'The video goes from your phone to an always-on computer, then out to ' + (s.recip === 1 ? 'one person' : s.lab.charAt(0).toLowerCase() + s.lab.slice(1)) + '.' : 'The video stays on your phone.'));
   }
   function showStep(i){
     cur = i;
@@ -1160,9 +1160,9 @@ footer p{max-width:46rem}
   showStep(0);
 
   /* turn-it-up calculator */
-  var PEOPLE = [1, 8, 500, 20000, 1000000, 100000000];
-  var PLAB = ['Just you', 'Your family', '500 friends', 'A small town', 'A big city', 'A huge app'];
-  var PNUM = ['1 person', '8 people', '500 people', '20,000 people', '1 million people', '100 million people'];
+  var PEOPLE = [1, 8, 500, 20000, 1000000, 10000000, 65000000];
+  var PLAB = ['Just you', 'Your family', '500 friends', 'A small town', 'A big city', 'A big game', 'Record-setting game'];
+  var PNUM = ['1 person', '8 people', '500 people', '20,000 people', '1 million people', '10 million people', '65 million people'];
   function big(n){
     if(n >= 1e9) return (Math.round(n/1e8)/10).toLocaleString('en-US') + ' billion';
     if(n >= 1e6) return (Math.round(n/1e5)/10).toLocaleString('en-US') + ' million';
@@ -1179,23 +1179,29 @@ footer p{max-width:46rem}
     if(pb < 1000) return (pb < 10 ? pb.toFixed(1) : Math.round(pb).toLocaleString('en-US')) + ' petabytes';
     return (pb/1000).toFixed(1) + ' exabytes';
   }
+  function rate(mbps){
+    if(mbps < 1000) return (mbps < 10 ? mbps.toFixed(1) : Math.round(mbps).toLocaleString('en-US')) + ' megabits';
+    var g = mbps/1000;
+    if(g < 1000) return (g < 10 ? g.toFixed(1) : Math.round(g).toLocaleString('en-US')) + ' gigabits';
+    var t = g/1000;
+    return (t < 10 ? t.toFixed(1) : Math.round(t).toLocaleString('en-US')) + ' terabits';
+  }
   function calc(){
     var i = +$('cpeople').value, P = PEOPLE[i];
-    var k = +document.querySelector('input[name="cper"]:checked').value;
+    var gbHr = +document.querySelector('input[name="cper"]:checked').value;
     $('cpeopleLabel').innerHTML = '<b>' + PNUM[i] + '</b> <span class="plab">· ' + PLAB[i] + '</span>';
     $('cpeople').setAttribute('aria-valuetext', PNUM[i] + ', ' + PLAB[i]);
-    var photos = P * k, gbYear = photos * 3 / 1000 * 365;
-    $('cPhotos').textContent = big(photos);
-    $('cStore').textContent = store(gbYear);
-    var ph = gbYear / 128;
-    $('cPhones').textContent = ph < 0.01 ? 'A sliver of one' : ph < 1 ? Math.round(ph*100) + '% of one' : big(ph);
-    var dr = gbYear / 20000 * 3;
-    $('cDrives').textContent = dr < 1 ? 'Less than one' : big(dr);
-    $('cVerdict').innerHTML = ph < 1
-      ? '<p>Your phone could hold a whole year of this by itself. The cloud is not about running out of room yet. It is about <b>getting the picture to other people</b>, even when their phone is off.</p>'
-      : ph < 10000
-      ? '<p>Now it is a lot of phones’ worth every year, and every picture must be kept safe and handed back in a blink. That takes <b>real machines that never sleep</b>.</p>'
-      : '<p>That is a <b>warehouse of hard drives</b>, plus the computers that find, shrink and send every picture, all running day and night. They use power and they get hot. This is why the building outside town exists.</p>';
+    var mbps = P * gbHr * 8000 / 3600, gbGame = P * gbHr * 3;
+    $('cPhotos').textContent = big(P);
+    $('cStore').textContent = rate(mbps);
+    $('cPhones').textContent = store(gbGame);
+    var ph = gbGame / 128;
+    $('cDrives').textContent = ph < 0.01 ? 'A sliver of one' : ph < 1 ? Math.round(ph*100) + '% of one' : big(ph);
+    $('cVerdict').innerHTML = P < 1000
+      ? '<p>A home connection can handle this. The cloud’s job here is the <b>handoff</b>: getting the video to people even when their phone is off.</p>'
+      : P < 1000000
+      ? '<p>Now the same video is being copied thousands of times, <b>each copy to a different screen</b>. That takes machines that never sleep, and a very fast connection to the internet.</p>'
+      : '<p>Millions of separate streams, all of them live. No single computer can send this, and neither can one building. The game is <b>copied to many data centers</b> around the country, each serving viewers nearby. Even then, Netflix had buffering complaints at its record fight. This is why the building outside town exists.</p>';
   }
   $('cpeople').addEventListener('input', calc);
   Array.prototype.forEach.call(document.querySelectorAll('input[name="cper"]'), function(r){ r.addEventListener('change', calc); });
