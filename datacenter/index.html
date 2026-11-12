@@ -85,6 +85,38 @@ legend{font-weight:700; padding:0; margin-bottom:.6rem}
 .chip input:checked + span{background:var(--ink); color:var(--bg); border-color:var(--ink)}
 .chip input:focus-visible + span{outline:3px solid var(--focus); outline-offset:3px}
 
+/* facility diagram */
+.diagram{background:var(--surface); border:2px solid var(--line); border-radius:1.2rem; padding:1rem; margin-top:1.4rem}
+.diagram svg{display:block; width:100%; height:auto; max-width:100%}
+.diagram .s{fill:none; stroke:var(--ink); stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.diagram .fs{fill:var(--surface)} .diagram .f2{fill:var(--surface2)}
+.diagram .sa{fill:none; stroke:var(--amber); stroke-width:6; stroke-linecap:round}
+.diagram .sw{fill:none; stroke:var(--water); stroke-width:7; stroke-linecap:round; stroke-linejoin:round}
+.diagram .sd{fill:none; stroke:var(--muted); stroke-width:5; stroke-linecap:round; stroke-dasharray:1 10}
+.part{cursor:pointer; transition:opacity .2s}
+.part:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.diagram svg.has-sel .part:not(.sel){opacity:.38}
+.mk circle{fill:var(--ink)}
+.mk text{fill:var(--bg); font-family:var(--display); font-weight:800; font-size:20px; text-anchor:middle; dominant-baseline:central}
+.part.sel .mk circle{fill:var(--amber); stroke:var(--ink); stroke-width:3}
+.part.sel .mk text{fill:var(--on-amber)}
+.led{animation:blink 3s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.steam{fill:var(--muted); opacity:0; animation:rise 3.4s infinite ease-out}
+@keyframes rise{0%{transform:translateY(0); opacity:0}25%{opacity:.55}100%{transform:translateY(-28px); opacity:0}}
+.key{display:flex; flex-wrap:wrap; gap:.3rem 1.4rem; font-size:.9rem; color:var(--muted); margin-top:.6rem}
+.key span::before{content:""; display:inline-block; width:1.7rem; border-top:5px solid; vertical-align:middle; margin-right:.45rem}
+.key .e::before{border-color:var(--amber)} .key .w::before{border-color:var(--water)} .key .d::before{border-color:var(--muted); border-top-style:dotted}
+.dgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr)); gap:.6rem; margin-top:1rem}
+.dgrid button{font:inherit; font-weight:700; text-align:left; display:flex; gap:.7rem; align-items:center; background:var(--surface); color:var(--ink); border:2px solid var(--line); border-radius:.7rem; min-height:3.2rem; padding:.5rem .8rem; cursor:pointer}
+.dgrid button b{display:inline-grid; place-items:center; flex:none; width:1.9rem; height:1.9rem; border-radius:50%; background:var(--ink); color:var(--bg); font-family:var(--display)}
+.dgrid button[aria-pressed="true"]{border-color:var(--ink); background:var(--amber); color:var(--on-amber)}
+.detail{margin-top:1rem; background:var(--surface); border:2px solid var(--ink); border-radius:1rem; padding:1.2rem 1.4rem}
+.detail h3{margin-bottom:.5rem}
+.detail p{max-width:none}
+.detail .nbr{margin:0; padding-top:.7rem; border-top:2px solid var(--line); font-weight:700}
+.detail .nbr span{display:block; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--amber-ink); margin-bottom:.15rem}
+
 /* journey */
 .trip{margin-top:1.6rem; background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.4rem}
 .path{list-style:none; display:flex; flex-wrap:wrap; gap:.5rem .3rem; padding:0; margin:1.2rem 0 1rem; align-items:stretch}
@@ -194,7 +226,7 @@ footer p{max-width:46rem}
   section{padding-block:2.4rem}
   .hero::after{background:linear-gradient(180deg, rgba(11,21,32,.93) 0%, rgba(11,21,32,.82) 100%)}
 }
-@media (prefers-reduced-motion: reduce){ .fill{transition:none} }
+@media (prefers-reduced-motion: reduce){ .fill{transition:none} .led{animation:none} .steam{animation:none; opacity:.3} }
 </style>
 </head>
 <body>
@@ -217,6 +249,7 @@ footer p{max-width:46rem}
       <h1>The Data Center Next Door</h1>
       <p>Something very large is going up outside town. Here is what it is, what it eats, who gets paid, and what to ask before anyone signs.</p>
       <nav class="jump" aria-label="Sections">
+        <a href="#diagram">Inside the fence</a>
         <a href="#what">What it is</a>
         <a href="#numbers">Build one</a>
         <a href="#money">The money</a>
@@ -225,6 +258,75 @@ footer p{max-width:46rem}
       </nav>
     </div>
   </header>
+
+  <!-- 0. DIAGRAM -->
+  <section id="diagram" style="padding-bottom:1rem">
+    <div class="sec-head">
+      <p class="eyebrow">The big picture</p>
+      <h2>Here is what is inside the fence</h2>
+      <p class="lede">A data center is simpler than it sounds. The computers sit in the middle, and everything around them is there to power, cool, connect or protect them. Tap a number to see what each part does.</p>
+    </div>
+    <div class="diagram">
+      <svg id="dsvg" viewBox="0 0 640 380" role="group" aria-label="Cutaway drawing of a data center. Power lines and a substation on the left, the server hall in the middle, cooling towers on the roof, backup generators and a fuel tank on the right, and water and internet lines running underground.">
+        <rect x="0" y="290" width="640" height="90" class="f2"/>
+        <line x1="0" y1="290" x2="640" y2="290" class="s"/>
+
+        <g class="part" data-id="6" tabindex="0" role="button" aria-label="6, Internet cables">
+          <path d="M20 352 H215 V290" class="sd"/>
+          <rect x="14" y="336" width="210" height="32" fill="transparent"/>
+          <g class="mk"><circle cx="120" cy="352" r="17"/><text x="120" y="352">6</text></g>
+        </g>
+
+        <g class="part" data-id="4" tabindex="0" role="button" aria-label="4, Water supply">
+          <path d="M20 322 H330 V290" class="sw"/>
+          <rect x="14" y="306" width="326" height="32" fill="transparent"/>
+          <g class="mk"><circle cx="275" cy="322" r="17"/><text x="275" y="322">4</text></g>
+        </g>
+
+        <g class="part" data-id="1" tabindex="0" role="button" aria-label="1, Power lines and substation">
+          <path d="M52 290 L66 112 L80 290" class="s"/>
+          <path d="M40 135 H92 M46 170 H86 M58 205 H74" class="s"/>
+          <path d="M92 135 Q125 175 138 222" class="s" style="stroke-width:2"/>
+          <rect x="112" y="226" width="68" height="64" rx="4" class="fs s"/>
+          <path d="M126 226 V208 M146 226 V208 M166 226 V208" class="s"/>
+          <path d="M180 266 H190" class="sa"/>
+          <g class="mk"><circle cx="66" cy="90" r="17"/><text x="66" y="90">1</text></g>
+        </g>
+
+        <g class="part" data-id="2" tabindex="0" role="button" aria-label="2, Server halls">
+          <rect x="190" y="120" width="270" height="170" class="fs s"/>
+          <rect x="190" y="120" width="270" height="14" class="f2 s"/>
+          <g id="rackGroup"></g>
+          <g class="mk"><circle cx="325" cy="150" r="17"/><text x="325" y="150">2</text></g>
+        </g>
+
+        <g class="part" data-id="3" tabindex="0" role="button" aria-label="3, Cooling towers">
+          <rect x="238" y="84" width="66" height="36" rx="4" class="fs s"/>
+          <rect x="346" y="84" width="66" height="36" rx="4" class="fs s"/>
+          <ellipse cx="271" cy="84" rx="22" ry="5" class="f2 s"/>
+          <ellipse cx="379" cy="84" rx="22" ry="5" class="f2 s"/>
+          <circle class="steam" cx="268" cy="70" r="8"/>
+          <circle class="steam" cx="276" cy="66" r="6" style="animation-delay:1.1s"/>
+          <circle class="steam" cx="376" cy="70" r="8" style="animation-delay:.6s"/>
+          <circle class="steam" cx="384" cy="66" r="6" style="animation-delay:1.8s"/>
+          <g class="mk"><circle cx="440" cy="98" r="17"/><text x="440" y="98">3</text></g>
+        </g>
+
+        <g class="part" data-id="5" tabindex="0" role="button" aria-label="5, Backup generators and fuel tank">
+          <path d="M460 276 H482" class="sa" style="stroke-dasharray:6 6"/>
+          <rect x="482" y="246" width="32" height="44" rx="3" class="fs s"/>
+          <rect x="520" y="246" width="32" height="44" rx="3" class="fs s"/>
+          <rect x="558" y="246" width="32" height="44" rx="3" class="fs s"/>
+          <path d="M492 246 V234 M530 246 V234 M568 246 V234" class="s"/>
+          <rect x="600" y="258" width="32" height="32" rx="14" class="fs s"/>
+          <g class="mk"><circle cx="555" cy="212" r="17"/><text x="555" y="212">5</text></g>
+        </g>
+      </svg>
+      <div class="key" aria-hidden="true"><span class="e">Electricity</span><span class="w">Water</span><span class="d">Internet data</span></div>
+    </div>
+    <div class="dgrid" id="dgrid"></div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+  </section>
 
   <!-- 1. WHAT IT IS -->
   <section id="what">
@@ -492,6 +594,63 @@ footer p{max-width:46rem}
     if(s<=300) return 'A whole city’s worth of homes.';
     return 'Bigger than most power plants. A few exist or are planned.';
   }
+
+  /* ---------- facility diagram ---------- */
+  var PARTS = {
+    1:{short:'Power lines', title:'Power lines and substation',
+       t:'Electricity arrives on high-voltage lines and is stepped down at a substation, often built just for this one customer. A large data center can need lines and equipment the area has never had.',
+       nb:'New lines may cross farmland, and who pays for them is one of the biggest questions.'},
+    2:{short:'Server halls', title:'The server halls',
+       t:'Rows of tall racks, each holding dozens of computers. This is the whole point of the building. Everything else exists to feed it, cool it or protect it.',
+       nb:'The building is mostly windowless. Few people work inside, because the machines do the work.'},
+    3:{short:'Cooling towers', title:'Cooling towers',
+       t:'Computers turn almost all of their electricity into heat. Towers and fans on the roof or beside the building carry that heat outside. In most designs, some water evaporates in the process.',
+       nb:'The fans make the steady hum, and evaporated water does not return to the local supply.'},
+    4:{short:'Water supply', title:'Water supply',
+       t:'Town water or a well feeds the cooling system. Closed-loop designs use far less water, but they need more electricity to run.',
+       nb:'In a dry summer, a big cooling system and the town draw from the same source.'},
+    5:{short:'Backup generators', title:'Backup generators and fuel',
+       t:'Diesel generators and fuel tanks stand ready in case the grid fails, so the computers never stop. They are started and tested on a regular schedule.',
+       nb:'Test runs are loud and make exhaust, which is why the air permit and test hours matter.'},
+    6:{short:'Internet cables', title:'Internet cables',
+       t:'Thick fiber cables buried underground carry data in and out of the building. Without them it would be a very expensive heater.',
+       nb:'Rarely a problem locally. It is one reason these buildings are built near major fiber routes.'}
+  };
+  (function(){
+    var g = $('rackGroup'), NS = 'http://www.w3.org/2000/svg';
+    function mk(tag, attrs){
+      var el = document.createElementNS(NS, tag);
+      for(var a in attrs) el.setAttribute(a, attrs[a]);
+      g.appendChild(el);
+    }
+    [170,228].forEach(function(y){
+      for(var i=0;i<9;i++){
+        var x = 208 + i*26;
+        mk('rect', {x:x, y:y, width:18, height:48, rx:2, 'class':'f2 s', style:'stroke-width:1.5'});
+        for(var k=0;k<3;k++){
+          var col = (i+k)%3===0 ? 'var(--money)' : 'var(--amber)';
+          mk('circle', {'class':'led', cx:x+9, cy:y+10+k*13, r:2.4, style:'fill:'+col+'; animation-delay:'+((i*7+k*3+y)%30/10)+'s'});
+        }
+      }
+    });
+  })();
+  var dsvg = $('dsvg');
+  function selectPart(id){
+    var p = PARTS[id];
+    dsvg.classList.add('has-sel');
+    dsvg.querySelectorAll('.part').forEach(function(el){ el.classList.toggle('sel', el.getAttribute('data-id') === String(id)); });
+    document.querySelectorAll('#dgrid button').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-id') === String(id) ? 'true' : 'false'); });
+    $('detail').innerHTML = '<h3>' + id + '. ' + p.title + '</h3><p>' + p.t + '</p><p class="nbr"><span>Why neighbors care</span>' + p.nb + '</p>';
+  }
+  $('dgrid').innerHTML = Object.keys(PARTS).map(function(id){
+    return '<button type="button" data-id="' + id + '" aria-pressed="false"><b>' + id + '</b>' + PARTS[id].short + '</button>';
+  }).join('');
+  $('dgrid').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b) selectPart(b.getAttribute('data-id')); });
+  dsvg.querySelectorAll('.part').forEach(function(el){
+    el.addEventListener('click', function(){ selectPart(el.getAttribute('data-id')); });
+    el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectPart(el.getAttribute('data-id')); } });
+  });
+  selectPart(2);
 
   /* ---------- journeys ---------- */
   var TRIPS = {
