@@ -301,32 +301,6 @@ footer p{max-width:46rem}
     <div class="dgrid" id="cloudSteps" role="group" aria-label="Steps from one photo to the whole town"></div>
     <div class="detail" id="cloudDetail" aria-live="polite"></div>
 
-    <div class="cloud-tools">
-      <h3>Now turn it up</h3>
-      <p>Same game, more viewers. Slide to see how much has to be sent out, every second, and why one computer is never enough.</p>
-      <div class="ctl">
-        <div class="row"><label class="lbl" for="cpeople">People watching at the same moment</label><span id="cpeopleLabel"></span></div>
-        <input id="cpeople" type="range" min="0" max="6" step="1" value="0">
-        <div class="ticks"><span>Just you</span><span>Record-setting game</span></div>
-      </div>
-      <fieldset style="margin-top:1.1rem">
-        <legend>Picture quality</legend>
-        <div class="chips" id="cperChips">
-          <label class="chip"><input type="radio" name="cper" value="1"><span>Standard</span></label>
-          <label class="chip"><input type="radio" name="cper" value="3" checked><span>HD</span></label>
-          <label class="chip"><input type="radio" name="cper" value="7"><span>4K</span></label>
-        </div>
-      </fieldset>
-      <div class="cards">
-        <div class="card"><div class="k">Streams at once</div><div class="v" id="cPhotos">—</div><p class="d">Each viewer gets their own.</p></div>
-        <div class="card"><div class="k">Sent out every second</div><div class="v wat" id="cStore">—</div><p class="d">Counting all viewers together.</p></div>
-        <div class="card"><div class="k">Sent in a 3-hour game</div><div class="v" id="cPhones">—</div><p class="d">The same video, over and over.</p></div>
-        <div class="card"><div class="k">Phones it would fill</div><div class="v warn" id="cDrives">—</div><p class="d">Counting a phone with 128 gigabytes of room.</p></div>
-      </div>
-      <div class="verdict" id="cVerdict"></div>
-      <p class="note">Round numbers, to show the idea. Netflix says HD uses up to about 3 gigabytes an hour, and 4K about 7. Real services vary, and send each game from many buildings, so no single one carries it all. The top setting, 65 million, is Netflix’s own count for its 2024 Paul–Tyson fight, not an independent one. Football is just the example. Any big live event works this way.</p>
-    </div>
-
     <div class="fair">
       <p><strong>So that is “the cloud.”</strong> It is not in the sky. It is a computer in a building, one that never sleeps and is always online, so your phone does not have to be. When millions of people do this all day, with video, banking and chatbots, you need a great many of those computers in one place.</p>
       <p style="margin:0"><a href="#diagram"><strong>Next: see what is inside that building ↓</strong></a></p>
@@ -707,7 +681,6 @@ footer p{max-width:46rem}
       <li>Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (share of U.S. electricity, water use).</li>
       <li>U.S. Energy Information Administration (average home electricity use), U.S. EPA eGRID (emissions per unit of power), EPA WaterSense (household water use), EPA vehicle emissions.</li>
       <li>Good Jobs First, research on state and local data center tax subsidies.</li>
-      <li>Streaming: <a href="https://about.netflix.com/news/jake-paul-vs-mike-tyson-over-108-million-live-global-viewers" target="_blank" rel="noopener">Netflix</a> (its reported 65 million peak concurrent streams for the 2024 Paul&ndash;Tyson fight, not independently audited); Netflix&rsquo;s published figure of up to about 3 GB an hour for HD video, as repeated by <a href="https://www.t-mobile.com/home-internet/the-signal/speed/streaming-tv-data-usage" target="_blank" rel="noopener">T-Mobile</a>.</li>
       <li>Traffic: <a href="https://www.wwno.org/local-regional-news/2025-11-19/construction-on-metas-largest-data-center-brings-600-crash-spike-chaos-to-rural-louisiana" target="_blank" rel="noopener">Gulf States Newsroom via WWNO</a> (Louisiana crash and traffic counts, from police and state records); <a href="https://www.kittelson.com/ideas/why-data-centers-dont-fit-standard-traffic-assumptions-and-how-to-plan-for-their-transportation-impacts/" target="_blank" rel="noopener">Kittelson &amp; Associates</a> (why standard traffic studies miss construction); a Stafford County, Virginia trip estimate of about 383 weekday trips for a 510,000 square foot campus, used to scale &ldquo;after it opens.&rdquo;</li>
     </ul>
     <p>Per-megawatt costs, jobs, generators and floor space are planning assumptions, not facts about any one project. A Red Crow Labs explainer.</p>
@@ -1176,53 +1149,6 @@ footer p{max-width:46rem}
   });
   showStep(0);
 
-  /* turn-it-up calculator */
-  var PEOPLE = [1, 8, 500, 20000, 1000000, 10000000, 65000000];
-  var PLAB = ['Just you', 'Your family', '500 friends', 'A small town', 'A big city', 'A big game', 'Record-setting game'];
-  var PNUM = ['1 person', '8 people', '500 people', '20,000 people', '1 million people', '10 million people', '65 million people'];
-  function big(n){
-    if(n >= 1e9) return (Math.round(n/1e8)/10).toLocaleString('en-US') + ' billion';
-    if(n >= 1e6) return (Math.round(n/1e5)/10).toLocaleString('en-US') + ' million';
-    if(n >= 1e4) return (Math.round(n/1e3)*1e3).toLocaleString('en-US');
-    if(n >= 1e3) return (Math.round(n/100)*100).toLocaleString('en-US');
-    return Math.round(n).toLocaleString('en-US');
-  }
-  function store(gb){
-    if(gb < 10) return gb.toFixed(1) + ' gigabytes';
-    if(gb < 1000) return Math.round(gb).toLocaleString('en-US') + ' gigabytes';
-    var tb = gb/1000;
-    if(tb < 1000) return (tb < 10 ? tb.toFixed(1) : Math.round(tb).toLocaleString('en-US')) + ' terabytes';
-    var pb = tb/1000;
-    if(pb < 1000) return (pb < 10 ? pb.toFixed(1) : Math.round(pb).toLocaleString('en-US')) + ' petabytes';
-    return (pb/1000).toFixed(1) + ' exabytes';
-  }
-  function rate(mbps){
-    if(mbps < 1000) return (mbps < 10 ? mbps.toFixed(1) : Math.round(mbps).toLocaleString('en-US')) + ' megabits';
-    var g = mbps/1000;
-    if(g < 1000) return (g < 10 ? g.toFixed(1) : Math.round(g).toLocaleString('en-US')) + ' gigabits';
-    var t = g/1000;
-    return (t < 10 ? t.toFixed(1) : Math.round(t).toLocaleString('en-US')) + ' terabits';
-  }
-  function calc(){
-    var i = +$('cpeople').value, P = PEOPLE[i];
-    var gbHr = +document.querySelector('input[name="cper"]:checked').value;
-    $('cpeopleLabel').innerHTML = '<b>' + PNUM[i] + '</b> <span class="plab">· ' + PLAB[i] + '</span>';
-    $('cpeople').setAttribute('aria-valuetext', PNUM[i] + ', ' + PLAB[i]);
-    var mbps = P * gbHr * 8000 / 3600, gbGame = P * gbHr * 3;
-    $('cPhotos').textContent = big(P);
-    $('cStore').textContent = rate(mbps);
-    $('cPhones').textContent = store(gbGame);
-    var ph = gbGame / 128;
-    $('cDrives').textContent = ph < 0.01 ? 'A sliver of one' : ph < 1 ? Math.round(ph*100) + '% of one' : big(ph);
-    $('cVerdict').innerHTML = P < 1000
-      ? '<p>A home connection can handle this. The cloud’s job here is the <b>handoff</b>: getting the video to people even when their phone is off.</p>'
-      : P < 1000000
-      ? '<p>Now the same video is being copied thousands of times, <b>each copy to a different screen</b>. That takes machines that never sleep, and a very fast connection to the internet.</p>'
-      : '<p>Millions of separate streams, all of them live. No single computer can send this, and neither can one building. The game is <b>copied to many data centers</b> around the country, each serving viewers nearby. Even then, Netflix had buffering complaints at its record fight. This is why the building outside town exists.</p>';
-  }
-  $('cpeople').addEventListener('input', calc);
-  Array.prototype.forEach.call(document.querySelectorAll('input[name="cper"]'), function(r){ r.addEventListener('change', calc); });
-  calc();
 })();
 
 /* ---------- other ways to build it ---------- */
