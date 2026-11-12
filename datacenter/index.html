@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A plain-English, interactive guide to data centers: what they are, what they use, the tax-break economics, and what to ask your town.">
+<title>The Data Center Next Door</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: one calm reading column. A dark "server hall" hero, then big plain-English sections.
+   One sticky size slider drives every number below it, so the reader can feel the scale change. */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --surface2:#E8EDF2; --ink:#0F1B27; --muted:#44546A; --line:#C9D3DD;
+  --amber:#F0A500; --amber-ink:#7A4E00; --on-amber:#1A1200;
+  --water:#16639F; --money:#1B7347; --warn:#A8322A; --focus:#1B5FD6;
+  --night:#0B1520; --on-night:#EAF0F6;
+  --display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+  --fs:20;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A121B; --surface:#121E2B; --surface2:#1A2A3A; --ink:#EDF2F7; --muted:#A5B3C2; --line:#2A3C4F;
+    --amber:#FFC13A; --amber-ink:#FFC85A; --water:#6BB6F5; --money:#58C994; --warn:#F28B7B; --focus:#8DB8FF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A121B; --surface:#121E2B; --surface2:#1A2A3A; --ink:#EDF2F7; --muted:#A5B3C2; --line:#2A3C4F;
+  --amber:#FFC13A; --amber-ink:#FFC85A; --water:#6BB6F5; --money:#58C994; --warn:#F28B7B; --focus:#8DB8FF;
+  color-scheme:dark;
+}
+html{font-size:calc(var(--fs) * 1px)}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--body); font-size:1rem; line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:0; margin:0; overflow-x:hidden;
+}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:10; background:var(--bg)}
+h1,h2,h3{font-family:var(--display); line-height:1.1; text-wrap:balance; margin:0; letter-spacing:-.01em}
+h2{font-size:2.3rem; font-weight:800}
+h3{font-size:1.45rem; font-weight:700}
+p{margin:0 0 1em; max-width:38rem}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus); outline-offset:3px; border-radius:4px}
+.wrap{max-width:62rem; margin:0 auto}
+.eyebrow{font-size:.78rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--amber-ink); margin:0 0 .6rem}
+.lede{font-size:1.2rem; color:var(--muted)}
+section{padding-block:3.2rem}
+.sec-head{display:grid; gap:.4rem; margin-bottom:1.6rem}
+
+/* top bar */
+.top{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding-block:.9rem; flex-wrap:wrap}
+.brand{font-family:var(--display); font-weight:800; letter-spacing:.02em}
+.brand span{color:var(--amber-ink)}
+.textsize{display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:var(--muted)}
+.btn{font:inherit; font-weight:700; background:var(--surface); color:var(--ink); border:2px solid var(--ink); border-radius:.6rem; min-height:2.8rem; min-width:2.8rem; padding:.3rem .9rem; cursor:pointer}
+.btn:hover{background:var(--ink); color:var(--bg)}
+.btn.primary{background:var(--amber); color:var(--on-amber); border-color:var(--amber)}
+.btn.primary:hover{filter:brightness(.95); background:var(--amber); color:var(--on-amber)}
+
+/* hero */
+.hero{position:relative; background:var(--night); color:var(--on-night); border-radius:1.2rem; overflow:hidden; margin-top:.4rem}
+.hero canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.hero::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(11,21,32,.94) 0%, rgba(11,21,32,.78) 48%, rgba(11,21,32,.25) 100%)}
+.hero-in{position:relative; z-index:1; padding:clamp(2rem,6vw,4.5rem) clamp(1.2rem,5vw,3.5rem); max-width:44rem}
+.hero h1{font-size:clamp(2.6rem,8vw,4.8rem); font-weight:800; margin-bottom:1rem}
+.hero .eyebrow{color:#FFC85A}
+.hero p{font-size:1.25rem; color:#C9D6E3}
+.jump{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.4rem}
+.jump a{text-decoration:none; font-weight:700; font-size:.9rem; padding:.55rem .9rem; border:2px solid rgba(255,255,255,.35); border-radius:99px; color:#EAF0F6}
+.jump a:hover{background:#EAF0F6; color:#0B1520}
+
+/* chips (radio buttons that look like buttons) */
+fieldset{border:0; padding:0; margin:0; min-width:0}
+legend{font-weight:700; padding:0; margin-bottom:.6rem}
+.chips{display:flex; flex-wrap:wrap; gap:.6rem}
+.chip{position:relative; display:block}
+.chip input{position:absolute; opacity:0; inset:0; width:100%; height:100%; margin:0; cursor:pointer}
+.chip span{display:block; padding:.65rem 1rem; border:2px solid var(--line); border-radius:.6rem; background:var(--surface); min-height:3rem; font-weight:700}
+.chip input:checked + span{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chip input:focus-visible + span{outline:3px solid var(--focus); outline-offset:3px}
+
+/* journey */
+.trip{margin-top:1.6rem; background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.4rem}
+.path{list-style:none; display:flex; flex-wrap:wrap; gap:.5rem .3rem; padding:0; margin:1.2rem 0 1rem; align-items:stretch}
+.path li{display:flex; align-items:center; gap:.3rem}
+.path .node{background:var(--surface2); border-radius:.6rem; padding:.6rem .85rem; font-weight:700; font-size:.95rem; line-height:1.3}
+.path .node.dc{background:var(--amber); color:var(--on-amber)}
+.path .arrow{font-weight:800; color:var(--muted)}
+.trip-note{margin:0; color:var(--muted)}
+
+/* two-column explainers */
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr)); gap:1.2rem}
+.panel{background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.3rem; min-width:0}
+.panel h3{margin-bottom:.5rem}
+.panel p:last-child{margin-bottom:0}
+
+/* playground */
+.play{background:var(--surface2); border-radius:1.4rem; padding:0 clamp(.9rem,3vw,2rem) 2rem}
+.sizebar{position:sticky; top:env(safe-area-inset-top, 0px); z-index:5; background:var(--surface); border:2px solid var(--ink); border-radius:1rem; padding:.9rem 1.1rem; margin-top:1.4rem; display:grid; gap:.4rem}
+.sizebar-top{display:flex; justify-content:space-between; align-items:baseline; gap:1rem; flex-wrap:wrap}
+.sizebar b.big{font-family:var(--display); font-size:1.7rem; font-weight:800; line-height:1}
+.sizebar .sz-note{font-size:.88rem; color:var(--muted)}
+input[type=range]{width:100%; height:2.4rem; accent-color:var(--amber-ink); background:transparent; margin:0; cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:.7rem; border-radius:99px; background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:2.1rem; height:2.1rem; margin-top:-.7rem; border-radius:50%; background:var(--amber); border:3px solid var(--ink)}
+input[type=range]::-moz-range-track{height:.7rem; border-radius:99px; background:var(--line)}
+input[type=range]::-moz-range-thumb{width:1.8rem; height:1.8rem; border-radius:50%; background:var(--amber); border:3px solid var(--ink)}
+.ticks{display:flex; justify-content:space-between; font-size:.8rem; color:var(--muted)}
+.hint{display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; margin-top:1.4rem}
+.hint label{font-weight:700}
+.num{font:inherit; font-weight:700; width:8rem; min-height:2.8rem; padding:.2rem .7rem; border:2px solid var(--ink); border-radius:.6rem; background:var(--surface); color:var(--ink)}
+
+.block{margin-top:2.8rem}
+.block > h2{font-size:1.9rem; margin-bottom:.4rem}
+.stat{font-family:var(--display); font-weight:800; font-size:clamp(2.4rem,7vw,3.6rem); line-height:1.02; margin:.6rem 0 .3rem; letter-spacing:-.02em}
+.stat small{display:block; font-family:var(--body); font-size:1.05rem; font-weight:400; color:var(--muted); letter-spacing:0; margin-top:.4rem}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(14rem,100%),1fr)); gap:1rem; margin-top:1.2rem}
+.card{background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.1rem 1.2rem; min-width:0}
+.card .k{font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.card .v{font-family:var(--display); font-weight:800; font-size:2rem; line-height:1.1; margin:.25rem 0}
+.card .d{font-size:.92rem; color:var(--muted); margin:0}
+.v.warn{color:var(--warn)} .v.good{color:var(--money)} .v.wat{color:var(--water)}
+
+.cmp{display:grid; gap:.9rem; margin-top:1.4rem; background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.2rem}
+.cmp .lab{display:flex; justify-content:space-between; gap:1rem; font-weight:700; flex-wrap:wrap}
+.track{height:2rem; background:var(--surface2); border-radius:.5rem; overflow:hidden; margin-top:.3rem}
+.fill{height:100%; border-radius:.5rem; transition:width .35s ease; min-width:4px}
+.fill.a{background:var(--muted)} .fill.b{background:var(--amber)} .fill.w{background:var(--water)}
+
+.heat{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(11rem,100%),1fr)); gap:.8rem; margin:1rem 0 0; padding:0; list-style:none; counter-reset:h}
+.heat li{background:var(--surface); border:2px solid var(--line); border-radius:.8rem; padding:.9rem 1rem; font-size:.95rem; line-height:1.4}
+.heat li b{display:block; font-family:var(--display); font-size:1.15rem; margin-bottom:.2rem}
+
+.taxchart{background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1.2rem; margin-top:1.2rem}
+.bars{display:flex; align-items:flex-end; gap:3px; height:11rem; border-bottom:2px solid var(--ink); margin-top:.8rem}
+.bars i{flex:1; border-radius:3px 3px 0 0; min-height:2px}
+.bars i.cut{background:var(--amber)} .bars i.full{background:var(--money)}
+.axis{display:flex; justify-content:space-between; font-size:.85rem; color:var(--muted); margin-top:.3rem}
+.legend{display:flex; gap:1.2rem; flex-wrap:wrap; font-size:.9rem; margin-top:.6rem}
+.legend span::before{content:""; display:inline-block; width:.9rem; height:.9rem; border-radius:3px; margin-right:.4rem; vertical-align:-.1em}
+.legend .l1::before{background:var(--amber)} .legend .l2::before{background:var(--money)}
+.controls{display:grid; gap:1.4rem; margin-top:1.2rem}
+.ctl{background:var(--surface); border:2px solid var(--line); border-radius:1rem; padding:1rem 1.2rem}
+.ctl .row{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-weight:700}
+.verdict{background:var(--ink); color:var(--bg); border-radius:1rem; padding:1.3rem 1.5rem; margin-top:1.4rem; font-size:1.1rem}
+.verdict p{max-width:none; margin:0 0 .7em}
+.verdict p:last-child{margin:0}
+.verdict b{color:var(--amber)}
+:root[data-theme="dark"] .verdict b{color:#B26A00}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .verdict b{color:#B26A00} }
+.note{font-size:.88rem; color:var(--muted); margin-top:.8rem}
+
+/* growth chart */
+.grow{display:flex; align-items:flex-end; gap:1.2rem; height:13rem; margin-top:1rem; border-bottom:2px solid var(--ink); padding-inline:.4rem}
+.grow .col{flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; text-align:center; min-width:0}
+.grow .col .bar{width:100%; max-width:6rem; background:var(--muted); border-radius:6px 6px 0 0; position:relative}
+.grow .col .bar.range{background:var(--amber)}
+.grow .col .bar .rng{position:absolute; left:0; right:0; top:0; background:repeating-linear-gradient(45deg, var(--amber), var(--amber) 6px, transparent 6px, transparent 12px); opacity:.9}
+.grow .pct{font-family:var(--display); font-weight:800; font-size:1.2rem; margin-bottom:.2rem}
+.growlab{display:flex; gap:1.2rem; padding-inline:.4rem}
+.growlab div{flex:1; text-align:center; font-size:.9rem; color:var(--muted); min-width:0}
+
+/* neighbors */
+.nb-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(18rem,100%),1fr)); gap:1.1rem}
+.nb{background:var(--surface); border:2px solid var(--line); border-radius:1rem; overflow:hidden; min-width:0}
+.nb h3{padding:1rem 1.2rem .6rem; font-size:1.3rem}
+.nb .bad,.nb .good{padding:.8rem 1.2rem; font-size:.95rem; line-height:1.45}
+.nb .bad{background:color-mix(in srgb, var(--warn) 11%, var(--surface))}
+.nb .good{background:color-mix(in srgb, var(--money) 12%, var(--surface))}
+.nb .tag{display:block; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.15rem}
+.nb .bad .tag{color:var(--warn)} .nb .good .tag{color:var(--money)}
+.fair{background:var(--surface); border:2px solid var(--line); border-left-width:8px; border-left-color:var(--money); border-radius:1rem; padding:1.2rem 1.4rem; margin-top:1.6rem}
+.fair p{max-width:none}
+
+/* questions */
+.q{list-style:none; padding:0; margin:0 0 1.2rem; display:grid; gap:.7rem}
+.q label{display:flex; gap:.9rem; align-items:flex-start; background:var(--surface); border:2px solid var(--line); border-radius:.9rem; padding:.9rem 1.1rem; cursor:pointer}
+.q input{width:1.6rem; height:1.6rem; margin:.15rem 0 0; flex:none; accent-color:var(--money)}
+.q input:checked + span{color:var(--muted); text-decoration:line-through}
+#qtext{width:100%; min-height:10rem; font:inherit; font-size:.9rem; padding:.7rem; border:2px solid var(--ink); border-radius:.6rem; background:var(--surface); color:var(--ink); margin-top:.8rem}
+
+footer{padding-block:2rem 4rem; border-top:2px solid var(--line); color:var(--muted); font-size:.88rem}
+footer ul{padding-left:1.1rem; margin:.4rem 0 1rem}
+footer p{max-width:46rem}
+
+@media (max-width:560px){
+  h2{font-size:1.9rem}
+  section{padding-block:2.4rem}
+  .hero::after{background:linear-gradient(180deg, rgba(11,21,32,.93) 0%, rgba(11,21,32,.82) 100%)}
+}
+@media (prefers-reduced-motion: reduce){ .fill{transition:none} }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">Red Crow <span>Labs</span></div>
+    <div class="textsize" role="group" aria-label="Text size">
+      <span>Text size</span>
+      <button class="btn" id="smaller" type="button" aria-label="Make text smaller">A&minus;</button>
+      <button class="btn" id="bigger" type="button" aria-label="Make text bigger">A+</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <canvas id="racks" aria-hidden="true"></canvas>
+    <div class="hero-in">
+      <p class="eyebrow">A plain-English guide</p>
+      <h1>The Data Center Next Door</h1>
+      <p>Something very large is going up outside town. Here is what it is, what it eats, who gets paid, and what to ask before anyone signs.</p>
+      <nav class="jump" aria-label="Sections">
+        <a href="#what">What it is</a>
+        <a href="#numbers">Build one</a>
+        <a href="#money">The money</a>
+        <a href="#neighbor">Good neighbor?</a>
+        <a href="#ask">Questions to ask</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 1. WHAT IT IS -->
+  <section id="what">
+    <div class="sec-head">
+      <p class="eyebrow">Start here</p>
+      <h2>It is a warehouse full of computers</h2>
+    </div>
+    <p>That is all it is. Every photo you have texted, every video you have watched and every bank balance you have checked sits on a computer somewhere. A data center is the building where thousands of those computers live together, so they can be kept cool, powered and connected.</p>
+    <p>Think of the library in town. Now picture one that never closes, has no readers inside, and is hundreds of times bigger. Only a few people work there. Mostly it is machines, running day and night.</p>
+
+    <div class="trip">
+      <fieldset>
+        <legend>Tap something you do, and see where it goes:</legend>
+        <div class="chips" id="tripChips">
+          <label class="chip"><input type="radio" name="trip" value="call" checked><span>Video call a grandchild</span></label>
+          <label class="chip"><input type="radio" name="trip" value="photos"><span>Look at old photos</span></label>
+          <label class="chip"><input type="radio" name="trip" value="bank"><span>Check my bank balance</span></label>
+          <label class="chip"><input type="radio" name="trip" value="ai"><span>Ask a chatbot</span></label>
+        </div>
+      </fieldset>
+      <ol class="path" id="tripPath" aria-live="polite"></ol>
+      <p class="trip-note" id="tripNote"></p>
+    </div>
+
+    <div class="two" style="margin-top:1.4rem">
+      <div class="panel">
+        <h3>Why so many, so fast?</h3>
+        <p>Chatbots and other AI need far more computing than anything before them. The newest buildings are being made for that. A single large one can use as much electricity as tens of thousands of homes.</p>
+        <p>That is why companies are racing to build, and why small towns are being asked to say yes.</p>
+      </div>
+      <div class="panel">
+        <h3>Why it gets hot</h3>
+        <p>Every computer is a small space heater. Put tens of thousands of them in one building and you have an enormous heater that must be cooled every second, or the machines burn out.</p>
+        <p>Cooling is where most of the water and a good share of the electricity goes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PLAYGROUND -->
+  <section id="numbers" style="padding-block:1rem 3rem">
+    <div class="play">
+      <div style="padding-top:2.6rem">
+        <p class="eyebrow">Your turn</p>
+        <h2>Pretend it is built. How big is it?</h2>
+        <p class="lede" style="margin-top:.8rem">Size is counted in megawatts, written MW. That is how much electricity the building can pull at once. One megawatt keeps roughly 700 homes running. Slide it and watch everything below change.</p>
+        <div class="hint">
+          <label for="homes">Homes in your county:</label>
+          <input class="num" id="homes" type="number" inputmode="numeric" min="500" max="500000" step="500" value="20000">
+          <span class="note" style="margin:0">Change this to match home.</span>
+        </div>
+      </div>
+
+      <div class="sizebar" id="sizebar">
+        <div class="sizebar-top">
+          <span><b class="big" id="sizeMW">100 MW</b> <b id="sizeName">Large</b></span>
+          <span class="sz-note" id="sizeNote"></span>
+        </div>
+        <input id="size" type="range" min="0" max="10" step="1" value="4" aria-label="Size of the data center in megawatts" aria-describedby="sizeNote">
+        <div class="ticks" aria-hidden="true"><span>5 MW</span><span>100 MW</span><span>1,000 MW</span></div>
+      </div>
+
+      <!-- Electricity -->
+      <div class="block" id="power">
+        <p class="eyebrow">What goes in &middot; 1 of 3</p>
+        <h2>Electricity</h2>
+        <div class="stat"><span id="homesEq">69,000</span> homes&rsquo; worth
+          <small>of electricity, every hour of every day, all year. It never turns off.</small></div>
+
+        <div class="cmp" aria-label="Comparison with homes in your county">
+          <div>
+            <div class="lab"><span>Every home in your county</span><span id="valCounty"></span></div>
+            <div class="track"><div class="fill a" id="barCounty"></div></div>
+          </div>
+          <div>
+            <div class="lab"><span>This one data center</span><span id="valDC"></span></div>
+            <div class="track"><div class="fill b" id="barDC"></div></div>
+          </div>
+          <p id="ratioText" style="margin:0; max-width:none; font-weight:700"></p>
+        </div>
+
+        <fieldset style="margin-top:1.6rem">
+          <legend>Where does that electricity come from? It makes a big difference.</legend>
+          <div class="chips" id="srcChips">
+            <label class="chip"><input type="radio" name="src" value="grid" checked><span>Typical U.S. mix</span></label>
+            <label class="chip"><input type="radio" name="src" value="gas"><span>New natural gas plant</span></label>
+            <label class="chip"><input type="radio" name="src" value="coal"><span>Coal plant</span></label>
+            <label class="chip"><input type="radio" name="src" value="clean"><span>Wind, solar, nuclear</span></label>
+          </div>
+        </fieldset>
+        <div class="cards">
+          <div class="card"><div class="k">Carbon dioxide per year</div><div class="v" id="co2">0</div><p class="d">tons released making that power</p></div>
+          <div class="card"><div class="k">Same as</div><div class="v warn" id="cars">0</div><p class="d">cars driven for a full year</p></div>
+        </div>
+        <p class="note">Some companies say they run on clean power, but they often buy it on paper while the plug stays in the regular grid. Ask which one it is.</p>
+
+        <h3 style="margin-top:2.2rem">And it is growing fast</h3>
+        <p style="margin-top:.5rem">Share of all U.S. electricity used by data centers. The striped part is the range experts expect.</p>
+        <div class="grow" role="img" aria-label="Data centers used 1.9 percent of U.S. electricity in 2018, 4.4 percent in 2023, and are expected to use between 6.7 and 12 percent by 2028.">
+          <div class="col"><div class="pct">1.9%</div><div class="bar" style="height:16%"></div></div>
+          <div class="col"><div class="pct">4.4%</div><div class="bar" style="height:37%"></div></div>
+          <div class="col"><div class="pct">6.7&ndash;12%</div><div class="bar range" style="height:100%"><div class="rng" style="height:44%"></div></div></div>
+        </div>
+        <div class="growlab"><div>2018</div><div>2023</div><div>2028 (projected)</div></div>
+      </div>
+
+      <!-- Water -->
+      <div class="block" id="water">
+        <p class="eyebrow">What goes in &middot; 2 of 3</p>
+        <h2>Water</h2>
+        <p>Remember the space heaters. The cheapest way to cool them is to let water evaporate, the way sweat cools you. The water leaves as vapor. It does not go back into the river or the well.</p>
+        <ol class="heat">
+          <li><b>1. Chips make heat</b>Thousands of computers running at once.</li>
+          <li><b>2. Water carries it off</b>Pipes move the heat to towers outside.</li>
+          <li><b>3. It evaporates</b>The water rises into the air as steam and is gone.</li>
+        </ol>
+
+        <fieldset style="margin-top:1.6rem">
+          <legend>How is this one cooled?</legend>
+          <div class="chips" id="coolChips">
+            <label class="chip"><input type="radio" name="cool" value="evap"><span>Evaporative towers</span></label>
+            <label class="chip"><input type="radio" name="cool" value="typical" checked><span>Average building today</span></label>
+            <label class="chip"><input type="radio" name="cool" value="closed"><span>Closed loop / air cooled</span></label>
+          </div>
+        </fieldset>
+        <div class="stat"><span id="gal">200,000</span> gallons a day
+          <small id="galNote"></small></div>
+        <div class="cards">
+          <div class="card"><div class="k">Same as</div><div class="v wat" id="waterHomes">0</div><p class="d">homes&rsquo; daily water use</p></div>
+          <div class="card"><div class="k">Share of your county&rsquo;s home water</div><div class="v wat" id="waterShare">0%</div><p class="d">on top of what people already use</p></div>
+          <div class="card"><div class="k">Per year</div><div class="v wat" id="pools">0</div><p class="d">Olympic swimming pools</p></div>
+        </div>
+        <p class="note">The closed-loop kind uses very little water but needs more electricity to run, and the figure varies with the weather. Power plants also use water to make the electricity, which is not counted here.</p>
+      </div>
+
+      <!-- Land -->
+      <div class="block" id="land">
+        <p class="eyebrow">What goes in &middot; 3 of 3</p>
+        <h2>Space, noise and backup power</h2>
+        <div class="cards">
+          <div class="card"><div class="k">The building</div><div class="v" id="fields">9</div><p class="d">football fields of floor space, mostly with no windows</p></div>
+          <div class="card"><div class="k">Backup generators</div><div class="v warn" id="gens">40</div><p class="d">diesel engines the size of a delivery truck, tested regularly, in case the power fails</p></div>
+          <div class="card"><div class="k">The hum</div><div class="v">24/7</div><p class="d">Cooling fans and equipment make a steady low sound that can carry a long way at night.</p></div>
+        </div>
+      </div>
+
+      <!-- Money -->
+      <div class="block" id="money">
+        <p class="eyebrow">Follow the money</p>
+        <h2>Who wins, and who pays?</h2>
+        <p>Towns usually offer a tax break to land a data center. Move the dials and see what the deal does to the town&rsquo;s money. These are rough planning numbers to help you think, not a forecast.</p>
+
+        <div class="controls">
+          <div class="ctl">
+            <div class="row"><label for="pct">Property tax forgiven</label><span id="pctOut">80%</span></div>
+            <input id="pct" type="range" min="0" max="100" step="10" value="80">
+          </div>
+          <div class="ctl">
+            <div class="row"><label for="years">For how many years</label><span id="yearsOut">15 years</span></div>
+            <input id="years" type="range" min="0" max="30" step="1" value="15">
+          </div>
+          <div class="ctl">
+            <fieldset>
+              <legend>Who pays for the new power lines and plants?</legend>
+              <div class="chips" id="payChips">
+                <label class="chip"><input type="radio" name="pay" value="company"><span>The company</span></label>
+                <label class="chip"><input type="radio" name="pay" value="shared" checked><span>Everyone on the power bill</span></label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="taxchart">
+          <div class="row" style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-weight:700">
+            <span>Property tax the town collects, year by year</span><span id="fullTax"></span>
+          </div>
+          <div class="bars" id="bars" role="img" aria-label="Bar chart of yearly property tax over 30 years"></div>
+          <div class="axis"><span>Year 1</span><span>Year 15</span><span>Year 30</span></div>
+          <div class="legend"><span class="l1">Years with the break</span><span class="l2">Full tax</span></div>
+        </div>
+
+        <div class="cards">
+          <div class="card"><div class="k">Tax collected, 30 years</div><div class="v good" id="collected">0</div><p class="d" id="collectedNote"></p></div>
+          <div class="card"><div class="k">Tax given up</div><div class="v warn" id="forgone">0</div><p class="d">that the town would have received without a break</p></div>
+          <div class="card"><div class="k">Permanent jobs</div><div class="v" id="jobs">0</div><p class="d" id="jobsNote"></p></div>
+          <div class="card"><div class="k">Break per permanent job</div><div class="v warn" id="perJob">0</div><p class="d">in waived tax, each year of the break</p></div>
+          <div class="card"><div class="k">Added to your power bill</div><div class="v warn" id="bill">0</div><p class="d" id="billNote"></p></div>
+        </div>
+
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+        <p class="note">Assumes about $11 million of building and equipment per megawatt, computers taxed at half their value, a 1.2% property tax rate, about 0.4 permanent jobs per megawatt, and about $1 million of new power lines and plants per megawatt. Real projects differ. Ask for the real numbers in your town&rsquo;s documents.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. NEIGHBOR -->
+  <section id="neighbor">
+    <div class="sec-head">
+      <p class="eyebrow">The fair fight</p>
+      <h2>Good neighbor or bad neighbor?</h2>
+      <p class="lede">It depends almost entirely on the deal the town signs. Same building, very different results. Here is the worst case beside the good deal, topic by topic.</p>
+    </div>
+    <div class="nb-grid" id="nbGrid"></div>
+    <div class="fair">
+      <h3>What they do get right</h3>
+      <p style="margin-top:.5rem">A data center sends no children to the school and puts few cars on the road once it is open. It pays a very large tax bill, often more than the farm or factory it replaces, and that money can fix roads and fund schools. It is quiet to look at compared with most heavy industry. The trouble is rarely the building. It is usually the secrecy, the length of the tax break, and who ends up paying for the power.</p>
+    </div>
+  </section>
+
+  <!-- 4. QUESTIONS -->
+  <section id="ask">
+    <div class="sec-head">
+      <p class="eyebrow">Take this to the meeting</p>
+      <h2>Eight questions worth asking</h2>
+      <p class="lede">Tick them off as you get answers. If a question gets dodged, that is an answer too.</p>
+    </div>
+    <ul class="q" id="qList"></ul>
+    <button class="btn primary" id="copyQ" type="button">Copy the list</button>
+    <span class="note" id="copyMsg" role="status" style="margin-left:.8rem"></span>
+    <textarea id="qtext" hidden readonly aria-label="Questions list, select and copy"></textarea>
+  </section>
+
+  <footer>
+    <p><b>Where the numbers come from.</b> Rounded from public sources, then simplified.</p>
+    <ul>
+      <li>Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (share of U.S. electricity, water use).</li>
+      <li>U.S. Energy Information Administration (average home electricity use), U.S. EPA eGRID (emissions per unit of power), EPA WaterSense (household water use), EPA vehicle emissions.</li>
+      <li>Good Jobs First, research on state and local data center tax subsidies.</li>
+    </ul>
+    <p>Per-megawatt costs, jobs, generators and floor space are planning assumptions, not facts about any one project. A Red Crow Labs explainer.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var STOPS = [5,10,20,50,100,150,200,300,500,750,1000];
+  var st = { idx:4, homes:20000, src:'grid', cool:'typical', pct:80, years:15, pay:'shared' };
+  var SRC = { grid:0.37, gas:0.40, coal:0.95, clean:0.03 };           // metric tons CO2 per MWh
+  var COOL = { evap:0.45, typical:0.10, closed:0.02 };                 // gallons per kWh
+  var COOLNOTE = {
+    evap:'A hot-climate building cooled mostly by evaporation. Heaviest on the hottest days.',
+    typical:'Close to the average for buildings in use today.',
+    closed:'Water circulates in sealed pipes, so very little is lost to the air.'
+  };
+
+  function n0(n){ return Math.round(n).toLocaleString('en-US'); }
+  function approx(n){
+    if(n >= 1e6) return (Math.round(n/1e5)/10).toLocaleString('en-US') + ' million';
+    if(n >= 1e4) return (Math.round(n/1e3)*1e3).toLocaleString('en-US');
+    if(n >= 1e3) return (Math.round(n/100)*100).toLocaleString('en-US');
+    return n0(n);
+  }
+  function money(n){
+    if(n >= 1e9) return '$' + (n/1e9).toFixed(1) + ' billion';
+    if(n >= 1e8) return '$' + Math.round(n/1e6) + ' million';
+    if(n >= 1e6) return '$' + (n/1e6).toFixed(1) + ' million';
+    if(n >= 1e3) return '$' + (Math.round(n/1e3)*1e3).toLocaleString('en-US');
+    return '$' + Math.round(n);
+  }
+  function sizeName(s){ return s<=10?'Small': s<=50?'Medium': s<=100?'Large': s<=300?'Giant':'Mega-campus'; }
+  function sizeNote(s){
+    if(s<=20) return 'Like a big local business or a hospital.';
+    if(s<=50) return 'About the size of a small factory.';
+    if(s<=100) return 'The kind often proposed near small towns.';
+    if(s<=300) return 'A whole city’s worth of homes.';
+    return 'Bigger than most power plants. A few exist or are planned.';
+  }
+
+  /* ---------- journeys ---------- */
+  var TRIPS = {
+    call:{ steps:['Your iPad','Your internet company','A data center that connects the call','Your grandchild’s phone'], dc:2,
+      note:'The picture and voice are handed along by computers in a data center, usually in well under a second.' },
+    photos:{ steps:['Your phone','The internet','A data center holding your photo library','Back on your screen'], dc:2,
+      note:'The “cloud” is not in the sky. It is a real building somewhere, with your pictures stored on its disks.' },
+    bank:{ steps:['Your phone','The internet','Your bank’s data center','Your balance appears'], dc:2,
+      note:'Banks keep copies in more than one building, so nothing is lost if one has a fire or a power cut.' },
+    ai:{ steps:['Your phone','The internet','A data center full of special AI chips','The answer comes back'], dc:2,
+      note:'This is the new part. Writing an answer takes far more computing than an old-fashioned search, and all of it happens inside the building.' }
+  };
+  function renderTrip(key){
+    var t = TRIPS[key], html = '';
+    t.steps.forEach(function(s,i){
+      html += '<li><span class="node' + (i===t.dc?' dc':'') + '">' + s + '</span>' + (i<t.steps.length-1?'<span class="arrow" aria-hidden="true">→</span>':'') + '</li>';
+    });
+    $('tripPath').innerHTML = html;
+    $('tripNote').textContent = t.note;
+  }
+
+  /* ---------- main model ---------- */
+  function update(){
+    var S = STOPS[st.idx];
+    $('sizeMW').textContent = n0(S) + ' MW';
+    $('sizeName').textContent = sizeName(S);
+    $('sizeNote').textContent = sizeNote(S);
+
+    // electricity
+    var avgMW = S * 0.85, mwh = avgMW * 8760;
+    var homeEq = mwh / 10.8;
+    $('homesEq').textContent = approx(homeEq);
+    var mx = Math.max(homeEq, st.homes);
+    $('barCounty').style.width = (st.homes / mx * 100) + '%';
+    $('barDC').style.width = (homeEq / mx * 100) + '%';
+    $('valCounty').textContent = n0(st.homes) + ' homes';
+    $('valDC').textContent = approx(homeEq) + ' homes’ worth';
+    var ratio = homeEq / st.homes;
+    $('ratioText').textContent = ratio >= 1.05
+      ? 'It would use about ' + (ratio >= 10 ? n0(ratio) : ratio.toFixed(1)) + ' times the electricity of every home in your county combined.'
+      : ratio >= 0.95 ? 'It would use about as much electricity as every home in your county combined.'
+      : 'It would use about ' + Math.max(1,Math.round(ratio*100)) + '% as much electricity as every home in your county combined.';
+    var tons = mwh * SRC[st.src];
+    $('co2').textContent = approx(tons);
+    $('cars').textContent = approx(tons / 4.6);
+
+    // water
+    var kwhDay = S * 1000 * 0.85 * 24;
+    var gal = kwhDay * COOL[st.cool];
+    $('gal').textContent = approx(gal);
+    $('galNote').textContent = COOLNOTE[st.cool];
+    $('waterHomes').textContent = approx(gal / 300);
+    var share = gal / (st.homes * 300) * 100;
+    $('waterShare').textContent = (share >= 10 ? Math.round(share) : share.toFixed(1)) + '%';
+    $('pools').textContent = approx(gal * 365 / 660000);
+
+    // space
+    var fields = S * 5000 / 57600;
+    $('fields').textContent = fields < 10 ? (Math.round(fields*10)/10) : n0(fields);
+    $('gens').textContent = Math.max(2, Math.round(S / 2.5));
+
+    // money
+    var P = st.pct / 100, Y = st.years;
+    var base = 11e6 * S + 25e6 * S * 0.5;
+    var full = base * 0.012;
+    var collected = full * (Y * (1 - P) + (30 - Y));
+    var forgone = full * Y * P;
+    var jobs = Math.max(2, Math.round(S * 0.4));
+    var construction = Math.round(S * 5);
+    var perJob = (Y > 0 && P > 0) ? full * P / jobs : 0;
+    var gridCost = S * 1e6;
+    var bill = st.pay === 'shared' ? gridCost / (st.homes * 30) : 0;
+
+    $('pctOut').textContent = st.pct + '%';
+    $('yearsOut').textContent = Y + (Y === 1 ? ' year' : ' years');
+    $('fullTax').textContent = 'Full tax would be ' + money(full) + ' a year';
+    var bars = '';
+    for(var i=0;i<30;i++){
+      var cut = i < Y && P > 0;
+      var v = i < Y ? full * (1 - P) : full;
+      bars += '<i class="' + (cut ? 'cut' : 'full') + '" style="height:' + Math.max(v/full*100, 0) + '%"></i>';
+    }
+    $('bars').innerHTML = bars;
+    $('collected').textContent = money(collected);
+    $('collectedNote').textContent = 'new money for schools, roads and services';
+    $('forgone').textContent = money(forgone);
+    $('jobs').textContent = n0(jobs);
+    $('jobsNote').textContent = 'plus about ' + n0(construction) + ' temporary construction jobs for around two years';
+    $('perJob').textContent = perJob > 0 ? money(perJob) : '$0';
+    $('bill').textContent = bill > 0 ? '$' + Math.round(bill) + ' a year' : '$0';
+    $('billNote').textContent = st.pay === 'shared'
+      ? 'per home, if the new lines and plants are spread across all customers'
+      : 'the company covers what the grid must build for it';
+
+    var v = '';
+    v += '<p>At these settings the town collects <b>' + money(collected) + '</b> over 30 years and about <b>' + n0(jobs) + ' people</b> get steady jobs.</p>';
+    if(perJob > 0){
+      v += '<p>During the break, every permanent job is backed by about <b>' + money(perJob) + '</b> a year in tax the town does not collect. That is the price of the tax break, spread across the jobs.</p>';
+    } else {
+      v += '<p>With no break, the town gets the full tax from day one. Whether the company would still come is the real question.</p>';
+    }
+    if(P > 0 && Y > 0){
+      v += '<p>To be fair, if the company would go elsewhere without the break, the town is still ahead by <b>' + money(collected) + '</b> compared with getting nothing. If they would have come anyway, the town gave away <b>' + money(forgone) + '</b>.</p>';
+    }
+    if(st.pay === 'shared'){
+      v += '<p>Because the power bill is shared, a typical home pays about <b>$' + Math.round(bill) + ' more each year</b> to build what the data center needs. Try switching to “The company” to see the difference.</p>';
+    } else {
+      v += '<p>Because the company pays for its own power lines and plants, neighbors are protected from higher bills. This is a rule many towns do not think to ask for.</p>';
+    }
+    $('verdict').innerHTML = v;
+  }
+
+  /* ---------- neighbors ---------- */
+  var NB = [
+    ['The noise','A constant low hum from cooling fans, day and night, that can carry half a mile or more and disturb sleep.','The building is set well back, with walls and earth berms, and a sound limit is written into the permit and actually measured.'],
+    ['Your power bill','New plants and power lines are built for the data center, and the cost is spread across every customer.','Big users sign long contracts and pay for what is built for them, so other bills do not rise.'],
+    ['Water','It draws from the same well or river as the town, even in a dry summer.','It uses recycled water or a closed loop, and has to cut back first in a drought.'],
+    ['Tax breaks','Decades of waived taxes in return for a few dozen jobs.','A short break, tied to hiring, with the money paid back if the company misses its promises.'],
+    ['Jobs','Hundreds of construction workers for two years, then a small crew, many hired from outside.','A training deal with the local community college and a promise to hire local people first.'],
+    ['Secrecy','Code names and nondisclosure agreements. Officials sign before residents hear a word.','Public hearings before the deal is final, and the full agreement posted for anyone to read.'],
+    ['Backup generators','Dozens of diesel engines, run for tests, with exhaust and noise.','Strict air permits, limits on test hours, and batteries or cleaner fuel where possible.'],
+    ['What it looks like','Acres of windowless wall, bright lights all night, fences and new power lines across farmland.','Trees and berms hide the building, lights point down, and lines follow existing roads.']
+  ];
+  $('nbGrid').innerHTML = NB.map(function(n){
+    return '<div class="nb"><h3>' + n[0] + '</h3><div class="bad"><span class="tag">Can go badly</span>' + n[1] + '</div><div class="good"><span class="tag">A good deal looks like</span>' + n[2] + '</div></div>';
+  }).join('');
+
+  /* ---------- questions ---------- */
+  var QS = [
+    'How much electricity will it use, and who pays for the new power lines and plants?',
+    'Where will the water come from, and what happens in a drought?',
+    'How loud will it be at the nearest house, and who measures it?',
+    'How many permanent jobs will there be, and how many go to people who already live here?',
+    'What tax breaks are offered, for how long, and what happens if the company does not deliver?',
+    'How many diesel backup generators will there be, and how often are they tested?',
+    'Why were the first talks held in private, and when can the public read the full agreement?',
+    'If the company leaves or the building becomes obsolete, who cleans up?'
+  ];
+  $('qList').innerHTML = QS.map(function(q,i){
+    return '<li><label><input type="checkbox" id="q' + i + '"><span>' + q + '</span></label></li>';
+  }).join('');
+  $('copyQ').addEventListener('click', function(){
+    var text = 'Questions about the data center:\n\n' + QS.map(function(q,i){ return (i+1) + '. ' + q; }).join('\n');
+    var ta = $('qtext');
+    function fallback(){
+      ta.hidden = false; ta.value = text; ta.focus(); ta.select();
+      $('copyMsg').textContent = 'Select all and copy from the box below.';
+    }
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ $('copyMsg').textContent = 'Copied.'; }, fallback);
+      } else fallback();
+    }catch(e){ fallback(); }
+  });
+
+  /* ---------- wiring ---------- */
+  document.querySelectorAll('input[name=trip]').forEach(function(r){ r.addEventListener('change', function(){ renderTrip(r.value); }); });
+  $('size').addEventListener('input', function(e){ st.idx = +e.target.value; update(); });
+  $('homes').addEventListener('input', function(e){ var v = parseInt(e.target.value,10); if(v > 0){ st.homes = v; update(); } });
+  document.querySelectorAll('input[name=src]').forEach(function(r){ r.addEventListener('change', function(){ st.src = r.value; update(); }); });
+  document.querySelectorAll('input[name=cool]').forEach(function(r){ r.addEventListener('change', function(){ st.cool = r.value; update(); }); });
+  document.querySelectorAll('input[name=pay]').forEach(function(r){ r.addEventListener('change', function(){ st.pay = r.value; update(); }); });
+  $('pct').addEventListener('input', function(e){ st.pct = +e.target.value; update(); });
+  $('years').addEventListener('input', function(e){ st.years = +e.target.value; update(); });
+
+  /* text size */
+  var fs = 20;
+  try{ var saved = parseInt(localStorage.getItem('dc-fs'),10); if(saved >= 16 && saved <= 28) fs = saved; }catch(e){}
+  function applyFs(){ document.documentElement.style.setProperty('--fs', fs); try{ localStorage.setItem('dc-fs', fs); }catch(e){} }
+  $('bigger').addEventListener('click', function(){ fs = Math.min(28, fs + 2); applyFs(); });
+  $('smaller').addEventListener('click', function(){ fs = Math.max(16, fs - 2); applyFs(); });
+  applyFs();
+
+  renderTrip('call');
+  update();
+
+  /* ---------- hero: racks of blinking lights ---------- */
+  var cv = $('racks'), ctx = cv.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cells = [], cols = 0, rows = 0, cw = 16, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var COLORS = ['#1a2a3b','#1a2a3b','#1a2a3b','#243a52','#F0A500','#3FD07A','#4FA8F0'];
+  function layout(){
+    var r = cv.getBoundingClientRect();
+    cv.width = Math.max(1, r.width * dpr); cv.height = Math.max(1, r.height * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cols = Math.ceil(r.width / cw); rows = Math.ceil(r.height / cw);
+    cells = [];
+    for(var i=0;i<cols*rows;i++) cells.push(Math.floor(Math.random()*COLORS.length));
+    draw();
+  }
+  function draw(){
+    var r = cv.getBoundingClientRect();
+    ctx.clearRect(0,0,r.width,r.height);
+    for(var y=0;y<rows;y++){
+      var rackGap = (y % 6 === 5);          // gap rows between racks
+      if(rackGap) continue;
+      for(var x=0;x<cols;x++){
+        if(x % 9 === 8) continue;           // aisles between racks
+        ctx.fillStyle = COLORS[cells[y*cols+x]];
+        ctx.fillRect(x*cw+3, y*cw+4, cw-6, cw-9);
+      }
+    }
+  }
+  layout();
+  window.addEventListener('resize', layout);
+  if(!reduce){
+    setInterval(function(){
+      if(document.hidden) return;
+      for(var k=0;k<14;k++) cells[Math.floor(Math.random()*cells.length)] = Math.floor(Math.random()*COLORS.length);
+      draw();
+    }, 220);
+  }
+})();
+</script>
+
+</body>
+</html>
