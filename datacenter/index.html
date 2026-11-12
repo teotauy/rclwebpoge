@@ -1098,8 +1098,15 @@ footer p{max-width:46rem}
       // the stadium, seen from above
       el('ellipse', {cx:69, cy:138, rx:56, ry:76, 'class':'f2 s'});
       el('rect', {x:38, y:86, width:62, height:104, rx:4, style:'fill:color-mix(in srgb, var(--money) 35%, var(--surface)); stroke:var(--ink); stroke-width:2.5'});
-      el('line', {x1:38, y1:138, x2:100, y2:138, style:'stroke:var(--ink); stroke-width:2'});
-      el('circle', {cx:69, cy:138, r:10, style:'fill:none; stroke:var(--ink); stroke-width:2'});
+      // end zones, yard lines and goal posts: an American football field
+      el('rect', {x:38, y:86, width:62, height:14, style:'fill:color-mix(in srgb, var(--money) 70%, var(--surface)); stroke:var(--ink); stroke-width:2'});
+      el('rect', {x:38, y:176, width:62, height:14, style:'fill:color-mix(in srgb, var(--money) 70%, var(--surface)); stroke:var(--ink); stroke-width:2'});
+      for(var yl=0; yl<9; yl++){
+        var yy = 100 + yl*9.5;
+        el('line', {x1:38, y1:yy, x2:100, y2:yy, style:'stroke:var(--ink); stroke-width:' + (yl===4 ? 2.5 : 1.2) + '; opacity:' + (yl===4 ? 1 : 0.55)});
+      }
+      el('polyline', {points:'60,86 60,78 78,78 78,86', style:'fill:none; stroke:var(--amber); stroke-width:3; stroke-linejoin:round'});
+      el('polyline', {points:'60,190 60,198 78,198 78,190', style:'fill:none; stroke:var(--amber); stroke-width:3; stroke-linejoin:round'});
       el('rect', {x:58, y:214, width:22, height:12, rx:3, style:'fill:var(--ink)'});
       el('text', {x:69, y:42, 'text-anchor':'middle'}, null, 'Live game');
       el('text', {x:69, y:252, 'text-anchor':'middle'}, null, 'TV cameras');
