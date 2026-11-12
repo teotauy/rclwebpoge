@@ -215,6 +215,12 @@ input[type=range]::-moz-range-thumb{width:1.8rem; height:1.8rem; border-radius:5
 .fair{background:var(--surface); border:2px solid var(--line); border-left-width:8px; border-left-color:var(--money); border-radius:1rem; padding:1.2rem 1.4rem; margin-top:1.6rem}
 .fair p{max-width:none}
 
+.fair.warnb{border-left-color:var(--warn)}
+.fair h3{font-size:1.3rem}
+.plan{margin:.6rem 0 0; padding-left:1.2rem; max-width:40rem}
+.plan li{margin-bottom:.4rem}
+.fill.r{background:var(--warn)}
+
 /* questions */
 .q{list-style:none; padding:0; margin:0 0 1.2rem; display:grid; gap:.7rem}
 .q label{display:flex; gap:.9rem; align-items:flex-start; background:var(--surface); border:2px solid var(--line); border-radius:.9rem; padding:.9rem 1.1rem; cursor:pointer}
@@ -477,6 +483,49 @@ footer p{max-width:46rem}
         </div>
       </div>
 
+      <!-- Traffic -->
+      <div class="block" id="traffic">
+        <p class="eyebrow">What it brings</p>
+        <h2>Traffic and crashes</h2>
+        <p>The heavy traffic comes while the building is going up, not after it opens. For a year or two, hundreds or even thousands of workers drive in every day, along with dump trucks, concrete mixers and flatbeds. Standard traffic studies are built around ordinary commuter hours, so they often miss this.</p>
+        <div class="hint">
+          <label for="road">Cars a day on the nearest road now:</label>
+          <input class="num" id="road" type="number" inputmode="numeric" min="100" max="100000" step="500" value="2000">
+          <span class="note" style="margin:0">A quiet country road might carry a few thousand.</span>
+        </div>
+        <div class="cmp" aria-label="Traffic on the nearest road, today and at the construction peak">
+          <div>
+            <div class="lab"><span>Today</span><span id="valRoadNow"></span></div>
+            <div class="track"><div class="fill a" id="barRoadNow"></div></div>
+          </div>
+          <div>
+            <div class="lab"><span>At the busiest point of construction</span><span id="valRoadPeak"></span></div>
+            <div class="track"><div class="fill r" id="barRoadPeak"></div></div>
+          </div>
+          <p style="margin:0; max-width:none; font-size:.9rem; color:var(--muted)">Workers only, if they share rides a little and all use this one road. Trucks come on top of this.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="k">Construction workers</div><div class="v" id="workersPk">0</div><p class="d">at the peak, for about two years</p></div>
+          <div class="card"><div class="k">Traffic on that road</div><div class="v warn" id="roadMult">1.0&times;</div><p class="d">what it carries today</p></div>
+          <div class="card"><div class="k">After it opens</div><div class="v good" id="afterTrips">0</div><p class="d">car trips a day, mostly staff and deliveries</p></div>
+        </div>
+
+        <div class="fair warnb">
+          <h3>What happened in rural Louisiana</h3>
+          <p style="margin-top:.5rem">Around Meta&rsquo;s giant data center site in Richland Parish, police records show <b>64 crashes</b> from January to mid-September 2025, compared with <b>9</b> in all of 2024. State counts in front of Holly Ridge Elementary rose from 1,817 vehicles on a school day in 2022 to 5,224 in July 2025, and the school closed its playground over truck safety. About 5,000 workers were expected at the peak, for about 500 permanent jobs. Meta says it sets strict speed and safety rules and is putting more than $200 million into local infrastructure. <a href="https://www.wwno.org/local-regional-news/2025-11-19/construction-on-metas-largest-data-center-brings-600-crash-spike-chaos-to-rural-louisiana" target="_blank" rel="noopener">Read the report</a>.</p>
+          <p>Similar complaints have been reported near sites in Iowa, Oklahoma, Michigan and Ohio. It is not the same everywhere: reporting from Plain Township, Ohio said crashes there had not gone up, though neighbors still complained of congestion. No one has yet done a careful study across many sites, so treat Louisiana as the worst well-documented case, not the average.</p>
+        </div>
+
+        <h3 style="margin-top:1.8rem">What a good traffic plan includes</h3>
+        <ul class="plan">
+          <li>A written truck route that keeps heavy vehicles off school, village and neighborhood roads.</li>
+          <li>Police or flaggers at the busy intersections, paid for by the company. In Saline Township, Michigan, Oracle said it pays for state police patrols.</li>
+          <li>Staggered shift times, and parking away from the site with shuttles.</li>
+          <li>Turn lanes and signals built before the heavy work starts, not after the first crash.</li>
+          <li>A bond or agreement that the company repairs the roads it wears out.</li>
+        </ul>
+      </div>
+
       <!-- Money -->
       <div class="block" id="money">
         <p class="eyebrow">Follow the money</p>
@@ -536,7 +585,7 @@ footer p{max-width:46rem}
     <div class="nb-grid" id="nbGrid"></div>
     <div class="fair">
       <h3>What they do get right</h3>
-      <p style="margin-top:.5rem">A data center sends no children to the school and puts few cars on the road once it is open. It pays a very large tax bill, often more than the farm or factory it replaces, and that money can fix roads and fund schools. It is quiet to look at compared with most heavy industry. The trouble is rarely the building. It is usually the secrecy, the length of the tax break, and who ends up paying for the power.</p>
+      <p style="margin-top:.5rem">A data center sends no children to the school and puts few cars on the road once it is open, though building it is another story. It pays a very large tax bill, often more than the farm or factory it replaces, and that money can fix roads and fund schools. It is quiet to look at compared with most heavy industry. The trouble is rarely the building. It is usually the secrecy, the length of the tax break, and who ends up paying for the power.</p>
     </div>
   </section>
 
@@ -544,7 +593,7 @@ footer p{max-width:46rem}
   <section id="ask">
     <div class="sec-head">
       <p class="eyebrow">Take this to the meeting</p>
-      <h2>Eight questions worth asking</h2>
+      <h2>Nine questions worth asking</h2>
       <p class="lede">Tick them off as you get answers. If a question gets dodged, that is an answer too.</p>
     </div>
     <ul class="q" id="qList"></ul>
@@ -559,6 +608,7 @@ footer p{max-width:46rem}
       <li>Lawrence Berkeley National Laboratory, 2024 United States Data Center Energy Usage Report (share of U.S. electricity, water use).</li>
       <li>U.S. Energy Information Administration (average home electricity use), U.S. EPA eGRID (emissions per unit of power), EPA WaterSense (household water use), EPA vehicle emissions.</li>
       <li>Good Jobs First, research on state and local data center tax subsidies.</li>
+      <li>Traffic: <a href="https://www.wwno.org/local-regional-news/2025-11-19/construction-on-metas-largest-data-center-brings-600-crash-spike-chaos-to-rural-louisiana" target="_blank" rel="noopener">Gulf States Newsroom via WWNO</a> (Louisiana crash and traffic counts, from police and state records); <a href="https://www.kittelson.com/ideas/why-data-centers-dont-fit-standard-traffic-assumptions-and-how-to-plan-for-their-transportation-impacts/" target="_blank" rel="noopener">Kittelson &amp; Associates</a> (why standard traffic studies miss construction); a Stafford County, Virginia trip estimate of about 383 weekday trips for a 510,000 square foot campus, used to scale &ldquo;after it opens.&rdquo;</li>
     </ul>
     <p>Per-megawatt costs, jobs, generators and floor space are planning assumptions, not facts about any one project. A Red Crow Labs explainer.</p>
   </footer>
@@ -568,7 +618,7 @@ footer p{max-width:46rem}
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var STOPS = [5,10,20,50,100,150,200,300,500,750,1000];
-  var st = { idx:4, homes:20000, src:'grid', cool:'typical', pct:80, years:15, pay:'shared' };
+  var st = { idx:4, homes:20000, road:2000, src:'grid', cool:'typical', pct:80, years:15, pay:'shared' };
   var SRC = { grid:0.37, gas:0.40, coal:0.95, clean:0.03 };           // metric tons CO2 per MWh
   var COOL = { evap:0.45, typical:0.10, closed:0.02 };                 // gallons per kWh
   var COOLNOTE = {
@@ -738,6 +788,16 @@ footer p{max-width:46rem}
     $('fields').textContent = fields < 10 ? (Math.round(fields*10)/10) : n0(fields);
     $('gens').textContent = Math.max(2, Math.round(S / 2.5));
 
+    // traffic
+    var wk = S * 5, wTrips = Math.round(wk * 2 / 1.2), roadNow = st.road, roadPeak = roadNow + wTrips;
+    $('workersPk').textContent = approx(wk);
+    $('roadMult').innerHTML = (roadPeak / roadNow).toFixed(1) + '&times;';
+    $('afterTrips').textContent = approx(S * 3.75);
+    $('barRoadNow').style.width = (roadNow / roadPeak * 100) + '%';
+    $('barRoadPeak').style.width = '100%';
+    $('valRoadNow').textContent = n0(roadNow) + ' cars a day';
+    $('valRoadPeak').textContent = approx(roadPeak) + ' cars a day';
+
     // money
     var P = st.pct / 100, Y = st.years;
     var base = 11e6 * S + 25e6 * S * 0.5;
@@ -798,7 +858,8 @@ footer p{max-width:46rem}
     ['Jobs','Hundreds of construction workers for two years, then a small crew, many hired from outside.','A training deal with the local community college and a promise to hire local people first.'],
     ['Secrecy','Code names and nondisclosure agreements. Officials sign before residents hear a word.','Public hearings before the deal is final, and the full agreement posted for anyone to read.'],
     ['Backup generators','Dozens of diesel engines, run for tests, with exhaust and noise.','Strict air permits, limits on test hours, and batteries or cleaner fuel where possible.'],
-    ['What it looks like','Acres of windowless wall, bright lights all night, fences and new power lines across farmland.','Trees and berms hide the building, lights point down, and lines follow existing roads.']
+    ['What it looks like','Acres of windowless wall, bright lights all night, fences and new power lines across farmland.','Trees and berms hide the building, lights point down, and lines follow existing roads.'],
+    ['Traffic and crashes','Thousands of workers and heavy trucks on narrow country roads for years. Crashes rise and a school playground closes.','A written truck route, police paid for by the company, staggered shifts, and road repairs guaranteed in the agreement.']
   ];
   $('nbGrid').innerHTML = NB.map(function(n){
     return '<div class="nb"><h3>' + n[0] + '</h3><div class="bad"><span class="tag">Can go badly</span>' + n[1] + '</div><div class="good"><span class="tag">A good deal looks like</span>' + n[2] + '</div></div>';
@@ -813,6 +874,7 @@ footer p{max-width:46rem}
     'What tax breaks are offered, for how long, and what happens if the company does not deliver?',
     'How many diesel backup generators will there be, and how often are they tested?',
     'Why were the first talks held in private, and when can the public read the full agreement?',
+    'What is the construction traffic plan: which roads, how many workers and trucks, and who pays for road repairs and safety?',
     'If the company leaves or the building becomes obsolete, who cleans up?'
   ];
   $('qList').innerHTML = QS.map(function(q,i){
@@ -839,6 +901,7 @@ footer p{max-width:46rem}
   document.querySelectorAll('input[name=src]').forEach(function(r){ r.addEventListener('change', function(){ st.src = r.value; update(); }); });
   document.querySelectorAll('input[name=cool]').forEach(function(r){ r.addEventListener('change', function(){ st.cool = r.value; update(); }); });
   document.querySelectorAll('input[name=pay]').forEach(function(r){ r.addEventListener('change', function(){ st.pay = r.value; update(); }); });
+  $('road').addEventListener('input', function(e){ var v = parseInt(e.target.value,10); if(v > 0){ st.road = v; update(); } });
   $('pct').addEventListener('input', function(e){ st.pct = +e.target.value; update(); });
   $('years').addEventListener('input', function(e){ st.years = +e.target.value; update(); });
 
