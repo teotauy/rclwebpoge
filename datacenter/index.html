@@ -113,6 +113,11 @@ legend{font-weight:700; padding:0; margin-bottom:.6rem}
 .dgrid button[aria-pressed="true"]{border-color:var(--ink); background:var(--amber); color:var(--on-amber)}
 .detail{margin-top:1rem; background:var(--surface); border:2px solid var(--ink); border-radius:1rem; padding:1.2rem 1.4rem}
 .detail h3{margin-bottom:.5rem}
+.shot{margin:0 0 1.1rem}
+.shot img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:.7rem; background:var(--surface2)}
+.shot figcaption{font-size:.95rem; margin-top:.5rem; line-height:1.4}
+.shot figcaption small{display:block; font-size:.78rem; color:var(--muted); margin-top:.2rem}
+.shot figcaption small a{color:var(--muted)}
 .detail p{max-width:none}
 .detail .nbr{margin:0; padding-top:.7rem; border-top:2px solid var(--line); font-weight:700}
 .detail .nbr span{display:block; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--amber-ink); margin-bottom:.15rem}
@@ -634,13 +639,34 @@ footer p{max-width:46rem}
       }
     });
   })();
+  var CC = {
+    by:['CC BY 4.0','https://creativecommons.org/licenses/by/4.0/'],
+    bysa:['CC BY-SA 4.0','https://creativecommons.org/licenses/by-sa/4.0/'],
+    cc0:['CC0','https://creativecommons.org/publicdomain/zero/1.0/'],
+    pd:['Public domain','']
+  };
+  var PHOTOS = {
+    1:{f:'img/1-power.jpg', alt:'An electrical substation with transformers and steel towers among pine trees', cap:'A substation, where high-voltage power is stepped down.', who:'Antti Leppänen', lic:'by', file:'Muurame electrical substation transformer.jpg'},
+    2:{f:'img/2-servers.jpg', alt:'A visitor standing in an aisle between tall racks of computers', cap:'An aisle of server racks in a computer room at CERN.', who:'SimonWaldherr', lic:'bysa', file:'CERN Computer Center 12.jpg'},
+    3:{f:'img/3-cooling.jpg', alt:'Aerial view of rows of cooling fans on the roof of a data center', cap:'Cooling units on a data center roof, seen from above.', who:'Rsparks3', lic:'cc0', file:'Data center cooling tower.jpg'},
+    4:{f:'img/4-water.jpg', alt:'A water pump and thick pipe on bare ground in a field', cap:'A water pump and pipe. A farm well, not a data center, but the same idea: water drawn from the ground.', who:'USDA', lic:'pd', file:'Irrigation and Water (20150828-NRCS-LSC-0040).jpg'},
+    5:{f:'img/5-generators.jpg', alt:'Aerial view of a long row of backup generators beside a data center', cap:'A row of backup generators at a data center, seen from above.', who:'Rsparks3', lic:'cc0', file:'Data center backup generators.jpg'},
+    6:{f:'img/6-fiber.jpg', alt:'Workers guiding new fiber cable from a large reel on a truck', cap:'A crew pulling new fiber-optic cable from a reel truck.', who:'Tessa Bury', lic:'by', file:'Guiding New Fiber from Reel Truck.jpg'}
+  };
+  function photoHTML(id){
+    var ph = PHOTOS[id]; if(!ph) return '';
+    var lic = CC[ph.lic];
+    var credit = 'Photo: <a href="https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(ph.file.replace(/ /g,'_')) + '" target="_blank" rel="noopener">' + ph.who + '</a>, ' +
+      (lic[1] ? '<a href="' + lic[1] + '" target="_blank" rel="noopener">' + lic[0] + '</a>' : lic[0]) + ', via Wikimedia Commons';
+    return '<figure class="shot"><img src="' + ph.f + '" alt="' + ph.alt + '" loading="lazy" onerror="this.parentNode.hidden=true"><figcaption>' + ph.cap + '<small>' + credit + '</small></figcaption></figure>';
+  }
   var dsvg = $('dsvg');
   function selectPart(id){
     var p = PARTS[id];
     dsvg.classList.add('has-sel');
     dsvg.querySelectorAll('.part').forEach(function(el){ el.classList.toggle('sel', el.getAttribute('data-id') === String(id)); });
     document.querySelectorAll('#dgrid button').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-id') === String(id) ? 'true' : 'false'); });
-    $('detail').innerHTML = '<h3>' + id + '. ' + p.title + '</h3><p>' + p.t + '</p><p class="nbr"><span>Why neighbors care</span>' + p.nb + '</p>';
+    $('detail').innerHTML = photoHTML(id) + '<h3>' + id + '. ' + p.title + '</h3><p>' + p.t + '</p><p class="nbr"><span>Why neighbors care</span>' + p.nb + '</p>';
   }
   $('dgrid').innerHTML = Object.keys(PARTS).map(function(id){
     return '<button type="button" data-id="' + id + '" aria-pressed="false"><b>' + id + '</b>' + PARTS[id].short + '</button>';
