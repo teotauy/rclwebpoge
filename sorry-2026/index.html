@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry Notes 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: sticky filter bar over a vertical month-by-month timeline; each entry is an expandable note card. */
+:root{
+  --bg:#f6f6f4; --surface:#ffffff; --fg:#1d1d1b; --muted:#6a6a64; --line:#dcdcd6;
+  --note:#f5c518; --note-ink:#3b2f00; --brand:#2f6fdb; --celeb:#c2410c; --infl:#7c3aed;
+  --ok:#1f7a45; --warn:#9a6b00;
+  --display:'Space Grotesk','Helvetica Neue',Arial,sans-serif; --body:'Inter',-apple-system,'Segoe UI',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141413; --surface:#1e1e1c; --fg:#ededea; --muted:#9d9d95; --line:#33332f;
+  --note:#e8b90f; --note-ink:#2a2100; --brand:#6b9bf0; --celeb:#f08a5a; --infl:#a78bfa; --ok:#52c283; --warn:#e0b040; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141413; --surface:#1e1e1c; --fg:#ededea; --muted:#9d9d95; --line:#33332f;
+  --note:#e8b90f; --note-ink:#2a2100; --brand:#6b9bf0; --celeb:#f08a5a; --infl:#a78bfa; --ok:#52c283; --warn:#e0b040; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);padding-block:0 3rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto}
+header{padding-block:2rem 1rem}
+h1{font:700 clamp(1.9rem,6vw,2.8rem)/1.05 var(--display);margin:0 0 .6rem;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:60ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-block:.75rem;border-bottom:1px solid var(--line);display:grid;gap:.5rem}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.lab{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:4.5rem}
+button.chip{font:500 .85rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:.3rem .7rem;border-radius:99px;cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button.chip.n[aria-pressed="true"]{background:var(--note);color:var(--note-ink);border-color:var(--note)}
+button:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.count{font-size:.85rem;color:var(--muted);margin-left:auto}
+.tl{margin:1.5rem 0 0;padding:0;list-style:none;display:grid;gap:1.5rem}
+.month h2{font:700 .8rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
+.cards{display:grid;gap:.6rem;padding-left:1rem;border-left:2px solid var(--line)}
+details.card{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+details.card.is-note{border-color:var(--note);box-shadow:inset 4px 0 0 var(--note)}
+summary{list-style:none;cursor:pointer;padding:.8rem 1rem;display:grid;gap:.3rem}
+summary::-webkit-details-marker{display:none}
+.top{display:flex;flex-wrap:wrap;gap:.4rem .6rem;align-items:baseline}
+.date{font:500 .78rem var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.who{font:700 1.1rem var(--display);margin-right:auto}
+.tag{font-size:.72rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;border:1px solid currentColor}
+.t-brand{color:var(--brand)}.t-celebrity{color:var(--celeb)}.t-influencer{color:var(--infl)}
+.f-notes{background:var(--note);color:var(--note-ink);border-color:var(--note)}
+.f-other{color:var(--muted)}
+.why{color:var(--muted);font-size:.9rem}
+.body{padding:0 1rem 1rem;display:grid;gap:.5rem;font-size:.92rem}
+.body dl{display:grid;grid-template-columns:7rem 1fr;gap:.35rem .8rem;margin:0}
+.body dt{color:var(--muted);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;padding-top:.15rem}
+.body dd{margin:0;min-width:0}
+.conf-confirmed{color:var(--ok)}.conf-reported{color:var(--warn)}
+a{color:var(--brand)}
+.empty{padding:2rem 0;color:var(--muted)}
+.shelf{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line)}
+.shelf h2{font:700 1.1rem var(--display);margin:0 0 .3rem}
+.shelf p{color:var(--muted);margin:0 0 .8rem;font-size:.9rem}
+.shelf ul{margin:0;padding-left:1.1rem;display:grid;gap:.3rem}
+footer{margin-top:2rem;color:var(--muted);font-size:.82rem;max-width:62ch}
+@media (max-width:480px){.body dl{grid-template-columns:1fr}.lab{min-width:100%}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Sorry Notes 2026</h1>
+  <p>A timeline of public apologies from celebrities, influencers and brands this year. Filter by format to isolate the Notes app ones. Every entry links to the coverage it comes from.</p>
+</header>
+
+<div class="bar" role="group" aria-label="Filters">
+  <div class="row"><span class="lab">Format</span><span class="row" id="fFormat"></span></div>
+  <div class="row"><span class="lab">Who</span><span class="row" id="fWho"></span><span class="count" id="count" aria-live="polite"></span></div>
+</div>
+
+<ol class="tl" id="tl"></ol>
+
+<section class="shelf" id="shelf">
+  <h2>2026, month not pinned down</h2>
+  <p>These apologies are dated to 2026 by the source URL, but I have not confirmed the month or the format. They stay off the timeline until checked.</p>
+  <ul>
+    <li><strong>Anna Camp</strong>, apology over a Scream 7 post. <a href="https://variety.com/2026/film/news/anna-camp-apologizes-scream-7-post-melissa-barrera-boycott-1236677004/" target="_blank" rel="noopener">Variety</a></li>
+    <li><strong>Bowen Yang</strong>, apology over a podcast comment about Regina Spektor. <a href="https://variety.com/2026/tv/news/bowen-yang-apologizes-regina-spektor-antisemitic-slur-1236954304/" target="_blank" rel="noopener">Variety</a></li>
+  </ul>
+</section>
+
+<footer>
+  Format labels: "Confirmed" means coverage describes the post as a Notes-style apology or the post is a direct primary source. "Reported" means the format comes from a single secondary article. Entries are summarized in my own words; follow the links for the statements. Compiled November 24, 2026. This is not a complete list.
+</footer>
+</div>
+
+<script>
+const E=[
+ {d:"2026-01",dl:"January",who:"Ms. Rachel",type:"celebrity",fmt:"Video",
+  why:"Apologized after her account was found to have liked an antisemitic Instagram comment.",
+  how:"Reported as a video apology.",conf:"reported",
+  src:[["Variety","https://variety.com/2026/tv/news/ms-rachel-apologizes-liking-antisemitic-instagram-comment-1236638332/"]]},
+ {d:"2026-03-02",dl:"March 2",who:"Tumblr",type:"brand",fmt:"Notes app",
+  why:"Left singer Halsey out of its 19th-anniversary post, then issued a Notes-style apology addressed to her.",
+  how:"Posted on X. The tone was playful, which makes it a brand using the format as a joke while still apologizing to a named person.",conf:"confirmed",
+  src:[["AOL","https://www.aol.com/articles/tumblr-pens-notes-app-apology-224000957.html"],["Tumblr on X","https://x.com/tumblr/status/2028542652887531559"]]},
+ {d:"2026-04",dl:"April",who:"Nike",type:"brand",fmt:"Press statement",
+  why:"Replaced a running ad after criticism around the Boston Marathon.",
+  how:"Acknowledged it had missed the mark and swapped the creative.",conf:"reported",
+  src:[["PR Daily","https://www.prdaily.com/the-scoop-nike-admits-misstep-replaces-running-ad-after-boston-marathon-backlash/"]]},
+ {d:"2026-06",dl:"June",who:"Starbucks Korea",type:"brand",fmt:"Press statement",
+  why:"A campaign slogan set off boycotts. The chief executive was dismissed and the chairman apologized.",
+  how:"Formal apology from leadership. Coverage links the slogan to AI-assisted brainstorming.",conf:"reported",
+  src:[["Fast Company","https://www.fastcompany.com/91559653/more-than-2000-starbucks-stores-are-closing-early-on-june-22-after-a-promotion-sparked-national-outrage"],["Adweek roundup","https://www.adweek.com/brand-marketing/2-weeks-4-brand-apologies-will-any-of-them-make-a-difference/"]]},
+ {d:"2026-07-21",dl:"Around July 21",who:"Taco Bell",type:"brand",fmt:"Notes app",
+  why:"Addressed a lettuce recall after the FDA advised against eating certain Mexico-grown iceberg lettuce that had reached some restaurants in five states.",
+  how:"Posted on Instagram in Notes-app style and said it had pulled the lettuce. The comments went badly. The date is BuzzFeed's posting date; the apology itself is not separately dated.",conf:"reported",
+  src:[["BuzzFeed","https://www.buzzfeed.com/mjs538/taco-bell-lettuce-reaction"]]},
+ {d:"2026-08",dl:"August",who:"Callaway",type:"brand",fmt:"Press statement",
+  why:"Ended its partnership with Good Good Golf over a video showing a man shoving a woman.",
+  how:"Issued a second, fuller apology that explained its content review process and committed $1 million to organizations working against violence toward women.",conf:"reported",
+  src:[["PR Daily","https://www.prdaily.com/the-scoop-callaway-issues-new-apology-with-details-on-approval-process-1m-donation/"]]},
+ {d:"2026-09",dl:"September",who:"Converse",type:"brand",fmt:"Press statement",
+  why:"Pulled an Instagram ad featuring aespa's Karina after viewers compared the imagery to a lynching.",
+  how:"Statement to the press said it understood why the image was upsetting. Some commenters thought the reaction was overblown.",conf:"reported",
+  src:[["Adweek","https://www.adweek.com/brand-marketing/converse-roils-social-media-with-ads-that-evoke-a-lynching/"],["Fast Company","https://www.fastcompany.com/91610281/converse-responds-outrage-over-instagram-ad-chuck-70-x-sneakers"]]},
+ {d:"2026-09-06",dl:"Early September",who:"Amanda Hirsch",type:"influencer",fmt:"Notes app",
+  why:"Apologized over backlash to sponsored content; the related reel came down the same day.",
+  how:"Three paragraphs on Instagram with comments off. A PR commentary argues the format once signaled no publicist and now reads as if one was hired. The source dates it to the Sunday before Labor Day.",conf:"reported",
+  src:[["Molly McPherson","https://mollymcpherson.substack.com/p/amanda-hirsch-and-the-notes-app-apology"]]},
+ {d:"2026-11-01",dl:"November 1",who:"Martha Stewart",type:"celebrity",fmt:"Notes app",
+  why:"Apologized twice over a Halloween costume she posted as a homeless person, then drew new criticism for blaming Today host Craig Melvin.",
+  how:"The first apology went to Page Six. The second, posted late Sunday night (November 1, inferred from a November 2 article), came from a highlighted section of her Notes app. She had already deleted the costume post.",conf:"confirmed",
+  src:[["AOL","https://www.aol.com/articles/martha-stewart-blames-today-show-192445000.html"],["Yahoo","https://www.yahoo.com/entertainment/celebrity/articles/im-going-moment-process-martha-145001439.html"]]}
+];
+const state={fmt:"All",who:"All"};
+const fmts=["All","Notes app","Video","Press statement"], whos=["All","celebrity","influencer","brand"];
+const lbl=s=>s==="All"?"All":s[0].toUpperCase()+s.slice(1);
+function chips(id,list,key){
+  const el=document.getElementById(id);
+  list.forEach(v=>{const b=document.createElement("button");b.type="button";b.className="chip"+(v==="Notes app"?" n":"");
+    b.textContent=lbl(v);b.dataset.v=v;b.setAttribute("aria-pressed",v==="All");
+    b.onclick=()=>{state[key]=v;[...el.children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.v===v));render()};
+    el.appendChild(b)});
+}
+chips("fFormat",fmts,"fmt");chips("fWho",whos,"who");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function card(e){
+  const note=e.fmt==="Notes app";
+  const links=e.src.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(n)}</a>`).join(", ");
+  return `<details class="card${note?" is-note":""}"><summary>
+    <div class="top"><span class="date">${esc(e.dl)}</span><span class="who">${esc(e.who)}</span>
+    <span class="tag t-${e.type}">${lbl(e.type)}</span><span class="tag ${note?"f-notes":"f-other"}">${esc(e.fmt)}</span></div>
+    <div class="why">${esc(e.why)}</div></summary>
+    <div class="body"><dl><dt>What happened</dt><dd>${esc(e.how)}</dd>
+    <dt>Format check</dt><dd class="conf-${e.conf}">${e.conf==="confirmed"?"Confirmed":"Reported by one source"}</dd>
+    <dt>Sources</dt><dd>${links}</dd></dl></div></details>`;
+}
+function render(){
+  const list=E.filter(e=>(state.fmt==="All"||e.fmt===state.fmt)&&(state.who==="All"||e.type===state.who));
+  document.getElementById("count").textContent=list.length+" of "+E.length;
+  const months={};list.forEach(e=>{const k=e.d.slice(0,7);(months[k]=months[k]||[]).push(e)});
+  const keys=Object.keys(months).sort();
+  const names=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById("tl").innerHTML=keys.length?keys.map(k=>`<li class="month"><h2>${names[+k.slice(5)-1]} 2026</h2><div class="cards">${months[k].sort((a,b)=>a.d.localeCompare(b.d)).map(card).join("")}</div></li>`).join(""):`<li class="empty">No apologies match those filters yet.</li>`;
+}
+render();
+</script>
+
+</html>
